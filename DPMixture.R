@@ -6,14 +6,15 @@ library(mvtnorm)
 library(svMisc)
 library(parallel) # one of the core R packages
 library(doParallel)
-suppressMessages(library(BART))
+suppressWarnings(suppressMessages(library(BART, quietly = T)))
 source("data_generate.R")
 
 
-sink("./myfile.log", append=TRUE, split=TRUE)
+sink("./mylog.log", type = "message")
 
 nburn = 2
 npost = 2
+nchains = 4
 
 nCores <- detectCores()  # to set manually 
 registerDoParallel(nCores) 
@@ -199,7 +200,7 @@ DP_MIX_BART = function(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, p
     }
     
     
-    tree = wbart(X, y - mixed_effect - location_2, ndpost = 1, printevery = 1000, nskip = 10) # get tree
+    tree = wbart(X, y - mixed_effect - location_2, ndpost = 1, printevery = 0, nskip = 10) # get tree
     
     y_hat = tree$yhat.train.mean
     sigma = tree$sigma[11]
@@ -352,11 +353,6 @@ DP_MIX_BART = function(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, p
     # update Covariance matrix
     Covariance = riwish(df + n_subject, inverse_wishart_matrix + t(B - location) %*% (B - location))
     
-    
-    
-
-    
-    
     # bi =  B[i,]
     # bi ~ iid MVN(mu_i, Covariance)
     # mu_i ~ DP(M, G0)
@@ -383,31 +379,29 @@ DP_MIX_BART = function(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, p
   return(list(Sigma = post_Sigma, sigma = post_sigma, B = post_B, location = post_location, location_2 = post_location_2))
 }
 
-
-chain1 = DP_MIX_BART(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
-chain2 = DP_MIX_BART(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
-chain3 = DP_MIX_BART(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
-
+chains = foreach (i=1:nchains) %do% {
+  DP_MIX_BART(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
+}
 
 # check sigma^2
 cat("check convergence for sigma^2 \n")
-combinedchains = mcmc.list(mcmc(chain1$sigma), mcmc(chain2$sigma), mcmc(chain3$sigma))
+combinedchains = mcmc.list(lapply(chains, function(x) mcmc(x$sigma)))
 cat(gelman.diag(combinedchains)[[1]], "\n")
 
 
 
 # check Covariance matrix
 cat("check convergence for Covariance matrix \n")
-for (i in 1:dim(chain1$Sigma)[2]) {
-  combinedchains = mcmc.list(mcmc(chain1$Sigma[, i]), mcmc(chain2$Sigma[, i]), mcmc(chain3$Sigma[, i]))
+for (i in 1:dim(chains[[1]]$Sigma)[2]) {
+  combinedchains = mcmc.list(lapply(chains, function(x) mcmc(x$Sigma[, i]))) 
   if(gelman.diag(combinedchains)[[1]][1] > 1.1)
     cat(paste(i, gelman.diag(combinedchains)[[1]][1]), "\n")
 }
 
 # check mean from CDP
 cat("check convergence for CDP location for random effect \n")
-for (i in 1:dim(chain1$location)[2]) {
-  combinedchains = mcmc.list(mcmc(chain1$location[,i]), mcmc(chain2$location[,i]), mcmc(chain3$location[,i]))
+for (i in 1:dim(chains[[1]]$location)[2]) {
+  combinedchains = mcmc.list(lapply(chains, function(x) mcmc(x$location[, i]))) 
   if(gelman.diag(combinedchains)[[1]][1] > 1.1)
     cat(paste(i, gelman.diag(combinedchains)[[1]][1]), "\n")
     #print(paste(i, gelman.diag(combinedchains)[[1]][1]))
@@ -417,8 +411,8 @@ for (i in 1:dim(chain1$location)[2]) {
 
 # check mean from CDP
 cat("check convergence for CDP location for random noise")
-for (i in 1:dim(chain1$location_2)[2]) {
-  combinedchains = mcmc.list(mcmc(chain1$location_2[,i]), mcmc(chain2$location_2[,i]), mcmc(chain3$location_2[,i]))
+for (i in 1:dim(chains[[1]]$location_2)[2]) {
+  combinedchains = mcmc.list(lapply(chains, function(x) mcmc(x$location_2[, i])))  
   if(gelman.diag(combinedchains)[[1]][1] > 1.1)
     cat(paste(i, gelman.diag(combinedchains)[[1]][1]), "\n")
 }
@@ -428,8 +422,8 @@ for (i in 1:dim(chain1$location_2)[2]) {
 
 # check random effect
 cat("check convergence for random effect")
-for (i in 1:dim(chain1$B)[2]) {
-  combinedchains = mcmc.list(mcmc(chain1$B[, i]), mcmc(chain2$B[, i]), mcmc(chain3$B[, i]))
+for (i in 1:dim(chains[[1]]$B)[2]) {
+  combinedchains = mcmc.list(lapply(chains, function(x) mcmc(x$B[, i])))   
   if(gelman.diag(combinedchains)[[1]][1] > 1.1)
     cat(paste(i, gelman.diag(combinedchains)[[1]][1]), "\n")
 }

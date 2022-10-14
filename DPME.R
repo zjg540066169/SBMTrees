@@ -7,7 +7,7 @@ library(svMisc)
 library(parallel) # one of the core R packages
 library(doParallel)
 library(DescTools)
-suppressMessages(library(BART))
+suppressMessages(library(BART3))
 
 
 
@@ -67,7 +67,7 @@ hist(CDP(G_0, 1000, dp = 1)$theta)
 source("data_generate.R")
 
 set.seed(111)
-data <- data_generation(sigma_1  = 1, tau_1 = 2, delta_1 = 1, sigma_2  = 1, tau_2 = 2, delta_2 = 1, n_total = 5000, number_of_time_points = 10)
+#data <- data_generation(sigma_1  = 1, tau_1 = 2, delta_1 = 1, sigma_2  = 1, tau_2 = 2, delta_2 = 1, n_total = 5000, number_of_time_points = 10)
 
 
 
@@ -76,6 +76,9 @@ k = 1
 
 phi_1 = 2
 phi_2 = 0.1
+
+
+
 
 
 y = data$x_2
@@ -97,11 +100,12 @@ DP_LMM_BART = function(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, p
   nCores <- detectCores()  # to set manually 
   registerDoParallel(nCores) 
   if(is.null(dim(z))){d = 1} else{d = dim(z)[2]}
+  if(is.null(dim(X))){p = 1} else{p = dim(X)[2]}
   n = length(y)
-  p = dim(X)[2]
-  n_subject = length(unique(subject_id))
+  
   Z = matrix(1, nrow = n, ncol = d + 1)
   Z[, 2:(d+1)] = as.matrix(z)
+  n_subject = length(unique(subject_id))
   subject_to_B = seq(n_subject)
   names(subject_to_B) = unique(subject_id)
   
@@ -163,7 +167,7 @@ DP_LMM_BART = function(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, p
     }
     
     
-    tree = wbart(X, y - mixed_effect, ndpost = 1, nskip = 10) # get tree
+    tree = gbart(X, as.numeric(y - mixed_effect), ndpost = 1, nskip = 10, verbose=0) # get tree
     
     y_hat = tree$yhat.train.mean
     sigma = tree$sigma[11]
@@ -310,6 +314,7 @@ DP_LMM_BART = function(nburn, npost, y, X, z, subject_id, v = 3, k, phi_1 = 2, p
 
 
 
+
 chain1 = DP_LMM_BART(5, 2, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
 chain2 = DP_LMM_BART(2000, 3000, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
 chain3 = DP_LMM_BART(2000, 3000, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
@@ -317,9 +322,6 @@ chain3 = DP_LMM_BART(2000, 3000, y, X, z, subject_id, v = 3, k, phi_1 = 2, phi_2
 tree = chain1$tree[[length(chain1$tree)]]
 B = matrix(chain1$B[length(chain1$tree),], nrow = dim(X), byrow = TRUE)
 sigma = chain1$sigma[length(chain1$tree)]
-
-
-
 
 proposed_distribution = function(predict_y, X, z, subject_id, tree, sigma, B, log = TRUE){
   if(is.null(dim(z))){d = 1} else{d = dim(z)[2]}
@@ -329,7 +331,7 @@ proposed_distribution = function(predict_y, X, z, subject_id, tree, sigma, B, lo
   names(subject_to_B) = unique(subject_id)
   
   
-  mixed_effect <- foreach(j = seq(length(y)), .combine = rbind) %dopar% {
+  mixed_effect <- foreach(j = seq(length(predict_y)), .combine = rbind) %dopar% {
     sub = subject_id[j]
     b_sub = subject_to_B[as.character(sub)]
     Z[j,] %*% B[b_sub,]
@@ -337,28 +339,122 @@ proposed_distribution = function(predict_y, X, z, subject_id, tree, sigma, B, lo
   mean = pwbart(X, tree)[1,] + mixed_effect
   
   if(log)
-      sum(dnorm(predict_y, mean, sigma, log))
+    sum(dnorm(predict_y, mean, sigma, log))
   else
     prod(dnorm(predict_y, mean, sigma, FALSE))
 }
 
-X_new = cbind(X, y)
-R_miss = matrix(rbernoulli((dim(X_new)[1] * (dim(X_new)[2] - 1)), 0.2), nrow = dim(X_new)[1])
-R_miss = cbind(FALSE, R_miss)
-X_new[R_miss] = NA
+
+
+my_data_generate = function(){
+  
+  
+  p = 3
+  n = 500
+  t = 10
+  subject_id = as.numeric(sapply((1 + 10):(n + 10), function(x) rep(x, t)))
+  n_subject = length(unique(subject_id))
+  subject_to_B = seq(n_subject)
+  names(subject_to_B) = unique(subject_id)
+  
+  X0 = runif(n * t)
+  B1 = rmvnorm(n, sigma = matrix(c(2,0,0,3), nrow = 2))
+  z = rep(seq(t),n)
+  Z = matrix(1, nrow = length(z), ncol = 2)
+  Z[, 2] = as.matrix(z)
+  
+  mixed_effect1 <- foreach(j = seq(length(subject_id)), .combine = rbind) %dopar% {
+    sub = subject_id[j]
+    b_sub = subject_to_B[as.character(sub)]
+    Z[j,] %*% B1[b_sub,]
+  }
+  
+  
+  
+  
+  X1 = sin(X0) + X0^2 + X0 + mixed_effect1 + rnorm(n * t)
+  
+  
+  
+  
+  
+  B2 = rmvnorm(n, sigma = matrix(c(2,0,0,4), nrow = 2))
+  mixed_effect2 <- foreach(j = seq(length(subject_id)), .combine = rbind) %dopar% {
+    sub = subject_id[j]
+    b_sub = subject_to_B[as.character(sub)]
+    Z[j,] %*% B2[b_sub,]
+  }
+  X2 = sin(X0 * X1) + sqrt(X1^2) + X0 + mixed_effect2 + rnorm(n * t, 0, 1.5)
+  
+  y = 2 * sin(X0) + 3 * (X1 * X0)^2 + -5 * sqrt(abs(X2))
+  X1_miss = as.numeric(sapply(rbernoulli(n, 0.25), function(x){
+    if(x)
+      c(rep(TRUE, 4), rep(FALSE, 6))
+    else
+      rep(FALSE, 10)
+  }))
+  X1[X1_miss == TRUE] = NA
+  
+  X2_miss = as.numeric(sapply(rbernoulli(n, 0.4), function(x){
+    if(x)
+      c(rep(FALSE, 4), rep(TRUE, 6))
+    else
+      rep(FALSE, 10)
+  }))
+  X2[X2_miss == TRUE] = NA
+  return(cbind(X0, X1, X2, y, Z, subject_id))
+  
+}
 
 
 
-X_train = matrix(X_new[,1], ncol = 1)
-y_train = matrix(X_new[,2], ncol = 1)
-miss_marker = is.na(y_train)
-y_train = LOCF(y_train)
+
+
+X_new = my_data_generate()[,1:3]
+Y_new = my_data_generate()[,4]
+Z_new = my_data_generate()[,6]
+subject_id_new = my_data_generate()[,7]
+
+
+tree_collection = list()
+B_collection = matrix(NA, nrow = dim(X_new)[2] - 1, ncol = length(Z_new) * 2)
+sigma_collection = rep(NA, dim(X_new)[2] - 1)
+for (i in 1:(dim(X_new)[2] - 1)) {
+  X_train = X_new[,1:i]
+  y_train = LOCF(X_new[,i + 1])
+  y_train = data.table::nafill(y_train, type = c("nocb"))
+  chain = DP_LMM_BART(1, 1, y_train, X_train, Z_new, subject_id_new, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
+  tree_collection[[i]] = chain$tree[[1]]
+  B_collection[i, ] = chain$B[1,]
+  sigma_collection[i] = chain$sigma[1]
+}
+
+for (i in 1:(dim(X_new_data)[2] - 1)) {
+  X_train = matrix(X_new_data[,1:i], nrow = length(y))
+  y_train = matrix(X_new_data[,i + 1], nrow = length(y))
+  
+  new_chain = DP_LMM_BART(5, 1, y_train, X_train, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
+  
+  new_y_train = rnorm(new_chain$y_predict[1,], new_chain$sigma)
+  new_y_train[!R_miss[,i + 1]] = y_train[!R_miss[,i + 1]]
+  sum_log_prob = 0
+  for (j in (i+2):(dim(X_new_data)[2] - 1)) {
+    if(j == i + 2)
+      sum_log_prob = sum_log_prob + proposed_distribution(X_new_data[,j], cbind(X_new_data[, 1:i], new_y_train), z, subject_id, tree = tree_collection[[j]], sigma = sigma, B = B)
+    else
+      sum_log_prob = sum_log_prob + proposed_distribution(X_new_data[,j], cbind(X_new_data[, 1:i], new_y_train, X_new_data[, (i+2):j]), z, subject_id, tree = tree_collection[[j]], sigma = sigma, B = B)
+  }
+  
+}
 
 
 
-chain1 = DP_LMM_BART(5, 1, y_train, X_train, z, subject_id, v = 3, k, phi_1 = 2, phi_2 = 0.1, sigma_tau = 1, tol = 1e-20)
-new_y_train = chain1$y_predict[1,]
-new_y_train[!miss_marker] = y_train[!miss_marker]
+
+
+
+
+
+
 
 
 
