@@ -7,29 +7,14 @@ library(mnonr)
 library(mice)
 library(mixtools)
 library(extraDistr)
+library(sn)
 
 sigmoid = function(x){
   1 / (1 + exp(-x))
 }
 
-
-
-# library(parallel)
-# library(doParallel) a
-# registerDoParallel(4) 
-# 
-# sim = foreach(i = 1:1000, .combine = cbind) %dopar% {
-#   d = generate_longitudinal_MAR(seed = i)
-#   colMeans(is.na(d$X_mis))[7:10]
-# }
-
-# simulation scenario
-# 1: nonlinear normal-random-effect nonnormal-residual
-# 2: linear normal-random-effect nonnormal-residual
-
-simulation = function(n_subject = 800, n_obs_per_sub = 6, seed = 123, nonlinear = FALSE, nonrandeff = FALSE, nonresidual = FALSE){
+simulation_prediction = function(n_subject = 800, n_obs_per_sub = 6, seed = 123, nonlinear = FALSE, nonrandeff = FALSE, nonresidual = FALSE){
   set.seed(123)
-  #n_obs_per_sub = sapply(1:n_subject, function(x) sample(n_obs_per_sub, 1))
   n_obs_per_sub = sapply(1:n_subject, function(x) n_obs_per_sub)
   subject_id = c(unlist(sapply(1:n_subject, function(x) rep(x, n_obs_per_sub[x]))))
   n_obs = length(subject_id)
@@ -37,13 +22,9 @@ simulation = function(n_subject = 800, n_obs_per_sub = 6, seed = 123, nonlinear 
   trajectory = cbind(Z)
   Z = cbind(Z, Z^2)
   Z = cbind(rep(1, length(subject_id)), Z)
-  Z_O = cbind(Z)
-  #Z_O = cbind(Z)
-  #Z = apply(Z[,-1], 2, function(z){(z - min(z))/(max(z) - min(z))})
   Z = apply(Z[,-1], 2, scale)
   Z = cbind(1, Z)
-  #print(Z)
-  #Z = cbind(rep(1, length(subject_id)))
+  Z_O = cbind(Z)
   n = dim(Z)[1]
 
   
@@ -120,7 +101,7 @@ simulation = function(n_subject = 800, n_obs_per_sub = 6, seed = 123, nonlinear 
   }
 
   if (nonrandeff){
-    library(sn)
+    
     # Define enhanced parameters
     xi <- c(0, 0, 0)  # Location vector
     

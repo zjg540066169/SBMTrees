@@ -17,11 +17,11 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+
+
 #ifndef GUARD_treefuns_h
 #define GUARD_treefuns_h
-
 #include "tree.h"
-
 //--------------------------------------------------
 //write cutpoint information to screen
 void prxi(xinfo& xi);

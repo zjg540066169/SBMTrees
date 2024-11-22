@@ -8,7 +8,6 @@
 #include <Rcpp.h>
 #include "create_subject_to_B.h"
 #include "DP.h"
-#include "nDP.h"
 #include "cal_random_effects.h"
 //#include "update_BART.h"
 #include "update_B.h"
@@ -68,7 +67,7 @@ get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary
   while(length(co) > 1 & (kappa(co) > 500 | !isPositiveDefinite(co))){
     #print("con")
     if(tolerance > max(svd_A$d)){
-      print("overflow")
+      #print("overflow")
       if(!isPositiveDefinite(co)){
         eigenvalues <- eigen(co)$values
         negative_eigenvalues <- eigenvalues[eigenvalues < 0]
@@ -227,15 +226,12 @@ bartModelMatrix=function(X, numcut=0L, usequants=FALSE, type=7,
 
 
 // [[Rcpp::export]]
-List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector type, NumericMatrix Z, CharacterVector subject_id, LogicalMatrix R, bool binary_outcome = false, int nburn = 0, int npost = 3, int skip = 1, bool verbose = true, bool CDP_residual = false, bool CDP_re = false, Nullable<long> seed = R_NilValue, double tol = 1e-20, int ncores = 0, int ntrees = 200, bool fit_loss = false, int  resample = 0) {
+List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector type, NumericMatrix Z, CharacterVector subject_id, LogicalMatrix R, bool binary_outcome = false, int nburn = 0, int npost = 3, int skip = 1, bool verbose = true, bool CDP_residual = false, bool CDP_re = false, Nullable<long> seed = R_NilValue, double tol = 1e-20, int ncores = 0, int ntrees = 200, bool fit_loss = false, int resample = 0, double pi_CDP = 0.99) {
   Rcpp::Environment base("package:base");
   Rcpp::Environment G = Rcpp::Environment::global_env();
   
-  int n_sample = npost/skip;
   int n = X.nrow();
   int p = X.cols();
-  int d = as<NumericMatrix>(Z).ncol() + 1;
-  int n_subject = unique(subject_id).length();
   List imputation_X_DP = List::create();
   List imputation_Y_DP = List::create();
   int  skip_indicator = -1;
@@ -278,7 +274,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
       NumericMatrix Z_obs = row_matrix(Z, no_loss_ind);
       CharacterVector subject_id_obs = subject_id[no_loss_ind];
       IntegerVector row_id_obs = seqC(1, Y.length())[no_loss_ind];
-      chain_collection.push_back(bmtrees(clone(Y_obs), clone(X_obs), clone(Z_obs), clone(subject_id_obs), clone(row_id_obs), binary_outcome, CDP_residual, CDP_re, tol, ntrees,  resample));
+      chain_collection.push_back(bmtrees(clone(Y_obs), clone(X_obs), clone(Z_obs), clone(subject_id_obs), clone(row_id_obs), binary_outcome, CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP));
       break;
     }
     
@@ -289,7 +285,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     NumericMatrix Z_train = row_matrix(Z, no_loss_ind);
     CharacterVector subject_id_train = subject_id[no_loss_ind];
     IntegerVector row_id_obs = seqC(1, y_t.length())[no_loss_ind];
-    chain_collection.push_back(bmtrees(clone(y_train), clone(X_train), clone(Z_train), clone(subject_id_train), clone(row_id_obs), type[i+1], CDP_residual, CDP_re, tol, ntrees,  resample));
+    chain_collection.push_back(bmtrees(clone(y_train), clone(X_train), clone(Z_train), clone(subject_id_train), clone(row_id_obs), type[i+1], CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP));
   }
   NumericMatrix post_tau_sigma (npost, chain_collection.size());
   if (verbose){
@@ -362,7 +358,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
       }else{
         if(sum(R(_, i + 1)) != 0){
           if(verbose)
-            Rcout << "fit model for " << i + 1 << "th covariates" << std::endl; 
+            Rcout << "fit model for " << i + 1 + int(!intercept) << "th covariates" << std::endl; 
           chain_collection[i].update_all(false);
           if(step - nburn >= 0){
             post_tau_sigma(step - nburn, i) = chain_collection[i].get_tau_sigma();
@@ -546,3 +542,131 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
 }
 
 
+
+
+
+
+
+
+// [[Rcpp::export]]
+List BMTrees_mcmc(NumericMatrix X, NumericVector Y, Nullable<NumericMatrix> Z, CharacterVector subject_id, LogicalVector obs_ind, bool binary = false, long nburn = 0, long npost = 3, bool verbose = true, bool CDP_residual = false, bool CDP_re = false, Nullable<long> seed = R_NilValue, double tol = 1e-40, long ntrees = 200, int resample = 0, double pi_CDP = 0.99){
+  NumericMatrix Z_obs;
+  NumericMatrix Z_test;
+  NumericVector Y_obs = Y[obs_ind];
+  NumericMatrix X_obs = row_matrix(X, obs_ind);
+  if(!Z.isNull()){
+    NumericMatrix z = as<NumericMatrix>(Z);
+    Z_obs = row_matrix(z, obs_ind);
+    Z_test = row_matrix(z, !obs_ind);
+  }
+  
+  CharacterVector subject_id_obs = subject_id[obs_ind];
+  IntegerVector row_id_obs = seqC(1, Y.length())[obs_ind];
+  bmtrees model = bmtrees(clone(Y_obs), clone(X_obs), clone(Z_obs), subject_id_obs, row_id_obs, binary, CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP);
+  
+  NumericVector Y_test = Y[!obs_ind];
+  NumericMatrix X_test = row_matrix(X, !obs_ind);
+  
+  CharacterVector subject_id_test = subject_id[!obs_ind];
+  IntegerVector row_id_test = seqC(1, Y.length())[!obs_ind];
+  
+  int d;
+  if(Z.isNull()){
+    d = 1;
+  }else{
+    d = as<NumericMatrix>(Z).ncol();
+  }
+  
+  long N = Y_obs.length();
+  long N_test = Y_test.length();
+  int n_subject = unique(subject_id_obs).length();
+  
+  
+  List post_trees;
+  NumericMatrix post_tree_pre_mean(npost, 1);
+  NumericMatrix post_M(npost, 1);
+  NumericMatrix post_M_re(npost, 1);
+  NumericMatrix post_alpha(npost, n_subject);
+  NumericMatrix post_x_hat(npost, N);
+  NumericMatrix post_sigma(npost, 1);
+  NumericMatrix post_lambda(npost, 1);
+  NumericMatrix post_Sigma(npost, d * d);
+  NumericMatrix post_B(npost, n_subject * d);
+  NumericMatrix post_tau_samples(npost, N);
+  NumericMatrix post_B_tau_samples(npost, n_subject * d);
+  NumericMatrix post_random_effect(npost, N);
+  NumericMatrix post_y_predict(npost, N);
+  NumericMatrix post_y_predict_new(npost, N);
+  NumericMatrix post_y_expectation(npost, N);
+  NumericMatrix post_y_sample(npost, N);
+  NumericMatrix post_tau_position(npost, (int)sqrt(N));
+  NumericMatrix post_tau_pi(npost, (int)sqrt(N));
+  NumericMatrix post_B_tau_pi(npost, (int)sqrt(n_subject));
+  NumericMatrix post_B_tau_position(npost, (int)sqrt(n_subject) * d);
+  
+  NumericMatrix post_y_expectation_test(npost, N_test);
+  NumericMatrix post_y_sample_test(npost, N_test);
+  
+  List tau;
+  List B_tau;
+  Progress progr(nburn + npost, !verbose);
+  for(int i = 0 ; i < nburn + npost; ++i){
+    
+    if (Progress::check_abort() )
+      return -1.0;
+    progr.increment();
+    
+    model.update_all(verbose);
+    
+    if(verbose)
+      Rcout << i << " " << nburn + npost << std::endl;
+    List post_sample = model.posterior_sampling();
+    if(i >= nburn){
+      post_tree_pre_mean(i - nburn, 0) = post_sample["tree_pre_mean"];
+      post_sigma(i - nburn, 0) = post_sample["sigma"];
+      post_x_hat(i - nburn, _) = as<NumericVector>(post_sample["tree_pre"]);
+      post_Sigma(i - nburn, _) = as<NumericVector>(post_sample["Sigma"]);
+      post_B(i - nburn, _) = as<NumericVector>(post_sample["B"]);
+      post_random_effect(i - nburn, _) = as<NumericVector>(post_sample["re"]);
+      post_y_expectation(i - nburn, _) = model.predict_expectation(clone(X_obs), clone(Z_obs), subject_id_obs, row_id_obs);
+      post_y_sample(i - nburn, _) = model.predict_sample(clone(X_obs), clone(Z_obs), subject_id_obs, row_id_obs);
+      
+      
+      post_y_expectation_test(i - nburn, _) = model.predict_expectation(clone(X_test), clone(Z_test), subject_id_test, row_id_test);
+      post_y_sample_test(i - nburn, _) = model.predict_sample(clone(X_test), clone(Z_test), subject_id_test, row_id_test);
+      
+      if(CDP_residual){
+        tau = post_sample["tau"];
+        post_tau_position(i - nburn, _) = as<NumericVector>(tau["y"]);
+        post_tau_pi(i - nburn, _) = as<NumericVector>(tau["pi"]);
+      }
+      if (CDP_re){
+        B_tau = post_sample["B_tau"];
+        post_B_tau_pi(i - nburn, _) = as<NumericVector>(B_tau["pi"]);
+        post_B_tau_position(i - nburn, _) = as<NumericVector>(B_tau["y"]);
+        post_lambda(i - nburn, 0) = (double)B_tau["lambda"];
+      }
+      
+    }
+  }
+  return List::create(
+    Named("post_x_hat") = post_x_hat,
+    Named("post_Sigma") = post_Sigma,
+    Named("post_lambda") = post_lambda,
+    Named("post_B") = post_B,
+    
+    Named("post_random_effect") = post_random_effect,
+    
+    Named("post_tau_position") = post_tau_position,
+    Named("post_tau_pi") = post_tau_pi,
+    Named("post_B_tau_position") = post_B_tau_position,
+    Named("post_B_tau_pi") = post_B_tau_pi,
+    
+    Named("post_sigma") = post_sigma,
+    Named("post_y_expectation") = post_y_expectation,
+    Named("post_y_sample") = post_y_sample,
+    Named("post_y_expectation_test") = post_y_expectation_test,
+    Named("post_y_sample_test") = post_y_sample_test
+  );
+  
+}

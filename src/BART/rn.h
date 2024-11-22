@@ -18,10 +18,19 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+
 #ifndef GUARD_rn_h
 #define GUARD_rn_h
 
-double log_sum_exp(std::vector<double>& v);
+#include <cmath>
+// double log_sum_exp(std::vector<double>& v){
+//   double mx=v[0],sm=0.;
+//   for(size_t i=0;i<v.size();i++) if(v[i]>mx) mx=v[i];
+//   for(size_t i=0;i<v.size();i++){
+//     sm += exp(v[i]-mx);
+//   }
+//   return mx+log(sm);
+// }
 
 //pure virtual base class for random numbers
 class rn
@@ -109,7 +118,13 @@ class arn: public rn
     std::vector<double> draw(k);
     double lse;
     for(size_t j=0;j<k;j++) draw[j]=this->log_gamma(alpha[j]);
-    lse=log_sum_exp(draw);
+    
+    double mx=draw[0],sm=0.;
+    for(size_t i=0;i<draw.size();i++) if(draw[i]>mx) mx=draw[i];
+    for(size_t i=0;i<draw.size();i++){
+      sm += std::exp(draw[i]-mx);
+    }
+    lse= mx+log(sm);
     for(size_t j=0;j<k;j++) {
       draw[j] -= lse;
       //draw[j]=::exp(draw[j]);
@@ -180,7 +195,12 @@ class arn: public rn
     std::vector<double> draw(k);
     double lse;
     for(size_t j=0;j<k;j++) draw[j]=this->log_gamma(alpha[j]);
-    lse=log_sum_exp(draw);
+    double mx=draw[0],sm=0.;
+    for(size_t i=0;i<draw.size();i++) if(draw[i]>mx) mx=draw[i];
+    for(size_t i=0;i<draw.size();i++){
+      sm += std::exp(draw[i]-mx);
+    }
+    lse= mx+log(sm);
     for(size_t j=0;j<k;j++) {
       draw[j] -= lse;
       //draw[j]=::exp(draw[j]);
@@ -263,7 +283,12 @@ class arn: public rn
     std::vector<double> draw(k);
     double lse;
     for(size_t j=0;j<k;j++) draw[j]=this->log_gamma(alpha[j]);
-    lse=log_sum_exp(draw);
+    double mx=draw[0],sm=0.;
+    for(size_t i=0;i<draw.size();i++) if(draw[i]>mx) mx=draw[i];
+    for(size_t i=0;i<draw.size();i++){
+      sm += std::exp(draw[i]-mx);
+    }
+    lse= mx+log(sm);
     for(size_t j=0;j<k;j++) {
       draw[j] -= lse;
       //draw[j]=::exp(draw[j]);

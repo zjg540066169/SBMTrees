@@ -17,9 +17,11 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+
 #ifndef GUARD_info_h
 #define GUARD_info_h
 #include "common.h"
+
 //data
 class dinfo {
 public:

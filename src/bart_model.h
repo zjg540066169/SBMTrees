@@ -543,6 +543,7 @@ public:
     return nu;
   }
   
+  
 private:
   Environment G;
   Environment base;

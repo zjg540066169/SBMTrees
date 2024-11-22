@@ -508,7 +508,6 @@ return result;
 // [[Rcpp::export]]
 IntegerVector rowSums_I(NumericMatrix mat) {
   int nRows = mat.nrow();
-  int nCols = mat.ncol();
   
   IntegerVector rowSums;
   //Rcout << mat.size() << std::endl;

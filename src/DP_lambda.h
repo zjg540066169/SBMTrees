@@ -91,7 +91,7 @@ List update_DP_normal(NumericMatrix X, List tau, double L = -1, double U = 2){
   if(strcmp(parameters["distribution"], "normal") == 0){
     int p = as<int>(parameters["p"]);
     //Rcout << p << std::endl;
-    double sigma;
+    double sigma = 1;
     NumericMatrix Sigma;
     //if(p == 1){
     if(parameters.containsElementNamed("sd")){

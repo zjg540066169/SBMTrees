@@ -31,7 +31,6 @@
 #ifndef UPDATE_H_
 #define UPDATE_H_
 #include "DP_lambda.h"
-#include "nDP.h"
 #include "cal_random_effects.h"
 #include "update_B.h"
 #include "update_Covariance.h"
@@ -718,7 +717,7 @@ public:
     }
     NumericVector X_hat_test = colMeans(tree -> predict(X_test, false));
     X_hat_test = X_hat_test - tree_pre_mean;
-    if(keep_re & random_test.length() > 0){
+    if(keep_re && random_test.length() > 0){
       ;
     }else{
       re_test = cal_random_effects(z_test, subject_id_test, B, subject_to_B);
@@ -755,7 +754,7 @@ public:
     
     NumericVector X_hat = colMeans(tree -> predict(X_test, false));
     X_hat = X_hat - tree_pre_mean;
-    if(keep_re & re_test.length() > 0){
+    if(keep_re && re_test.length() > 0){
       ;
     }else{
       re_test = cal_random_effects(z_test, subject_id_test, B, subject_to_B);

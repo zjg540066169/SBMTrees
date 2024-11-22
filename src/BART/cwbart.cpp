@@ -17,13 +17,14 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+#include "Rcpp.h"
+
+#include "bart.h"
 #include "tree.h"
 #include "treefuns.h"
 #include "info.h"
 #include "bartfuns.h"
 #include "bd.h"
-#include "bart.h"
-#include "Rcpp.h"
 
 #define TRDRAW(a, b) trdraw(a, b)
 #define TEDRAW(a, b) tedraw(a, b)

@@ -17,7 +17,24 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+
+
 #include "bartfuns.h"
+
+bool cansplit_bartfuns(tree::tree_p n, xinfo& xi)
+{
+  int L,U;
+  bool v_found = false; //have you found a variable you can split on
+  size_t v=0;
+  while(!v_found && (v < xi.size())) { //invar: splitvar not found, vars left
+    L=0; U = xi[v].size()-1;
+    n->rg(v,&L,&U);
+    if(U>=L) v_found=true;
+    v++;
+  }
+  return v_found;
+}
+
 
 //--------------------------------------------------
 //make xinfo = cutpoints
@@ -60,7 +77,7 @@ double getpb(tree& t, xinfo& xi, pinfo& pi, tree::npv& goodbots)
    tree::npv bnv; //all the bottom nodes
    t.getbots(bnv);
    for(size_t i=0;i!=bnv.size();i++)
-      if(cansplit(bnv[i],xi)) goodbots.push_back(bnv[i]);
+      if(cansplit_bartfuns(bnv[i],xi)) goodbots.push_back(bnv[i]);
    if(goodbots.size()==0) { //are there any bottom nodes you can split on?
       pb=0.0;
    } else {
@@ -103,7 +120,7 @@ double lh(size_t n, double sy, double sigma, double tau)
 //get prob a node grows, 0 if no good vars, else alpha/(1+d)^beta
 double pgrow(tree::tree_p n, xinfo& xi, pinfo& pi)
 {
-   if(cansplit(n,xi)) {
+   if(cansplit_bartfuns(n,xi)) {
       return pi.alpha/pow(1.0+n->depth(),pi.mybeta);
    } else {
       return 0.0;
@@ -168,9 +185,22 @@ void drmu(tree& t, xinfo& xi, dinfo& di, pinfo& pi, double sigma, rn& gen)
    allsuff(t,xi,di,bnv,nv,syv);
 
    for(tree::npv::size_type i=0;i!=bnv.size();i++) 
-      bnv[i]->settheta(drawnodemu(nv[i],syv[i],pi.tau,sigma,gen));
+      bnv[i]->settheta(drawnodemu_bartfuns(nv[i],syv[i],pi.tau,sigma,gen));
 }
 //--------------------------------------------------
+
+void getgoodvars_bartfuns(tree::tree_p n, xinfo& xi,  std::vector<size_t>& goodvars)
+{
+  goodvars.clear();
+  int L,U;
+  for(size_t v=0;v!=xi.size();v++) {//try each variable
+    L=0; U = xi[v].size()-1;
+    n->rg(v,&L,&U);
+    if(U>=L) goodvars.push_back(v);
+  }
+}
+
+
 //bprop: function to generate birth proposal
 void bprop(tree& x, xinfo& xi, pinfo& pi, tree::npv& goodbots, double& PBx, tree::tree_p& nx, size_t& v, size_t& c, double& pr, std::vector<size_t>& nv, std::vector<double>& pv, bool aug, rn& gen)
 {
@@ -183,7 +213,7 @@ void bprop(tree& x, xinfo& xi, pinfo& pi, tree::npv& goodbots, double& PBx, tree
       int L,U; //for cutpoint draw
       // Degenerate Trees Strategy (Assumption 2.2)
       if(!aug){
-      getgoodvars(nx,xi,goodvars);
+      getgoodvars_bartfuns(nx,xi,goodvars);
 	gen.set_wts(pv);
 	v = gen.discrete();
 	L=0; U=xi[v].size()-1;
@@ -203,7 +233,7 @@ void bprop(tree& x, xinfo& xi, pinfo& pi, tree::npv& goodbots, double& PBx, tree
 	std::vector<size_t> badvars; //variables nx can NOT split on
 	std::vector<double> pgoodvars; //vector of goodvars probabilities (from S, our Dirichlet vector draw)
 	std::vector<double> pbadvars; //vector of badvars probabilities (from S,...)
-	getgoodvars(nx,xi,goodvars);
+	getgoodvars_bartfuns(nx,xi,goodvars);
 	//size_t ngoodvars=goodvars.size();
 	size_t nbadvars=0; //number of bad vars
 	double smpgoodvars=0.; //P(picking a good var)
@@ -331,8 +361,8 @@ void dprop(tree& x, xinfo& xi, pinfo& pi,tree::npv& goodbots, double& PBx, tree:
 
       double Pboty;  //prob of choosing the nog as bot to split on when y
       int ngood = goodbots.size();
-      if(cansplit(nx->getl(),xi)) --ngood; //if can split at left child, lose this one
-      if(cansplit(nx->getr(),xi)) --ngood; //if can split at right child, lose this one
+      if(cansplit_bartfuns(nx->getl(),xi)) --ngood; //if can split at left child, lose this one
+      if(cansplit_bartfuns(nx->getr(),xi)) --ngood; //if can split at right child, lose this one
       ++ngood;  //know you can split at nx
       Pboty=1.0/ngood;
 
@@ -343,7 +373,7 @@ void dprop(tree& x, xinfo& xi, pinfo& pi,tree::npv& goodbots, double& PBx, tree:
 }
 //--------------------------------------------------
 //draw one mu from post 
-double drawnodemu(size_t n, double sy, double tau, double sigma, rn& gen)
+double drawnodemu_bartfuns(size_t n, double sy, double tau, double sigma, rn& gen)
 {
    double s2 = sigma*sigma;
    double b = n/s2;
@@ -351,7 +381,7 @@ double drawnodemu(size_t n, double sy, double tau, double sigma, rn& gen)
    return (sy/s2)/(a+b) + gen.normal()/sqrt(a+b);
 }
 
-double log_sum_exp(std::vector<double>& v){
+double log_sum_exp2(std::vector<double>& v){
     double mx=v[0],sm=0.;
     for(size_t i=0;i<v.size();i++) if(v[i]>mx) mx=v[i];
     for(size_t i=0;i<v.size();i++){
@@ -373,7 +403,7 @@ void draw_s(std::vector<size_t>& nv, std::vector<double>& lpv, double& theta, rn
 
 //--------------------------------------------------
 //draw Dirichlet sparsity parameter from posterior using grid
-void draw_theta0(bool const_theta, double& theta, std::vector<double>& lpv,
+void draw_theta0_bartfuns(bool const_theta, double& theta, std::vector<double>& lpv,
 		 double a, double b, double rho, rn& gen){
   // Draw sparsity parameter theta_0 (Linero calls it alpha); see Linero, 2018
   // theta / (theta + rho ) ~ Beta(a,b)
@@ -396,7 +426,13 @@ void draw_theta0(bool const_theta, double& theta, std::vector<double>& lpv,
 //      cout << "SLP: " << sumlogpv << "\nTLL: " << theta_log_lik << "\nBLP: " << beta_log_prior << '\n';
       lwt_g[k]=theta_log_lik+beta_log_prior;      
     }
-    lse=log_sum_exp(lwt_g);
+    
+    double mx=lwt_g[0],sm=0.;
+    for(size_t i=0;i<lwt_g.size();i++) if(lwt_g[i]>mx) mx=lwt_g[i];
+    for(size_t i=0;i<lwt_g.size();i++){
+      sm += std::exp(lwt_g[i]-mx);
+    }
+    lse= mx+log(sm);
     for(size_t k=0;k<1000;k++) {
       lwt_g[k]=exp(lwt_g[k]-lse);
 //      cout << "LWT: " << lwt_g[k] << '\n';

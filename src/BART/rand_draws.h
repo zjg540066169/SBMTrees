@@ -19,8 +19,8 @@
 
 #ifndef __RAND_DRAWS_H__
 #define __RAND_DRAWS_H__
-
 #include "common.h"
+
 #include "randomkit.h"
 #include <stdlib.h>
 #include <assert.h>

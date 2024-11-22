@@ -115,13 +115,26 @@ RcppExport SEXP cpwbart(
    //ret["yhat.test"] = yhat;
    return yhat;
 }
+
+void fit4(tree& t, xinfo& xi, size_t p, size_t n, double *x,  double* fv)
+{
+  tree::tree_p bn;
+  for(size_t i=0;i<n;i++) {
+    //cout << "i:" << i << std::endl;
+    bn = t.bn(x+i*p,xi);
+    
+    fv[i] = bn->gettheta();
+    
+  }
+}
+
 void getpred(int beg, int end, size_t p, size_t m, size_t np, xinfo& xi, std::vector<vtree>& tmat, double *px, Rcpp::NumericMatrix& yhat)
 {
    double *fptemp = new double[np];
 
    for(int i=beg;i<=end;i++) {
       for(size_t j=0;j<m;j++) {
-         fit(tmat[i][j],xi,p,np,px,fptemp);
+         fit4(tmat[i][j],xi,p,np,px,fptemp);
          for(size_t k=0;k<np;k++) yhat(i,k) += fptemp[k];
       }
    }

@@ -17,6 +17,7 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+
 #ifndef GUARD_bartfuns_h
 #define GUARD_bartfuns_h
 
@@ -58,12 +59,12 @@ void bprop(tree& x, xinfo& xi, pinfo& pi, tree::npv& goodbots, double& PBx, tree
 void dprop(tree& x, xinfo& xi, pinfo& pi, tree::npv& goodbots, double& PBx, tree::tree_p& nx, double& pr, rn& gen);
 //--------------------------------------------------
 //draw one mu from post 
-double drawnodemu(size_t n, double sy, double tau, double sigma, rn& gen);
+double drawnodemu_bartfuns(size_t n, double sy, double tau, double sigma, rn& gen);
 //--------------------------------------------------
 //draw variable splitting probabilities from Dirichlet (Linero, 2018)
 void draw_s(std::vector<size_t>& nv, std::vector<double>& lpv, double& theta, rn& gen);
 //--------------------------------------------------
 //draw Dirichlet sparsity parameter from posterior using grid
-void draw_theta0(bool const_theta, double& theta, std::vector<double>& lpv,
+void draw_theta0_bartfuns(bool const_theta, double& theta, std::vector<double>& lpv,
 		 double a, double b, double rho, rn& gen);
 #endif
