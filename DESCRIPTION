@@ -14,12 +14,10 @@ Imports:
     Rcpp,
     RcppArmadillo,
     RcppDist,
-    RcppParallel,
     RcppProgress
 LinkingTo: 
     Rcpp, 
     RcppArmadillo,
     RcppDist,
-    RcppParallel,
     RcppProgress
 RoxygenNote: 7.3.2
