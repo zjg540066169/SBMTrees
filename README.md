@@ -158,7 +158,7 @@ model = sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), F, model =
 model$imputed_data
 model$imputed_data[,,10] # get imputed outcomes.
 ```
-The returned is a three-array, whose dimension is (npost / skip, N, p + 1). N is the number of observations. p is the number of covariates.
+The returned `imputed_data` is a three-array, whose dimension is (npost / skip, N, p + 1). N is the number of observations. p is the number of covariates.
 
 
 ## Attribution
