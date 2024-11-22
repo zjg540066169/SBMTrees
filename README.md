@@ -18,7 +18,7 @@ library(SBMtrees)
 ## Models
 This package is based on the mixed-effects model for longitudinal data: <img src="https://latex.codecogs.com/gif.latex?Y_{ij}=BART(X_{ij})+Z_{ij}b_i+\epsilon_{ij}" /> 
 
-Different models impose different prior distributions on <img src="https://latex.codecogs.com/gif.latex?b_i"/> and <img src="https://latex.codecogs.com/gif.latex?\epsilon_{ij}" />. 
+Different models impose different prior distributions on <img src="https://latex.codecogs.com/gif.latex?b_i"/> and <img src="https://latex.codecogs.com/gif.latex?\epsilon_{ij}" />. We also include the existing model Mixed-Effects BART (mixedBART) in this package.
 
 <table>
    <tr>
@@ -41,6 +41,11 @@ Different models impose different prior distributions on <img src="https://latex
       <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Multivariate Normal Mixture</td>
       <td style="text-align:center" align="center" colspan="1" rowspan="1">Normal</td>
    </tr>
+   <tr>
+      <td style="text-align:center" align="center" rowspan="1" colspan="1">mixedBART</td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">Multivariate Normal</td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">Normal</td>
+   </tr>
 </table>
 
-The inference is done with posterior samples by running MCMC. 
+The inference is done with posterior samples by Gibbs samplers in C++. 
