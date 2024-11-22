@@ -29,7 +29,7 @@ Different models impose different prior distributions on <img src="https://latex
    </tr>
    <tr>
       <td style="text-align:center" align="center" rowspan="1" colspan="1">BMTrees</td>
-      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Normal Mixture <img src="https://latex.codecogs.com/gif.latex?MVN(\mu_i, \Sigma)" /></td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Normal Mixture <img src="https://latex.codecogs.com/gif.latex?MVN(\mu, \Sigma)" /></td>
       <td style="text-align:center" align="center" colspan="1">r</td>
       <td style="text-align:center" align="center" colspan="1">2</td>
    </tr>
