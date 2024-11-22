@@ -18,13 +18,13 @@ library(SBMtrees)
 ## Models
 This package is based on the mixed-effects model for longitudinal data: <img src="https://latex.codecogs.com/gif.latex?Y_{ij}=BART(X_{ij})+Z_{ij}b_i+\epsilon_{ij}" /> 
 
-Different models impose different prior distributions on <img src="https://latex.codecogs.com/gif.latex?b_i" /> and <img src="https://latex.codecogs.com/gif.latex?\epsilon_{ij}" />. 
+Different models impose different prior distributions on <img src="https://latex.codecogs.com/gif.latex?b_i"/> and <img src="https://latex.codecogs.com/gif.latex?\epsilon_{ij}" />. 
 
 <table>
    <tr>
-      <th align="center">Type</th>
-      <th align="center">Group-based Prior</th>
-     <th align="center">Hyper-parameters</th>
+      <th align="center">Models</th>
+      <th align="center">Prior on random effects <img src="https://latex.codecogs.com/gif.latex?b_i" /> </th>
+      <th align="center">Prior on random errors <img src="https://latex.codecogs.com/gif.latex?\epsilon_{ij}" /> </th>
       <th align="center">Default value</th>
    </tr>
    <tr>
