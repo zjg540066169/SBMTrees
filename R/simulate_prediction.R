@@ -13,8 +13,9 @@ sigmoid = function(x){
   1 / (1 + exp(-x))
 }
 
-simulation_prediction = function(n_subject = 800, n_obs_per_sub = 6, seed = 123, nonlinear = FALSE, nonrandeff = FALSE, nonresidual = FALSE){
+simulation_prediction = function(n_subject = 800, seed = 123, nonlinear = FALSE, nonrandeff = FALSE, nonresidual = FALSE){
   set.seed(123)
+  n_obs_per_sub = 6
   n_obs_per_sub = sapply(1:n_subject, function(x) n_obs_per_sub)
   subject_id = c(unlist(sapply(1:n_subject, function(x) rep(x, n_obs_per_sub[x]))))
   n_obs = length(subject_id)
@@ -237,7 +238,7 @@ simulation_prediction = function(n_subject = 800, n_obs_per_sub = 6, seed = 123,
     #print(Bi)
   }
   
-  return(list(re = re, Y_O = Y_copy, Bi = Bi, Y = Y, X = X, Z = Z_O, subject_id = subject_id, trajectory = trajectory))
+  return(list(Y_O = Y_copy, Y = Y, X = X, Z = Z_O, subject_id = subject_id, trajectory = trajectory))
 }
 
 
