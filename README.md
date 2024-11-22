@@ -6,7 +6,7 @@ For more details on these models and their applications, please consult the foll
 
 
 ## Installation
-This package is based on `Rcpp`, `RcppArmadillo`, and `RcppDist`, please make sure these two packages can be installed.
+This package is based on `Rcpp`, `RcppArmadillo`, and `RcppDist`, please make sure these three packages can be installed.
 
 Right now, the package has not been uploaded to Rcran yet, so please install this package from Github:
 ```
@@ -25,11 +25,11 @@ Different models impose different prior distributions on <img src="https://latex
       <th align="center">Models</th>
       <th align="center">Prior on random effects <img src="https://latex.codecogs.com/gif.latex?b_i" /> </th>
       <th align="center">Prior on random errors <img src="https://latex.codecogs.com/gif.latex?\epsilon_{ij}" /> </th>
-      <th align="center">Default value</th>
+      <th align="center">Other priors</th>
    </tr>
    <tr>
-      <td style="text-align:center" align="center" rowspan="4" colspan="1">Shrinkage Model</td>
-      <td style="text-align:center" align="center" colspan="1" rowspan="2">Multi-Laplace</td>
+      <td style="text-align:center" align="center" rowspan="1" colspan="1">BMTrees</td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Normal Mixture <img src="https://latex.codecogs.com/gif.latex?\mathcal{MVN}(\bmu_i, \mathbf{\Sigma})" /></td>
       <td style="text-align:center" align="center" colspan="1">r</td>
       <td style="text-align:center" align="center" colspan="1">2</td>
    </tr>
