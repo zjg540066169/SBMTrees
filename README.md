@@ -25,49 +25,22 @@ Different models impose different prior distributions on <img src="https://latex
       <th align="center">Models</th>
       <th align="center">Prior on random effects <img src="https://latex.codecogs.com/gif.latex?b_i" /> </th>
       <th align="center">Prior on random errors <img src="https://latex.codecogs.com/gif.latex?\epsilon_{ij}" /> </th>
-      <th align="center">Other priors</th>
    </tr>
    <tr>
       <td style="text-align:center" align="center" rowspan="1" colspan="1">BMTrees</td>
-      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Normal Mixture <img src="https://latex.codecogs.com/gif.latex?MVN(\mu, \Sigma)" /></td>
-      <td style="text-align:center" align="center" colspan="1">r</td>
-      <td style="text-align:center" align="center" colspan="1">2</td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Multivariate Normal Mixture></td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Normal Mixture></td>
    </tr>
    <tr>
-    <td style="text-align:center" align="center" colspan="1">s</td>
-      <td style="text-align:center"  align="center" colspan="1">15</td>
+      <td style="text-align:center" align="center" rowspan="1" colspan="1">BMTrees_R</td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">Multivariate Normal></td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Normal Mixture></td>
    </tr>
    <tr>
-      <td style="text-align:center" align="center" colspan="1" rowspan="1">ARD(Ridge)</td>
-      <td style="text-align:center" align="center" colspan="2">No hyper-parameters</td>
+      <td style="text-align:center" align="center" rowspan="1" colspan="1">BMTrees_RE</td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">CDP Multivariate Normal Mixture></td>
+      <td style="text-align:center" align="center" colspan="1" rowspan="1">Normal></td>
    </tr>
-   <tr>
-    <td style="text-align:center" align="center" colspan="1">Horseshoe</td>
-      <td style="text-align:center" align="center" colspan="2">No hyper-parameters</td>
-   </tr>
-   <tr>
-      <td style="text-align:center" align="center" colspan="1" rowspan="5">Discrete Mixture Model</td>
-      <td style="text-align:center" align="center" rowspan="2">Spike-Ridge</td>
-      <td style="text-align:center" align="center" rowspan="1">p0</td>
-      <td style="text-align:center" align="center" rowspan="1">0.5</td>
-   <tr>
-     <td style="text-align:center" align="center" colspan="1">v0</td>
-      <td style="text-align:center" align="center" colspan="1">4</td>
-   </tr>
-   <tr>
-      <td style="text-align:center" align="center" colspan="1" rowspan="3">Spike-Laplace</td>
-      <td style="text-align:center" align="center" colspan="1">lambda</td>
-      <td style="text-align:center" align="center" colspan="1">6/11</td>
-   </tr>
-   <tr>
-      <td style="text-align:center" align="center" colspan="1">a</td>
-      <td style="text-align:center" align="center" colspan="1">1</td>
-   </tr>
-      <tr>
-      <td style="text-align:center" align="center" colspan="1">b</td>
-         <td style="text-align:center" align="center" colspan="1">1</td>
-   </tr>
-</tr>
 </table>
 
 The inference is done with posterior samples by running MCMC. 
