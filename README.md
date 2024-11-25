@@ -158,9 +158,24 @@ model = sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), F, model =
 model$imputed_data
 model$imputed_data[,,10] # get imputed outcomes.
 ```
-The returned is a three-array, whose dimension is (npost / skip, N, p + 1). N is the number of observations. p is the number of covariates.
+The returned `imputed_data` is a three-array, whose dimension is (npost / skip, N, p + 1). N is the number of observations. p is the number of covariates.
 
 
-## Disclaimer
+## Attribution
+
+This package includes code derived from the [BART3](https://github.com/rsparapa/bnptools/tree/master) package, originally developed by Rodney Sparapani. 
+
+The original source code, licensed under the [GNU General Public License version 2 (GPL-2)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html), has been modified as follows:
+- We include part of the C++ code in BART3, primarily about functions about `wbart` and `cpwart`. We also modify some files to make sure our package can be successfully compiled.
+- Modifications were made by Jungang Zou, 2024.
+
+### Licensing
+
+- The original BART3 package is licensed under the GNU General Public License version 2 (GPL-2).
+- This package, as a derived work, is also licensed under the GNU General Public License version 2 (GPL-2) to comply with the licensing terms.
+
+For more details, please see the `LICENSE` file included in this repository.
+
+## Contact
 
 If you find there is any bug, please contact me: jungang.zou@gmail.com.

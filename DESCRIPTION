@@ -28,7 +28,6 @@ LinkingTo:
     Rcpp, 
     RcppArmadillo,
     RcppDist,
-    RcppParallel,
     RcppProgress
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
