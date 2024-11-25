@@ -1,10 +1,15 @@
-##CXX_STD = CXX11
-PKG_CXXFLAGS = -fopenmp
-PKG_LIBS = -fopenmp
+## Uncomment to set the C++ standard explicitly
+# CXX_STD = CXX11
+
+## Include headers
 PKG_CPPFLAGS = -I../inst/include/
 
-PKG_CXXFLAGS += -DRCPP_PARALLEL_USE_TBB=1
+## Base flags for C++ compilation
+PKG_CXXFLAGS = -DRCPP_PARALLEL_USE_TBB=1
 
-PKG_LIBS += $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" \
-              -e "RcppParallel::RcppParallelLibs()")
-          
+## Add OpenMP flags for Windows
+PKG_CXXFLAGS += -fopenmp
+PKG_LIBS += -fopenmp
+
+## Include RcppParallel libraries
+PKG_LIBS += $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "RcppParallel::RcppParallelLibs()")

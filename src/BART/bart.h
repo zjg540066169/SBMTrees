@@ -458,13 +458,13 @@ public:
      t.getbots(bnv);
      for(size_t i=0;i!=bnv.size();i++)
        if(cansplit_bart(bnv[i],xi)) goodbots.push_back(bnv[i]);
-       if(goodbots.size()==0) { //are there any bottom nodes you can split on?
-         pb=0.0;
-       } else {
-         if(t.treesize()==1) pb=1.0; //is there just one node?
-         else pb=pi.pb;
-       }
-       return pb;
+     if(goodbots.size()==0) { //are there any bottom nodes you can split on?
+       pb=0.0;
+     } else {
+       if(t.treesize()==1) pb=1.0; //is there just one node?
+       else pb=pi.pb;
+     }
+    return pb;
    }
    
    void getsuff_bart(tree& x, tree::tree_p nx, size_t v, size_t c, xinfo& xi, dinfo& di, size_t& nl, double& syl, size_t& nr, double& syr)

@@ -1,12 +1,19 @@
-library(lme4)
-library(optimx)
-library(dplyr)
-#sourceCpp("./src/sequential_imputation.cpp")
-
-
-
-
-
+#' Impute Missing Values Using LOCF and NOCB
+#'
+#' Imputes missing values in a matrix by applying Last Observation Carried Forward (LOCF) followed by 
+#' Next Observation Carried Backward (NOCB) for each subject.
+#'
+#' @param X A matrix where rows represent observations and columns represent variables.
+#' @param subject_id A vector of subject IDs corresponding to the rows of \code{X}.
+#'
+#' @return A matrix with missing values imputed using LOCF and NOCB.
+#'
+#' @examples
+#' X <- matrix(c(NA, 2, NA, 4, 5, NA, 7, 8, NA, NA), nrow = 5, byrow = TRUE)
+#' subject_id <- c(1, 1, 1, 2, 2)
+#' apply_locf_nocb(X, subject_id)
+#'
+#' @export
 apply_locf_nocb <- function(X, subject_id) {
   locf <- function(x) {
     # Fill missing values by carrying forward the last non-missing value
@@ -71,8 +78,61 @@ apply_locf_nocb <- function(X, subject_id) {
 
 
 
-
-sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outcome, model = c("BMTrees", "BMTrees_R", "BMTrees_RE", "mixedBART"), nburn = 0L, npost = 3L, skip = 1L, verbose = TRUE, seed = NULL, tol = 1e-20, resample = 0, ntrees = 200, reordering = T, pi_CDP = 0.99) {
+#' @title Sequential Imputation for Missing Data
+#' @description Implements sequential imputation for missing covariates and outcomes in longitudinal data. 
+#' The function uses a Bayesian non-parametric framework with mixed-effects models to handle both 
+#' normal and non-normal random effects and errors. It sequentially imputes missing values by constructing 
+#' univariate models in a fixed order, ensuring simplicity and consistency with a valid joint distribution.
+#'
+#' @param X A matrix of missing covariates.
+#' @param Y A vector of missing outcomes (numeric or logical).
+#' @param Z A matrix of complete random predictors.
+#' @param subject_id A vector of subject IDs corresponding to the rows of \code{X} and \code{Y}. Can be both integer or character
+#' @param type A logical vector indicating whether each covariate in \code{X} is binary (1) or continuous (0).
+#' @param binary_outcome A logical value indicating whether the outcome \code{Y} is binary (1) or continuous (0). Default: \code{0}.
+#' @param model A character vector specifying the imputation model. Options are \code{"BMTrees"}, 
+#' \code{"BMTrees_R"}, \code{"BMTrees_RE"}, and \code{"mixedBART"}. Default: \code{"BMTrees"}.
+#' @param nburn An integer specifying the number of burn-in iterations. Default: \code{0}.
+#' @param npost An integer specifying the number of sampling iterations. Default: \code{3}.
+#' @param skip An integer specifying the interval for keeping samples in the sampling phase. Default: \code{1}.
+#' @param verbose A logical value indicating whether to display progress and MCMC information. Default: \code{TRUE}.
+#' @param seed A random seed for reproducibility. Default: \code{NULL}.
+#' @param tol A small numerical tolerance to prevent numerical overflow or underflow in the model. Default: \code{1e-20}.
+#' @param resample An integer specifying the number of resampling steps for the CDP prior. Default: \code{5}. This parameter is only valid for \code{"BMTrees"} and \code{"BMTrees_R"}.
+#' @param ntrees An integer specifying the number of trees in BART. Default: \code{200}.
+#' @param reordering A logical value indicating whether to apply a reordering strategy for sorting covariates. Default: \code{TRUE}.
+#' @param pi_CDP A value between 0 and 1 for calculating the empirical prior in the CDP prior. Default: \code{0.99}.
+#'
+#' @return A three-dimensional array of imputed data with dimensions \code{(npost / skip, N, p + 1)}, where:
+#' - \code{N} is the number of observations.
+#' - \code{p} is the number of covariates in \code{X}.
+#' The array includes imputed covariates and outcomes.
+#'
+#' @details The function builds on the Bayesian Trees Mixed-Effects Model (BMTrees), which extends Mixed-Effects 
+#' BART by using centralized Dirichlet Process (CDP) Normal Mixture priors. This framework handles non-normal 
+#' random effects and errors, addresses model misspecification, and captures complex relationships. The function 
+#' employs a Metropolis-Hastings MCMC method to sequentially impute missing values.
+#'
+#' @examples 
+#' \dontrun{
+#' library(SBMTrees)
+#' data <- simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, nonresidual = TRUE, alligned = FALSE) 
+#' X_mis <- data$X_mis
+#' Y_mis <- data$Y_mis
+#' Z <- data$Z
+#' subject_id <- data$subject_id
+#'
+#' model <- sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), binary_outcome = FALSE, 
+#'                                 model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, 
+#'                                 verbose = TRUE, seed = 123)
+#' model$imputed_data
+#' }
+#'
+#' @rdname sequential_imputation
+#' @export
+#' @useDynLib SBMTrees, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outcome = FALSE, model = c("BMTrees", "BMTrees_R", "BMTrees_RE", "mixedBART"), nburn = 0L, npost = 3L, skip = 1L, verbose = TRUE, seed = NULL, tol = 1e-20, resample = 5, ntrees = 200, reordering = T, pi_CDP = 0.99) {
   model = match.arg(model)
   if(is.null(dim(X))){
     stop("More than one covariate is needed!")

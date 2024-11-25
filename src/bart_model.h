@@ -278,7 +278,7 @@ public:
     for(int i=0; i < nburn + npost;i++) {
       if(verbose){
         if(i % print_every == 0){
-          printf("iteration %zu",i);
+          printf("iteration %d",i);
           Rcout << "/"<<nburn + npost <<std::endl;
         }
         

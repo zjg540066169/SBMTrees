@@ -31,9 +31,6 @@ using namespace Rcpp;
 
 
 /*** R
-library(lme4)
-library(Matrix)
-
 makePositiveDefinite <- function(A, epsilon = 1e-8) {
   A_reg <- A
   diag(A_reg) <- diag(A_reg) + epsilon
@@ -50,24 +47,20 @@ get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary
   X[, non_constant_cols] <- scale(X[, non_constant_cols])
   
   if(!binary){
-    suppressMessages(lmm <- lmer(Y ~ 0 + X + (0 + Z|subject_id), REML = T))
-    coe = as.matrix(ranef(lmm)[[1]])
+    suppressMessages(lmm <- lme4::lmer(Y ~ 0 + X + (0 + Z|subject_id), REML = T))
+    coe = as.matrix(lme4::ranef(lmm)[[1]])
     coe = (coe[names(subject_to_B),])
   }else{
-    suppressMessages(lmm <- glmer(as.factor(Y) ~ 0 + X + (0 + Z|subject_id), family = binomial(link = "logit")))
-    coe = as.matrix(ranef(lmm)[[1]])
+    suppressMessages(lmm <- lme4::glmer(as.factor(Y) ~ 0 + X + (0 + Z|subject_id), family = binomial(link = "logit")))
+    coe = as.matrix(lme4::ranef(lmm)[[1]])
     coe = (coe[names(subject_to_B),])
   }
   
-  co = as.matrix(bdiag(VarCorr(lmm)))
-  #print(co)
+  co = as.matrix(Matrix::bdiag(lme4::VarCorr(lmm)))
   svd_A <- svd(co)
-  #print(svd_A)
   tolerance = 1e-10 * max(svd_A$d)
   while(length(co) > 1 & (kappa(co) > 500 | !isPositiveDefinite(co))){
-    #print("con")
     if(tolerance > max(svd_A$d)){
-      #print("overflow")
       if(!isPositiveDefinite(co)){
         eigenvalues <- eigen(co)$values
         negative_eigenvalues <- eigenvalues[eigenvalues < 0]
@@ -88,14 +81,9 @@ get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary
       }
     }
     tolerance = tolerance * 2
-    #print(co)
     svd_A <- svd(co)
-    #print(svd_A)
     D_truncated <- diag(svd_A$d)
-    #print(D_truncated)
     diag(D_truncated) = pmax(diag(D_truncated), tolerance)
-    #print(svd_A$u)
-    #print(D_truncated)
     co <- svd_A$u %*% D_truncated %*% t(svd_A$v)
     co = makePositiveDefinite(co)
     co = (co + t(co)) / 2

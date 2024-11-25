@@ -138,6 +138,506 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// max_d
+double max_d(double x, double y);
+RcppExport SEXP _SBMTrees_max_d(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(max_d(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// seqD
+NumericVector seqD(double x, double y, double by);
+RcppExport SEXP _SBMTrees_seqD(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type by(bySEXP);
+    rcpp_result_gen = Rcpp::wrap(seqD(x, y, by));
+    return rcpp_result_gen;
+END_RCPP
+}
+// seqC
+IntegerVector seqC(int x, int y, int by);
+RcppExport SEXP _SBMTrees_seqC(SEXP xSEXP, SEXP ySEXP, SEXP bySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type by(bySEXP);
+    rcpp_result_gen = Rcpp::wrap(seqC(x, y, by));
+    return rcpp_result_gen;
+END_RCPP
+}
+// prodC
+double prodC(NumericVector x);
+RcppExport SEXP _SBMTrees_prodC(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(prodC(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sum_array_by_name
+NumericVector sum_array_by_name(NumericVector X);
+RcppExport SEXP _SBMTrees_sum_array_by_name(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(sum_array_by_name(X));
+    return rcpp_result_gen;
+END_RCPP
+}
+// set_tol
+NumericVector set_tol(NumericVector X, double tol);
+RcppExport SEXP _SBMTrees_set_tol(SEXP XSEXP, SEXP tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(set_tol(X, tol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// set_value
+NumericVector set_value(NumericVector X, double tol);
+RcppExport SEXP _SBMTrees_set_value(SEXP XSEXP, SEXP tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(set_value(X, tol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// character_vector_equals
+LogicalVector character_vector_equals(CharacterVector X, CharacterVector Y);
+RcppExport SEXP _SBMTrees_character_vector_equals(SEXP XSEXP, SEXP YSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type X(XSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type Y(YSEXP);
+    rcpp_result_gen = Rcpp::wrap(character_vector_equals(X, Y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// row_matrix
+NumericMatrix row_matrix(NumericMatrix X, LogicalVector index);
+RcppExport SEXP _SBMTrees_row_matrix(SEXP XSEXP, SEXP indexSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type index(indexSEXP);
+    rcpp_result_gen = Rcpp::wrap(row_matrix(X, index));
+    return rcpp_result_gen;
+END_RCPP
+}
+// matrix_add
+NumericMatrix matrix_add(NumericMatrix X, NumericMatrix Z);
+RcppExport SEXP _SBMTrees_matrix_add(SEXP XSEXP, SEXP ZSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Z(ZSEXP);
+    rcpp_result_gen = Rcpp::wrap(matrix_add(X, Z));
+    return rcpp_result_gen;
+END_RCPP
+}
+// contains
+bool contains(std::string s, Rcpp::List L);
+RcppExport SEXP _SBMTrees_contains(SEXP sSEXP, SEXP LSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type s(sSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type L(LSEXP);
+    rcpp_result_gen = Rcpp::wrap(contains(s, L));
+    return rcpp_result_gen;
+END_RCPP
+}
+// contains_index
+int contains_index(CharacterVector L, std::string s);
+RcppExport SEXP _SBMTrees_contains_index(SEXP LSEXP, SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type L(LSEXP);
+    Rcpp::traits::input_parameter< std::string >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(contains_index(L, s));
+    return rcpp_result_gen;
+END_RCPP
+}
+// row_matrix_unique_rowname
+NumericMatrix row_matrix_unique_rowname(NumericMatrix X, CharacterVector rowname);
+RcppExport SEXP _SBMTrees_row_matrix_unique_rowname(SEXP XSEXP, SEXP rownameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type rowname(rownameSEXP);
+    rcpp_result_gen = Rcpp::wrap(row_matrix_unique_rowname(X, rowname));
+    return rcpp_result_gen;
+END_RCPP
+}
+// row_matrix_rowname
+NumericVector row_matrix_rowname(NumericMatrix X, String rowname);
+RcppExport SEXP _SBMTrees_row_matrix_rowname(SEXP XSEXP, SEXP rownameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< String >::type rowname(rownameSEXP);
+    rcpp_result_gen = Rcpp::wrap(row_matrix_rowname(X, rowname));
+    return rcpp_result_gen;
+END_RCPP
+}
+// matrix_mul_scalar
+NumericMatrix matrix_mul_scalar(NumericMatrix X, double scalar);
+RcppExport SEXP _SBMTrees_matrix_mul_scalar(SEXP XSEXP, SEXP scalarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type scalar(scalarSEXP);
+    rcpp_result_gen = Rcpp::wrap(matrix_mul_scalar(X, scalar));
+    return rcpp_result_gen;
+END_RCPP
+}
+// row_matrix_by_rowname
+NumericMatrix::Row row_matrix_by_rowname(NumericMatrix X, String rowname);
+RcppExport SEXP _SBMTrees_row_matrix_by_rowname(SEXP XSEXP, SEXP rownameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< String >::type rowname(rownameSEXP);
+    rcpp_result_gen = Rcpp::wrap(row_matrix_by_rowname(X, rowname));
+    return rcpp_result_gen;
+END_RCPP
+}
+// count_if
+int count_if(LogicalVector x);
+RcppExport SEXP _SBMTrees_count_if(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(count_if(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// logic_and
+LogicalVector logic_and(LogicalVector x, LogicalVector y);
+RcppExport SEXP _SBMTrees_logic_and(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(logic_and(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// any
+bool any(LogicalVector x);
+RcppExport SEXP _SBMTrees_any(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(any(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// solve
+NumericMatrix solve(NumericMatrix m);
+RcppExport SEXP _SBMTrees_solve(SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(solve(m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// solve_pos_def
+NumericMatrix solve_pos_def(NumericMatrix m);
+RcppExport SEXP _SBMTrees_solve_pos_def(SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(solve_pos_def(m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// matrix_multiply
+NumericMatrix matrix_multiply(NumericMatrix mat1, NumericMatrix mat2);
+RcppExport SEXP _SBMTrees_matrix_multiply(SEXP mat1SEXP, SEXP mat2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat1(mat1SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat2(mat2SEXP);
+    rcpp_result_gen = Rcpp::wrap(matrix_multiply(mat1, mat2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rtgamma
+NumericVector rtgamma(int n, double shape, double scale, double lower, double upper);
+RcppExport SEXP _SBMTrees_rtgamma(SEXP nSEXP, SEXP shapeSEXP, SEXP scaleSEXP, SEXP lowerSEXP, SEXP upperSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< double >::type shape(shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type scale(scaleSEXP);
+    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
+    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
+    rcpp_result_gen = Rcpp::wrap(rtgamma(n, shape, scale, lower, upper));
+    return rcpp_result_gen;
+END_RCPP
+}
+// make_symmetric
+NumericMatrix make_symmetric(NumericMatrix m);
+RcppExport SEXP _SBMTrees_make_symmetric(SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(make_symmetric(m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// vector_mul_generate_matrix
+NumericMatrix vector_mul_generate_matrix(NumericVector v);
+RcppExport SEXP _SBMTrees_vector_mul_generate_matrix(SEXP vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
+    rcpp_result_gen = Rcpp::wrap(vector_mul_generate_matrix(v));
+    return rcpp_result_gen;
+END_RCPP
+}
+// make_nonsingular
+NumericMatrix make_nonsingular(NumericMatrix s);
+RcppExport SEXP _SBMTrees_make_nonsingular(SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(make_nonsingular(s));
+    return rcpp_result_gen;
+END_RCPP
+}
+// create_subject_to_B
+std::unordered_map<std::string, int> create_subject_to_B(CharacterVector subject_id);
+RcppExport SEXP _SBMTrees_create_subject_to_B(SEXP subject_idSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type subject_id(subject_idSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_subject_to_B(subject_id));
+    return rcpp_result_gen;
+END_RCPP
+}
+// create_row_id_to_row
+std::unordered_map<std::string, int> create_row_id_to_row(IntegerVector row_id);
+RcppExport SEXP _SBMTrees_create_row_id_to_row(SEXP row_idSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type row_id(row_idSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_row_id_to_row(row_id));
+    return rcpp_result_gen;
+END_RCPP
+}
+// innerProduct
+double innerProduct(const NumericVector& x, const NumericVector& y);
+RcppExport SEXP _SBMTrees_innerProduct(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(innerProduct(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cov
+NumericMatrix cov(const Rcpp::NumericMatrix& m, double regularization);
+RcppExport SEXP _SBMTrees_cov(SEXP mSEXP, SEXP regularizationSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type m(mSEXP);
+    Rcpp::traits::input_parameter< double >::type regularization(regularizationSEXP);
+    rcpp_result_gen = Rcpp::wrap(cov(m, regularization));
+    return rcpp_result_gen;
+END_RCPP
+}
+// isPositiveDefinite
+bool isPositiveDefinite(const Rcpp::NumericMatrix& m);
+RcppExport SEXP _SBMTrees_isPositiveDefinite(SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(isPositiveDefinite(m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fix_riwish
+NumericMatrix fix_riwish(const Rcpp::NumericMatrix& m, double regularization);
+RcppExport SEXP _SBMTrees_fix_riwish(SEXP mSEXP, SEXP regularizationSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type m(mSEXP);
+    Rcpp::traits::input_parameter< double >::type regularization(regularizationSEXP);
+    rcpp_result_gen = Rcpp::wrap(fix_riwish(m, regularization));
+    return rcpp_result_gen;
+END_RCPP
+}
+// matrix_slice_parallel
+NumericVector matrix_slice_parallel(NumericMatrix A, int i, bool row);
+RcppExport SEXP _SBMTrees_matrix_slice_parallel(SEXP ASEXP, SEXP iSEXP, SEXP rowSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type A(ASEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< bool >::type row(rowSEXP);
+    rcpp_result_gen = Rcpp::wrap(matrix_slice_parallel(A, i, row));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rmvnormArma
+arma::mat rmvnormArma(int n, const arma::vec& mean, const arma::mat& sigma);
+RcppExport SEXP _SBMTrees_rmvnormArma(SEXP nSEXP, SEXP meanSEXP, SEXP sigmaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type mean(meanSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type sigma(sigmaSEXP);
+    rcpp_result_gen = Rcpp::wrap(rmvnormArma(n, mean, sigma));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cholArma
+arma::mat cholArma(const arma::mat& sigma);
+RcppExport SEXP _SBMTrees_cholArma(SEXP sigmaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type sigma(sigmaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cholArma(sigma));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rwishart
+arma::mat rwishart(const int df, const arma::mat& S);
+RcppExport SEXP _SBMTrees_rwishart(SEXP dfSEXP, SEXP SSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const int >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type S(SSEXP);
+    rcpp_result_gen = Rcpp::wrap(rwishart(df, S));
+    return rcpp_result_gen;
+END_RCPP
+}
+// riwishArma
+arma::mat riwishArma(const int df, const arma::mat& S);
+RcppExport SEXP _SBMTrees_riwishArma(SEXP dfSEXP, SEXP SSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const int >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type S(SSEXP);
+    rcpp_result_gen = Rcpp::wrap(riwishArma(df, S));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rinvgamma
+double rinvgamma(double a, double b);
+RcppExport SEXP _SBMTrees_rinvgamma(SEXP aSEXP, SEXP bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    Rcpp::traits::input_parameter< double >::type b(bSEXP);
+    rcpp_result_gen = Rcpp::wrap(rinvgamma(a, b));
+    return rcpp_result_gen;
+END_RCPP
+}
+// qinvgamma
+double qinvgamma(double p, double shape, double scale);
+RcppExport SEXP _SBMTrees_qinvgamma(SEXP pSEXP, SEXP shapeSEXP, SEXP scaleSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type shape(shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type scale(scaleSEXP);
+    rcpp_result_gen = Rcpp::wrap(qinvgamma(p, shape, scale));
+    return rcpp_result_gen;
+END_RCPP
+}
+// quadratic_form
+double quadratic_form(NumericMatrix X, NumericVector mu, NumericMatrix Sigma);
+RcppExport SEXP _SBMTrees_quadratic_form(SEXP XSEXP, SEXP muSEXP, SEXP SigmaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Sigma(SigmaSEXP);
+    rcpp_result_gen = Rcpp::wrap(quadratic_form(X, mu, Sigma));
+    return rcpp_result_gen;
+END_RCPP
+}
+// threadSafeSample
+Rcpp::IntegerVector threadSafeSample(const Rcpp::IntegerVector& values, const arma::vec& prob, int n_samples);
+RcppExport SEXP _SBMTrees_threadSafeSample(SEXP valuesSEXP, SEXP probSEXP, SEXP n_samplesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type values(valuesSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type prob(probSEXP);
+    Rcpp::traits::input_parameter< int >::type n_samples(n_samplesSEXP);
+    rcpp_result_gen = Rcpp::wrap(threadSafeSample(values, prob, n_samples));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rowSums_I
+IntegerVector rowSums_I(NumericMatrix mat);
+RcppExport SEXP _SBMTrees_rowSums_I(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(rowSums_I(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_SBMTrees_DP", (DL_FUNC) &_SBMTrees_DP, 5},
@@ -147,6 +647,48 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SBMTrees_sequential_imputation_cpp", (DL_FUNC) &_SBMTrees_sequential_imputation_cpp, 20},
     {"_SBMTrees_BMTrees_mcmc", (DL_FUNC) &_SBMTrees_BMTrees_mcmc, 16},
     {"_SBMTrees_update_Covariance", (DL_FUNC) &_SBMTrees_update_Covariance, 5},
+    {"_SBMTrees_max_d", (DL_FUNC) &_SBMTrees_max_d, 2},
+    {"_SBMTrees_seqD", (DL_FUNC) &_SBMTrees_seqD, 3},
+    {"_SBMTrees_seqC", (DL_FUNC) &_SBMTrees_seqC, 3},
+    {"_SBMTrees_prodC", (DL_FUNC) &_SBMTrees_prodC, 1},
+    {"_SBMTrees_sum_array_by_name", (DL_FUNC) &_SBMTrees_sum_array_by_name, 1},
+    {"_SBMTrees_set_tol", (DL_FUNC) &_SBMTrees_set_tol, 2},
+    {"_SBMTrees_set_value", (DL_FUNC) &_SBMTrees_set_value, 2},
+    {"_SBMTrees_character_vector_equals", (DL_FUNC) &_SBMTrees_character_vector_equals, 2},
+    {"_SBMTrees_row_matrix", (DL_FUNC) &_SBMTrees_row_matrix, 2},
+    {"_SBMTrees_matrix_add", (DL_FUNC) &_SBMTrees_matrix_add, 2},
+    {"_SBMTrees_contains", (DL_FUNC) &_SBMTrees_contains, 2},
+    {"_SBMTrees_contains_index", (DL_FUNC) &_SBMTrees_contains_index, 2},
+    {"_SBMTrees_row_matrix_unique_rowname", (DL_FUNC) &_SBMTrees_row_matrix_unique_rowname, 2},
+    {"_SBMTrees_row_matrix_rowname", (DL_FUNC) &_SBMTrees_row_matrix_rowname, 2},
+    {"_SBMTrees_matrix_mul_scalar", (DL_FUNC) &_SBMTrees_matrix_mul_scalar, 2},
+    {"_SBMTrees_row_matrix_by_rowname", (DL_FUNC) &_SBMTrees_row_matrix_by_rowname, 2},
+    {"_SBMTrees_count_if", (DL_FUNC) &_SBMTrees_count_if, 1},
+    {"_SBMTrees_logic_and", (DL_FUNC) &_SBMTrees_logic_and, 2},
+    {"_SBMTrees_any", (DL_FUNC) &_SBMTrees_any, 1},
+    {"_SBMTrees_solve", (DL_FUNC) &_SBMTrees_solve, 1},
+    {"_SBMTrees_solve_pos_def", (DL_FUNC) &_SBMTrees_solve_pos_def, 1},
+    {"_SBMTrees_matrix_multiply", (DL_FUNC) &_SBMTrees_matrix_multiply, 2},
+    {"_SBMTrees_rtgamma", (DL_FUNC) &_SBMTrees_rtgamma, 5},
+    {"_SBMTrees_make_symmetric", (DL_FUNC) &_SBMTrees_make_symmetric, 1},
+    {"_SBMTrees_vector_mul_generate_matrix", (DL_FUNC) &_SBMTrees_vector_mul_generate_matrix, 1},
+    {"_SBMTrees_make_nonsingular", (DL_FUNC) &_SBMTrees_make_nonsingular, 1},
+    {"_SBMTrees_create_subject_to_B", (DL_FUNC) &_SBMTrees_create_subject_to_B, 1},
+    {"_SBMTrees_create_row_id_to_row", (DL_FUNC) &_SBMTrees_create_row_id_to_row, 1},
+    {"_SBMTrees_innerProduct", (DL_FUNC) &_SBMTrees_innerProduct, 2},
+    {"_SBMTrees_cov", (DL_FUNC) &_SBMTrees_cov, 2},
+    {"_SBMTrees_isPositiveDefinite", (DL_FUNC) &_SBMTrees_isPositiveDefinite, 1},
+    {"_SBMTrees_fix_riwish", (DL_FUNC) &_SBMTrees_fix_riwish, 2},
+    {"_SBMTrees_matrix_slice_parallel", (DL_FUNC) &_SBMTrees_matrix_slice_parallel, 3},
+    {"_SBMTrees_rmvnormArma", (DL_FUNC) &_SBMTrees_rmvnormArma, 3},
+    {"_SBMTrees_cholArma", (DL_FUNC) &_SBMTrees_cholArma, 1},
+    {"_SBMTrees_rwishart", (DL_FUNC) &_SBMTrees_rwishart, 2},
+    {"_SBMTrees_riwishArma", (DL_FUNC) &_SBMTrees_riwishArma, 2},
+    {"_SBMTrees_rinvgamma", (DL_FUNC) &_SBMTrees_rinvgamma, 2},
+    {"_SBMTrees_qinvgamma", (DL_FUNC) &_SBMTrees_qinvgamma, 3},
+    {"_SBMTrees_quadratic_form", (DL_FUNC) &_SBMTrees_quadratic_form, 3},
+    {"_SBMTrees_threadSafeSample", (DL_FUNC) &_SBMTrees_threadSafeSample, 3},
+    {"_SBMTrees_rowSums_I", (DL_FUNC) &_SBMTrees_rowSums_I, 1},
     {NULL, NULL, 0}
 };
 

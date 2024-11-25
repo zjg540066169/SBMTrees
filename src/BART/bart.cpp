@@ -21,34 +21,6 @@
 #include "treefuns.h"
 #include "bart.h"
 
-//--------------------------------------------------
-//------------------------------------
-
-//--------------------------------------------------
-
-//--------------------------------------------------
-
-//--------------------------------------------------
-// void bart::draw(double sigma, rn& gen)
-// {
-//    for(size_t j=0;j<m;j++) {
-//       fit2(t[j],xi,p,n,x,ftemp);
-//       for(size_t k=0;k<n;k++) {
-//          allfit[k] = allfit[k]-ftemp[k];
-//          r[k] = y[k]-allfit[k];
-//       }
-//       bd(t[j],xi,di,pi,sigma,nv,pv,aug,gen);
-//       drmu(t[j],xi,di,pi,sigma,gen);
-//       fit2(t[j],xi,p,n,x,ftemp);
-//       for(size_t k=0;k<n;k++) allfit[k] += ftemp[k];
-//    }
-//    if(dartOn) {
-//      draw_s(nv,lpv,theta,gen);
-//      draw_theta0(const_theta,theta,lpv,a,b,rho,gen);
-//      for(size_t j=0;j<p;j++) pv[j]=::exp(lpv[j]);
-//    }
-// }
-//--------------------------------------------------
 //public functions
 void bart::pr() //print to screen
 {
