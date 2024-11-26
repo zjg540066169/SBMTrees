@@ -253,6 +253,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
   CharacterVector X_names = colnames(X);
   
   for(int i = 0; i < p; ++i){
+    Rcout << i << std::endl;
     if(i == p - 1){
       // fit outcome model
       NumericVector Y_obs = Y[no_loss_ind];

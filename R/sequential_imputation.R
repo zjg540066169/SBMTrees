@@ -115,7 +115,6 @@ apply_locf_nocb <- function(X, subject_id) {
 #'
 #' @examples 
 #' \dontrun{
-#' library(SBMTrees)
 #' data <- simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, nonresidual = TRUE, alligned = FALSE) 
 #' X_mis <- data$X_mis
 #' Y_mis <- data$Y_mis

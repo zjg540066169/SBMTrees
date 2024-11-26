@@ -119,52 +119,52 @@ public:
     tau_samples = NumericVector(N);
     B_tau_samples = NumericMatrix(n_subject, d);
 
-    List lmm = get_inverse_wishart_matrix2(this->X, this->Y, z, subject_id, subject_to_B);
-    NumericMatrix coe = as<NumericMatrix>(lmm["coe"]);
-    inverse_wishart_matrix = as<NumericMatrix>(lmm["covariance"]);
-    if(CDP_re){
-      M_re = pow(n_subject, (double)(runif(1, 0, 0.5)[0]));
-      B_tau = DP(List::create(Named("p") = d, Named("cov") = as<NumericMatrix>(inverse_wishart_matrix)), M_re, sqrt(n_subject), n_subject, true);
-      B_tau_samples = as<NumericMatrix>(B_tau["samples"]);
-      Covariance = as<NumericMatrix>(B_tau["Sigma"]);
-    }
-    if(CDP_residual){
-      M = pow(N, (double)(runif(1, 0, 0.5)[0]));
-      if(binary){
-        if(CDP_re)
-          tau = DP(List::create(Named("p") = 1, Named("sd") = 1, Named("pi") = pi_CDP), M, sqrt(N), N, true);
-        else
-          tau = DP(List::create(Named("p") = 1, Named("sd") = 1, Named("pi") = pi_CDP), M, sqrt(N), N, true);
-      }else{
-        if(CDP_re)
-          tau = DP(List::create(Named("p") = 1, Named("sd") = (double)lmm["sigma"], Named("pi") = pi_CDP), M, sqrt(N), N, true);
-        else
-          tau = DP(List::create(Named("p") = 1, Named("sd") = (double)lmm["sigma"], Named("pi") = pi_CDP), M, sqrt(N), N, true);
-      }
-      sigma = as<double>(tau["sigma"]);
-      tau_samples = NumericVector(as<NumericMatrix>(tau["samples"])(_,0));
-      //Rcout << "initialization" << std::endl;
-      //Rcout << tau_samples << std::endl;
-    }
+    // List lmm = get_inverse_wishart_matrix2(this->X, this->Y, z, subject_id, subject_to_B);
+    // NumericMatrix coe = as<NumericMatrix>(lmm["coe"]);
+    // inverse_wishart_matrix = as<NumericMatrix>(lmm["covariance"]);
+    // if(CDP_re){
+    //   M_re = pow(n_subject, (double)(runif(1, 0, 0.5)[0]));
+    //   B_tau = DP(List::create(Named("p") = d, Named("cov") = as<NumericMatrix>(inverse_wishart_matrix)), M_re, sqrt(n_subject), n_subject, true);
+    //   B_tau_samples = as<NumericMatrix>(B_tau["samples"]);
+    //   Covariance = as<NumericMatrix>(B_tau["Sigma"]);
+    // }
+    // if(CDP_residual){
+    //   M = pow(N, (double)(runif(1, 0, 0.5)[0]));
+    //   if(binary){
+    //     if(CDP_re)
+    //       tau = DP(List::create(Named("p") = 1, Named("sd") = 1, Named("pi") = pi_CDP), M, sqrt(N), N, true);
+    //     else
+    //       tau = DP(List::create(Named("p") = 1, Named("sd") = 1, Named("pi") = pi_CDP), M, sqrt(N), N, true);
+    //   }else{
+    //     if(CDP_re)
+    //       tau = DP(List::create(Named("p") = 1, Named("sd") = (double)lmm["sigma"], Named("pi") = pi_CDP), M, sqrt(N), N, true);
+    //     else
+    //       tau = DP(List::create(Named("p") = 1, Named("sd") = (double)lmm["sigma"], Named("pi") = pi_CDP), M, sqrt(N), N, true);
+    //   }
+    //   sigma = as<double>(tau["sigma"]);
+    //   tau_samples = NumericVector(as<NumericMatrix>(tau["samples"])(_,0));
+    //   //Rcout << "initialization" << std::endl;
+    //   //Rcout << tau_samples << std::endl;
+    // }
+    // // 
+    // if(!CDP_re)
+    //   Covariance = inverse_wishart_matrix;
+    // B = NumericMatrix(n_subject, d);
+    // //B = coe;
     // 
-    if(!CDP_re)
-      Covariance = inverse_wishart_matrix;
-    B = NumericMatrix(n_subject, d);
-    //B = coe;
-
-    re = cal_random_effects(z, subject_id, B, subject_to_B);
-    tree = new bart_model(this->X, this->Y - re - tau_samples, 100L, false, false, false,  ntrees);
-    if(CDP_residual){
-      tree -> update(sigma, 50, 50, 1, false, 10L);
-    }else{
-      tree -> update(50, 50, 1, false, 10L);
-    }
-    tree_pre = colMeans(tree->predict(this->X));
-    if(CDP_re || CDP_residual)
-      tree_pre_mean = mean(tree_pre);
-    else
-      tree_pre_mean = 0;
-    tree_pre = tree_pre - tree_pre_mean;
+    // re = cal_random_effects(z, subject_id, B, subject_to_B);
+    // tree = new bart_model(this->X, this->Y - re - tau_samples, 100L, false, false, false,  ntrees);
+    // if(CDP_residual){
+    //   tree -> update(sigma, 50, 50, 1, false, 10L);
+    // }else{
+    //   tree -> update(50, 50, 1, false, 10L);
+    // }
+    // tree_pre = colMeans(tree->predict(this->X));
+    // if(CDP_re || CDP_residual)
+    //   tree_pre_mean = mean(tree_pre);
+    // else
+    //   tree_pre_mean = 0;
+    // tree_pre = tree_pre - tree_pre_mean;
   }
 
   
