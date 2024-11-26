@@ -251,7 +251,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     }
   }
   CharacterVector X_names = colnames(X);
-  
+  return List::create();
   for(int i = 0; i < p; ++i){
     Rcout << i << std::endl;
     if(i == p - 1){

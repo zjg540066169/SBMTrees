@@ -12,7 +12,7 @@ Right now, the package has not been uploaded to Rcran yet, so please install thi
 ```
 require("devtools")
 install_github("https://github.com/zjg540066169/SBMtrees")
-library(SBMtrees)
+library(SBMTrees)
 ```
 
 ## Models
