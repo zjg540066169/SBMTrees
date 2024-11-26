@@ -156,9 +156,9 @@ public:
   
   bart_model(NumericMatrix x_train, NumericVector y_train, long numcut=100L, bool usequants = false, bool cont = false, bool rm_const = false, int ntrees = 300, Nullable<double> sigmaf = R_NilValue, double k = 2.0, double power = 2, double base = 0.95, double nu = 3){
     //Rcout << 123 << std::endl;
-    G = Rcpp::Environment::global_env();
+    //G = Rcpp::Environment::global_env();
     //Rcout << 123 << std::endl;
-    Function bartModelMatrix = G["bartModelMatrix"];
+    Function bartModelMatrix = Environment::namespace_env("SBMTrees")["bartModelMatrix"];
     //Rcout << 123 << std::endl;
     this->usequants = usequants;
     this->cont = cont;
