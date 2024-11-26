@@ -22,20 +22,8 @@
 #include "DP_sampler.h"
 #endif
 
-#ifndef Parallel_H_
-#define Parallel_H_
-#include <RcppParallel.h>
-// [[Rcpp::depends(RcppParallel)]]
-#endif
-
-
-#ifdef _OPENMP
-#include <omp.h>
-#endif
-
 
 using namespace Rcpp;
-using namespace RcppParallel;
 
 // [[Rcpp::export]]
 List DP(List parameters, double M, long N_truncated, long N_sample, bool CDP = true){
@@ -90,10 +78,8 @@ List update_DP_normal(NumericMatrix X, List tau, double L = -1, double U = 2){
   long N = X.nrow();
   if(strcmp(parameters["distribution"], "normal") == 0){
     int p = as<int>(parameters["p"]);
-    //Rcout << p << std::endl;
     double sigma = 1;
     NumericMatrix Sigma;
-    //if(p == 1){
     if(parameters.containsElementNamed("sd")){
       sigma = tau["sigma"];
     }else{
@@ -106,18 +92,11 @@ List update_DP_normal(NumericMatrix X, List tau, double L = -1, double U = 2){
     NumericMatrix y = tau["y"];
     bool CDP = parameters["CDP"];
     double lambda = tau["lambda"];
-    //if(p == 1){
-    //Rcout << "update lambda" << std::endl;
     if(parameters.containsElementNamed("sd")){
-      //Rcout << as<double>(parameters["b"]) + innerProduct(y - as<double>(parameters["mu"]), y - as<double>(parameters["mu"])) / 2 / pow(sigma, 2) <<std::endl;
-      
       lambda = rinvgamma(y.length() / 2 + as<double>(parameters["a"]), as<double>(parameters["b"]) + innerProduct(y - as<double>(parameters["mu"]), y - as<double>(parameters["mu"])) / 2 / pow(sigma, 2));
     }else{
       lambda = rinvgamma(y.length() / 2 + as<double>(parameters["a"]), as<double>(parameters["b"]) + quadratic_form(y, as<NumericVector>(parameters["mu"]), Sigma) / 2);
     }
-    //Rcout << "complete update lambda" << std::endl;
-    //Rcout << "update cluster probability" << std::endl;
-    
    for(int i = 0 ; i < X.rows(); ++i){
      NumericVector log_density(y.nrow());
      NumericVector X_row = X(i, _);

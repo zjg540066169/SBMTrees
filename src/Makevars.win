@@ -5,11 +5,7 @@
 PKG_CPPFLAGS = -I../inst/include/
 
 ## Base flags for C++ compilation
-PKG_CXXFLAGS = -DRCPP_PARALLEL_USE_TBB=1
+PKG_CXXFLAGS =
 
-## Add OpenMP flags for Windows
-PKG_CXXFLAGS += -fopenmp
-PKG_LIBS += -fopenmp
-
-## Include RcppParallel libraries
-PKG_LIBS += $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "RcppParallel::RcppParallelLibs()")
+## Link libraries
+PKG_LIBS =

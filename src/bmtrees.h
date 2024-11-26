@@ -146,7 +146,7 @@ public:
       //Rcout << "initialization" << std::endl;
       //Rcout << tau_samples << std::endl;
     }
-
+    // 
     if(!CDP_re)
       Covariance = inverse_wishart_matrix;
     B = NumericMatrix(n_subject, d);
@@ -159,20 +159,14 @@ public:
     }else{
       tree -> update(50, 50, 1, false, 10L);
     }
-
     tree_pre = colMeans(tree->predict(this->X));
     if(CDP_re || CDP_residual)
       tree_pre_mean = mean(tree_pre);
     else
       tree_pre_mean = 0;
     tree_pre = tree_pre - tree_pre_mean;
-    
-    
-    //B_arma = as<arma::mat>(B);
-    //Z_arma = as<arma::mat>(Z);
   }
-  
-  //List a_test;
+
   
   NumericVector get_Y(){
     return this->Y;

@@ -422,5 +422,5 @@ simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE
   }
   
   
-  return(list(Y_mis = Y, Y_O = Y_O, X_O = X_O, X_mis = X_mis, Z = Z_O, subject_id = subject_id, time = time))
+  return(list(Y_mis = Y, Y_O = Y_O, X_O = as.matrix(X_O), X_mis = as.matrix(X_mis), Z = Z_O, subject_id = subject_id, time = time))
 }

@@ -9,7 +9,6 @@
 #include "create_subject_to_B.h"
 #include "DP.h"
 #include "cal_random_effects.h"
-//#include "update_BART.h"
 #include "update_B.h"
 #include "update_Covariance.h"
 #include <cmath>
@@ -18,9 +17,9 @@
 #include <vector>
 #include <ctime>
 
-#ifdef _OPENMP
-#include <omp.h>
-#endif
+// #ifdef _OPENMP
+// #include <omp.h>
+// #endif
 
 // [[Rcpp::depends(RcppProgress)]]
 #include <progress.hpp>
@@ -275,7 +274,6 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     IntegerVector row_id_obs = seqC(1, y_t.length())[no_loss_ind];
     chain_collection.push_back(bmtrees(clone(y_train), clone(X_train), clone(Z_train), clone(subject_id_train), clone(row_id_obs), type[i+1], CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP));
   }
-  NumericMatrix post_tau_sigma (npost, chain_collection.size());
   if (verbose){
     Rcout << "Complete initialization" << std::endl;
     Rcout << std::endl;
@@ -317,45 +315,22 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
         }
       }
     }
-    
-#ifndef _OPENMP
-    if(verbose)
-      Rcout << "OpenMP" << std::endl;
-#pragma omp parallel for num_threads(ncores)
-    for(int i = 0; i < p; ++i){
-      if(i == p - 1 ){
-        chain_collection[i].update_all(false);
-      }else{
-        if(sum(R(_, i + 1)) != 0){
-          chain_collection[i].update_all(false);
-          
-        }
-      }
-    }
-#else
     if(verbose)
       Rcout << "single core" << std::endl;
     for(int i = 0; i < p; ++i){
       if(i == p - 1 ){
         if(verbose)
-          Rcout << "fit outcome model" << std::endl; 
+          Rcout << "fit outcome model" << std::endl;
         chain_collection[i].update_all(false);
-        if(step - nburn >= 0){
-          post_tau_sigma(step - nburn, i) = chain_collection[i].get_tau_sigma();
-        }
       }else{
         if(sum(R(_, i + 1)) != 0){
           if(verbose)
-            Rcout << "fit model for " << i + 1 + int(!intercept) << "th covariates" << std::endl; 
+            Rcout << "fit model for " << i + 1 + int(!intercept) << "th covariates" << std::endl;
           chain_collection[i].update_all(false);
-          if(step - nburn >= 0){
-            post_tau_sigma(step - nburn, i) = chain_collection[i].get_tau_sigma();
-          }
         }
       }
     }
-#endif
-    
+
     if(verbose){
       Rcout << "Finish model training" << std::endl;
       Rcout << std::endl;
@@ -388,8 +363,8 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
         }
       }
     }
-
-
+    // 
+    // 
     // imputation propose
     for (int i = 0; i < p - 1; ++i) {
       if(verbose){

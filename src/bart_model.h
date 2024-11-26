@@ -581,10 +581,11 @@ SEXP bart_train(NumericMatrix X, NumericVector Y, long nburn = 100, long npost =
   bart_model * m;
   m = new bart_model(X, Y);
   List a;
+  NumericMatrix y_pre;
   for(int i = 0 ; i < nburn + npost; ++i){
     a = m -> update(1, 1, 1, verbose);
     m->set_data(X, Y);
-    NumericMatrix y_pre = m->predict(X);
+    y_pre = m->predict(X);
   }
   
   
@@ -594,7 +595,7 @@ SEXP bart_train(NumericMatrix X, NumericVector Y, long nburn = 100, long npost =
   //a = m->update(nburn, npost, 3, verbose);
   //List b = m.update(nburn, npost, 3, verbose);
   //return m -> get_tree_object();
-  return List::create(Named("p") = m ->predict(X, true), Named("y") = a);
+  return List::create(Named("p") = m ->predict(X, true), Named("y_pre") = y_pre);
   //return List();
   //return m.update(sigma, 100, 1, 1, true);
 }

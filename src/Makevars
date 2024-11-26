@@ -2,14 +2,10 @@
 # CXX_STD = CXX11
 
 ## Include headers
-PKG_CPPFLAGS = -I../inst/include/ -I/opt/homebrew/opt/tbb/include
-PKG_LIBS = -L/opt/homebrew/opt/tbb/lib -ltbb
+PKG_CPPFLAGS = -I../inst/include/
+
 ## Base flags for C++ compilation
-PKG_CXXFLAGS = -DRCPP_PARALLEL_USE_TBB=1
+PKG_CXXFLAGS =
 
-## Include RcppParallel libraries
-PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "RcppParallel::RcppParallelLibs()")
-
-## Include headers and libraries for TBB
-
-
+## Link libraries
+PKG_LIBS =
