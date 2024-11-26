@@ -82,7 +82,6 @@ employs a Metropolis-Hastings MCMC method to sequentially impute missing values.
 }
 \examples{
 \dontrun{
-library(SBMTrees)
 data <- simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, nonresidual = TRUE, alligned = FALSE) 
 X_mis <- data$X_mis
 Y_mis <- data$Y_mis
