@@ -113,7 +113,8 @@ apply_locf_nocb <- function(X, subject_id) {
 #' random effects and errors, addresses model misspecification, and captures complex relationships. The function 
 #' employs a Metropolis-Hastings MCMC method to sequentially impute missing values.
 #'
-#' @examples 
+#' @examples
+#' \dontrun{ 
 #' data <- simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, nonresidual = TRUE, alligned = FALSE) 
 #' X_mis <- data$X_mis
 #' Y_mis <- data$Y_mis
@@ -124,7 +125,7 @@ apply_locf_nocb <- function(X, subject_id) {
 #'                                 model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, 
 #'                                 verbose = TRUE, seed = 123)
 #' model$imputed_data
-#'
+#' }
 #' @rdname sequential_imputation
 #' @export
 #' @useDynLib SBMTrees, .registration = TRUE

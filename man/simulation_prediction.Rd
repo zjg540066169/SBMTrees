@@ -26,14 +26,17 @@ simulation_prediction(
 \value{
 A list containing:
 \describe{
+\item{\code{Y_test_true}}{True values of the vector of outcomes in the testing set.}
 \item{\code{X_train}}{Matrix of covariates in the training set.}
 \item{\code{Y_train}}{Vector of outcomes in the training set.}
 \item{\code{Z_train}}{Matrix of random predictors in the training set.}
 \item{\code{subject_id_train}}{Vector of subject IDs in the training set.}
+\item{\code{time_train}}{Vector of time point in the training set.}
 \item{\code{X_test}}{Matrix of covariates in the testing set.}
 \item{\code{Y_test}}{Vector of outcomes in the testing set.}
 \item{\code{Z_test}}{Matrix of random predictors in the testing set.}
 \item{\code{subject_id_test}}{Vector of subject IDs in the testing set.}
+\item{\code{time_test}}{Vector of time point in the testing set.}
 }
 }
 \description{
@@ -67,6 +70,8 @@ testing set, while the remaining 60\% constitutes the training set.
   Y_test <- data$Y_test
   Z_test <- data$Z_test
   subject_id_test <- data$subject_id_test
+  
+  Y_test_true = data$Y_test_true
 
 }
 \seealso{

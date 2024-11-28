@@ -11,14 +11,17 @@
 #' @param nonresidual Logical value indicating whether the residuals are non-normal. Default: \code{FALSE}.
 #' @return A list containing:
 #' \describe{
+#'   \item{\code{Y_test_true}}{True values of the vector of outcomes in the testing set.}
 #'   \item{\code{X_train}}{Matrix of covariates in the training set.}
 #'   \item{\code{Y_train}}{Vector of outcomes in the training set.}
 #'   \item{\code{Z_train}}{Matrix of random predictors in the training set.}
 #'   \item{\code{subject_id_train}}{Vector of subject IDs in the training set.}
+#'   \item{\code{time_train}}{Vector of time point in the training set.}
 #'   \item{\code{X_test}}{Matrix of covariates in the testing set.}
 #'   \item{\code{Y_test}}{Vector of outcomes in the testing set.}
 #'   \item{\code{Z_test}}{Matrix of random predictors in the testing set.}
 #'   \item{\code{subject_id_test}}{Vector of subject IDs in the testing set.}
+#'   \item{\code{time_test}}{Vector of time point in the testing set.}
 #' }
 #'
 #' @details The function creates a dataset with individuals observed at 6 follow-up time points. It allows 
@@ -45,6 +48,8 @@
 #'   Y_test <- data$Y_test
 #'   Z_test <- data$Z_test
 #'   subject_id_test <- data$subject_id_test
+#'   
+#'   Y_test_true = data$Y_test_true
 #'
 #' @seealso 
 #'  \code{\link[mvtnorm]{Mvnorm}}
@@ -266,8 +271,22 @@ simulation_prediction = function(n_subject = 800, seed = 123, nonlinear = FALSE,
     re = re[!subject_id %in% omit_sub]
     subject_id = subject_id[!subject_id %in% omit_sub]
   }
+  training_indicator = !is.na(Y)
+  X_train = X[training_indicator,]
+  Y_train = Y[training_indicator]
+  Z_train = Z_O[training_indicator,]
+  subject_id_train = subject_id[training_indicator]
+  time_train = trajectory[training_indicator]
   
-  return(list(Y_O = Y_copy, Y = Y, X = X, Z = Z_O, subject_id = subject_id, time = trajectory))
+  X_test = X[!training_indicator,]
+  Y_test = Y[!training_indicator]
+  Z_test = Z_O[!training_indicator,]
+  subject_id_test = subject_id[!training_indicator]
+  time_test = trajectory[!training_indicator]
+  
+  Y_test_true = Y_O[!training_indicator]
+  
+  return(list(Y_test_true = Y_test_true, X_train = X_train, Y_train = Y_train, Z_train = Z_train, subject_id_train = subject_id_train, time_train = time_train, X_test = X_test, Y_test = Y_test, Z_test = Z_test, subject_id_test = subject_id_test, time_test = time_test))
 }
 
 
