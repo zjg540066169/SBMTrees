@@ -71,8 +71,15 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     }
   }
   CharacterVector X_names = colnames(X);
+  if (verbose){
+    Rcout << "Start initializing models" << std::endl;
+    Rcout << std::endl;
+  }
+  Progress progin(p, !verbose);
   for(int i = 0; i < p; ++i){
-    Rcout << i << std::endl;
+    if (Progress::check_abort() )
+      return -1.0;
+    progin.increment();
     if(i == p - 1){
       // fit outcome model
       NumericVector Y_obs = Y[no_loss_ind];
