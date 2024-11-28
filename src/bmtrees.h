@@ -113,7 +113,8 @@ public:
 
     tau_samples = NumericVector(N);
     B_tau_samples = NumericMatrix(n_subject, d);
-    Function get_inverse_wishart_matrix2 = Environment::namespace_env("SBMTrees")["get_inverse_wishart_matrix2"];
+    Environment pkg_env = Environment::namespace_env("SBMTrees");
+    Function get_inverse_wishart_matrix2 = pkg_env["get_inverse_wishart_matrix2"];
     List lmm = get_inverse_wishart_matrix2(this->X, this->Y, z, subject_id, subject_to_B);
     NumericMatrix coe = as<NumericMatrix>(lmm["coe"]);
     inverse_wishart_matrix = as<NumericMatrix>(lmm["covariance"]);

@@ -22,7 +22,8 @@ Imports:
     mvtnorm,
     sn,
     tidyr,
-    mice
+    mice,
+    nnet
 LinkingTo: 
     Rcpp, 
     RcppArmadillo,
