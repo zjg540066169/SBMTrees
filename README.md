@@ -77,6 +77,8 @@ X_test = data$X_test # get predictors in testing set
 Y_test = data$Y_test # get outcomes in testing set
 Z_test = data$Z_test # get random predictors in testing set
 subject_id_test = data$subject_id_test # get subject id in testing set
+
+Y_test_true = data$Y_test_true # get ground truth
 ```
 
 After we get data, we can run the prediction model based on function `BMTrees_prediction(X_train, Y_train, Z_train, subject_id_train, X_test, Z_test, subject_id_test, model = c("BMTrees", "BMTrees_R", "BMTrees_RE", "mixedBART"), binary = FALSE, nburn = 3000L, npost = 4000L, skip = 1L, verbose = TRUE, seed, tol = 1e-20, resample = 5, ntrees = 200, pi_CDP = 0.99)`. These parameters are:
