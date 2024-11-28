@@ -88,7 +88,7 @@ Z <- data$Z
 subject_id <- data$subject_id
 
 model <- sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), binary_outcome = FALSE, 
-                                model = "BMTrees", nburn = 30L, npost = 40L, skip = 1L, 
+                                model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, 
                                 verbose = TRUE, seed = 123)
 model$imputed_data
 

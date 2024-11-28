@@ -9,7 +9,7 @@ makePositiveDefinite <- function(A, epsilon = 1e-8) {
 
 get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary = F){
   
-  constant_cols <- apply(X, 2, function(x) var(x) == 0)
+  constant_cols <- apply(X, 2, function(x) stats::var(x) == 0)
   non_constant_cols <- !constant_cols
   X[, constant_cols] = scale(X[, constant_cols], center = TRUE, scale = FALSE)
   X[, non_constant_cols] <- scale(X[, non_constant_cols])
@@ -19,7 +19,7 @@ get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary
     coe = as.matrix(lme4::ranef(lmm)[[1]])
     coe = (coe[names(subject_to_B),])
   }else{
-    suppressMessages(lmm <- lme4::glmer(as.factor(Y) ~ 0 + X + (0 + Z|subject_id), family = binomial(link = "logit")))
+    suppressMessages(lmm <- lme4::glmer(as.factor(Y) ~ 0 + X + (0 + Z|subject_id), family = stats::binomial(link = "logit")))
     coe = as.matrix(lme4::ranef(lmm)[[1]])
     coe = (coe[names(subject_to_B),])
   }
@@ -57,7 +57,7 @@ get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary
     co = (co + t(co)) / 2
     
   }
-  return(list(coe = as.matrix(coe), sigma = sigma(lmm), covariance = as.matrix(co)))
+  return(list(coe = as.matrix(coe), sigma = stats::sigma(lmm), covariance = as.matrix(co)))
 }
 
 bartModelMatrix=function(X, numcut=0L, usequants=FALSE, type=7,
@@ -132,7 +132,7 @@ bartModelMatrix=function(X, numcut=0L, usequants=FALSE, type=7,
           nc[j] <- k-1
         }
         else if(usequants) { 
-          xs <- quantile(X[ , j], type=type,
+          xs <- stats::quantile(X[ , j], type=type,
                          probs=(0:(numcut+1))/(numcut+1))[-c(1, numcut+2)]
           names(xs) <- NULL
         }
