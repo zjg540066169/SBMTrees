@@ -378,7 +378,7 @@ simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE
   
   X_O = data_O[,3:12]
   X_mis = b[,3:12]
-  print(rbind(sapply(7:10, function(p) mean(unlist(X_O[is.na(X_mis)[,p], p]))), sapply(7:10, function(p) mean(unlist(X_O[!is.na(X_mis)[,p], p])))))
+  #print(rbind(sapply(7:10, function(p) mean(unlist(X_O[is.na(X_mis)[,p], p]))), sapply(7:10, function(p) mean(unlist(X_O[!is.na(X_mis)[,p], p])))))
   
 
   

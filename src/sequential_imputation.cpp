@@ -102,6 +102,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     chain_collection.push_back(bmtrees(clone(y_train), clone(X_train), clone(Z_train), clone(subject_id_train), clone(row_id_obs), type[i+1], CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP));
   }
   if (verbose){
+    Rcout << std::endl;
     Rcout << "Complete initialization" << std::endl;
     Rcout << std::endl;
   }
@@ -402,7 +403,10 @@ List BMTrees_mcmc(NumericMatrix X, NumericVector Y, Nullable<NumericMatrix> Z, C
   List B_tau;
   Progress progr(nburn + npost, !verbose);
   for(int i = 0 ; i < nburn + npost; ++i){
-    
+    if(verbose){
+      Rcout << std::endl;
+      Rcout << "*********************************************" << std::endl;
+    }
     if (Progress::check_abort() )
       return -1.0;
     progr.increment();
@@ -442,6 +446,11 @@ List BMTrees_mcmc(NumericMatrix X, NumericVector Y, Nullable<NumericMatrix> Z, C
       }
       post_tau_samples(i - nburn, _) = as<NumericVector>(post_sample["tau_samples"]);
       post_B_tau_samples(i - nburn, _) = as<NumericVector>(post_sample["B_tau_samples"]);
+    }
+    
+    if(verbose){
+      Rcout << "*********************************************" << std::endl;
+      Rcout << std::endl;
     }
   }
   return List::create(

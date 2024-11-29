@@ -28,7 +28,8 @@
 \examples{
   \dontrun{
      ## Example of predicting longitudinal outcomes
-     data <- simulation_prediction(n_subject = 800, seed = 123, nonlinear = TRUE, nonrandeff = TRUE, nonresidual = TRUE)
+     data <- simulation_prediction(n_subject = 800, seed = 123, nonlinear = TRUE,
+             nonrandeff = TRUE, nonresidual = TRUE)
      X_train <- data$X_train
      Y_train <- data$Y_train
      Z_train <- data$Z_train
@@ -38,20 +39,22 @@
      Z_test <- data$Z_test
      subject_id_test <- data$subject_id_test
 
-     model <- BMTrees_prediction(X_train, Y_train, Z_train, subject_id_train, X_test, Z_test, subject_id_test, model = "BMTrees")
+     model <- BMTrees_prediction(X_train, Y_train, Z_train, subject_id_train, 
+              X_test, Z_test, subject_id_test, model = "BMTrees")
      model$post_predictive_y_test
      
      
      
-     data2 = simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, nonresidual = TRUE, alligned = F) 
+     data2 = simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, 
+             nonresidual = TRUE, alligned = F) 
      X_mis = data2$X_mis # get missing covariates
      Y_mis = data2$Y_mis # get missing outcomes
      Z = data2$Z # get random predictors
      subject_id = data2$subject_id  # get subject id
 
-     X_O = data2$X_O # get the original covariates matrix which is complete, for evaluation
-     Y_O = data2$Y_O # get the original outcome which is complete, for evaluation
-     model = sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), F, model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, verbose = TRUE, seed = 123)
+     model = sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), F, 
+             model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, 
+             verbose = TRUE, seed = 123)
      model$imputed_data
      model$imputed_data[,,10] # get imputed outcomes.
   }

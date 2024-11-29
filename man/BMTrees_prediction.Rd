@@ -89,9 +89,6 @@ Provides predictions for outcomes in longitudinal data using Bayesian Trees
 Mixed-Effects Models (BMTrees) and its semiparametric variants. The function predicts values for test
 data while accounting for random effects, complex relationships, and potential model misspecification.
 }
-\details{
-The \code{BMTrees_prediction} function is designed for predicting longitudinal outcomes.
-}
 \examples{
 data = simulation_prediction(n_subject = 800, seed = 123, nonlinear = TRUE, 
 nonrandeff = TRUE, nonresidual = TRUE) 

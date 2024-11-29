@@ -34,5 +34,6 @@ RoxygenNote: 7.3.2
 SystemRequirements: GNU make
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    mitml
 VignetteBuilder: knitr
