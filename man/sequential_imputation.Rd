@@ -81,12 +81,10 @@ random effects and errors, addresses model misspecification, and captures comple
 employs a Metropolis-Hastings MCMC method to sequentially impute missing values.
 }
 \examples{
-\dontrun{ 
 data <- simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, 
         nonresidual = TRUE, alligned = FALSE) 
 model <- sequential_imputation(data$X_mis, data$Y_mis, data$Z, data$subject_id, 
         rep(0, 9), binary_outcome = FALSE, model = "BMTrees", nburn = 3000L, 
         npost = 4000L, skip = 200L, verbose = TRUE, seed = 123)
 model$imputed_data
-}
 }

@@ -50,7 +50,7 @@
 #' nonrandeff = TRUE, nonresidual = TRUE) 
 #' model = BMTrees_prediction(data$X_train, data$Y_train, data$Z_train, 
 #' data$subject_id_train, data$X_test, data$Z_test, data$subject_id_test, model = "BMTrees", 
-#' binary = FALSE, nburn = 30L, npost = 40L, skip = 1L, verbose = TRUE, seed = 123)
+#' binary = FALSE, nburn = 3000L, npost = 4000L, skip = 1L, verbose = TRUE, seed = 123)
 #' model$post_predictive_y_test
 #' model$post_sigma
 #'
@@ -82,11 +82,3 @@ BMTrees_prediction = function(X_train, Y_train, Z_train, subject_id_train, X_tes
     model = BMTrees_mcmc(X, Y, Z, subject_id, obs_ind, binary, nburn, npost, verbose, T, T, seed, tol, ntrees, resample, pi_CDP)
   return(list(post_tree_train = model$post_x_hat, post_Sigma = model$post_Sigma, post_lambda_F = model$post_lambda, post_lambda_G = model$post_B_lambda, post_B = model$post_B, post_random_effect_train = model$post_random_effect, post_sigma = model$post_sigma, post_expectation_y_train = model$post_y_expectation, post_expectation_y_test = model$post_y_expectation_test, post_predictive_y_train = model$post_y_sample, post_predictive_y_test = model$post_y_sample_test, post_eta = model$post_tau_samples, post_mu = model$post_B_tau_samples))
 }
-
-#model = BMTrees_prediction(X_train, Y_train, Z_train, subject_id_train, X_test, Z_test, subject_id_test, model = "BMTrees", binary = FALSE, nburn = 30L, npost = 40L, skip = 1L, verbose = TRUE, seed = 123)
-#model$post_predictive_y_test
-#odel$post_sigma
-
-
-
-
