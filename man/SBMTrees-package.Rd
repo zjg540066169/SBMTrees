@@ -12,6 +12,7 @@
   SBMTrees offers tools for predicting and imputing missing values in longitudinal data using Bayesian Trees Mixed-Effects Models. The package supports various semiparametric variants, including BMTrees_R and BMTrees_RE, and integrates mixedBART as a baseline model. Key functionalities include:
 
   - \code{BMTrees_prediction}: Predicts longitudinal outcomes based on mixed-effects models.
+  
   - \code{sequential_imputation}: Imputes missing covariates and outcomes sequentially in longitudinal datasets.
 
   The package supports flexibility in specifying priors for random effects and errors, making it suitable for diverse longitudinal data settings. Core computations leverage efficient Gibbs samplers implemented in C++.
@@ -52,10 +53,10 @@
      Z = data2$Z # get random predictors
      subject_id = data2$subject_id  # get subject id
 
-     model = sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), F, 
+     model2 = sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), F, 
              model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, 
              verbose = TRUE, seed = 123)
-     model$imputed_data
-     model$imputed_data[,,10] # get imputed outcomes.
+     model2$imputed_data
+     model2$imputed_data[,,10] # get imputed outcomes.
   }
 }

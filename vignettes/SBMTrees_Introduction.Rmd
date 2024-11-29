@@ -136,9 +136,9 @@ imputed_model <- sequential_imputation(
   type = rep(0, ncol(X_mis)), 
   binary_outcome = FALSE, 
   model = "BMTrees", 
-  nburn = 3L, 
-  npost = 4L, 
-  skip = 2L, 
+  nburn = 3000L, 
+  npost = 400L, 
+  skip = 200L, 
   verbose = FALSE, 
   seed = 123
 )
