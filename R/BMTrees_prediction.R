@@ -44,7 +44,6 @@
 #'   \item{post_mu}{Posterior samples of location parameters in CDP normal mixture on random effects.}
 #' }
 #'
-#' @details The `BMTrees_prediction` function is designed for predicting longitudinal outcomes. 
 #'
 #' @examples
 #' data = simulation_prediction(n_subject = 800, seed = 123, nonlinear = TRUE, 
