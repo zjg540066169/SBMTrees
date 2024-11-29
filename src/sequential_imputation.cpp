@@ -379,6 +379,7 @@ List BMTrees_mcmc(NumericMatrix X, NumericVector Y, Nullable<NumericMatrix> Z, C
   NumericMatrix post_alpha(npost, n_subject);
   NumericMatrix post_x_hat(npost, N);
   NumericMatrix post_sigma(npost, 1);
+  NumericMatrix post_B_lambda(npost, 1);
   NumericMatrix post_lambda(npost, 1);
   NumericMatrix post_Sigma(npost, d * d);
   NumericMatrix post_B(npost, n_subject * d);
@@ -429,28 +430,37 @@ List BMTrees_mcmc(NumericMatrix X, NumericVector Y, Nullable<NumericMatrix> Z, C
         tau = post_sample["tau"];
         post_tau_position(i - nburn, _) = as<NumericVector>(tau["y"]);
         post_tau_pi(i - nburn, _) = as<NumericVector>(tau["pi"]);
+        post_lambda(i - nburn, 0) = (double)tau["lambda"];
+        post_M(i - nburn, 0) = (double)tau["M"];
       }
       if (CDP_re){
         B_tau = post_sample["B_tau"];
         post_B_tau_pi(i - nburn, _) = as<NumericVector>(B_tau["pi"]);
         post_B_tau_position(i - nburn, _) = as<NumericVector>(B_tau["y"]);
-        post_lambda(i - nburn, 0) = (double)B_tau["lambda"];
+        post_B_lambda(i - nburn, 0) = (double)B_tau["lambda"];
+        post_M_re(i - nburn, 0) = (double)B_tau["M"];
       }
-      
+      post_tau_samples(i - nburn, _) = as<NumericVector>(post_sample["tau_samples"]);
+      post_B_tau_samples(i - nburn, _) = as<NumericVector>(post_sample["B_tau_samples"]);
     }
   }
   return List::create(
     Named("post_x_hat") = post_x_hat,
     Named("post_Sigma") = post_Sigma,
     Named("post_lambda") = post_lambda,
+    Named("post_B_lambda") = post_B_lambda,
     Named("post_B") = post_B,
-    
+    Named("post_M") = post_M,
+    Named("post_M_re") = post_M_re,
     Named("post_random_effect") = post_random_effect,
     
     Named("post_tau_position") = post_tau_position,
     Named("post_tau_pi") = post_tau_pi,
+    Named("post_tau_samples") = post_tau_samples,
+    
     Named("post_B_tau_position") = post_B_tau_position,
     Named("post_B_tau_pi") = post_B_tau_pi,
+    Named("post_B_tau_samples") = post_B_tau_samples,
     
     Named("post_sigma") = post_sigma,
     Named("post_y_expectation") = post_y_expectation,
