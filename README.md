@@ -105,8 +105,8 @@ After we get data, we can run the prediction model based on function `BMTrees_pr
 Here is an example to run the predictive model.
 ```
 model = BMTrees_prediction(X_train, Y_train, Z_train, subject_id_train, X_test, Z_test, subject_id_test, model = "BMTrees", binary = FALSE, nburn = 3000L, npost = 4000L, skip = 1L, verbose = TRUE, seed = 123)
-model$posterior_Y_test
-model$posterior_sigma
+model$post_predictive_y_test
+model$post_sigma
 ```
 The users can get the posterior predictive samples for Y_test and posterior draws of other parameters.
 
