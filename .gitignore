@@ -6,4 +6,4 @@
 inst/doc
 .github
 .git
-
+.github/workflows/rhub.yaml
