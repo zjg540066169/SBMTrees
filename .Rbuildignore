@@ -3,3 +3,4 @@
 ^\\.github$
 ^\\.DS_Store$
 ^\\.git$
+.github/workflows/rhub.yaml
