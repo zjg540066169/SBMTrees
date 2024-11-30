@@ -1,5 +1,5 @@
 ## Uncomment to set the C++ standard explicitly
-# CXX_STD = CXX11
+CXX_STD = CXX11
 
 ## Include headers
 PKG_CPPFLAGS = -I../inst/include/
@@ -7,5 +7,5 @@ PKG_CPPFLAGS = -I../inst/include/
 ## Base flags for C++ compilation
 PKG_CXXFLAGS =
 
-## Link libraries
-PKG_LIBS =
+## Link libraries (add LAPACK, BLAS, and Fortran libraries)
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
