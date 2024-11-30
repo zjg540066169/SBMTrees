@@ -108,7 +108,7 @@ abline(0, 1, col = "red") # Add a 45-degree reference line
 ```
 
 
-# Imputation
+# Multiple Imputation
 The `sequential_imputation` function is used to impute missing covariates and outcomes in longitudinal data. Below is an example of how to generate longitudinal data with MAR missing, and run imputations.
 ```{r imputation_sim}
 # Simulate data with missing values
