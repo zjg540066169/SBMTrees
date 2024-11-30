@@ -1,3 +1,22 @@
+/*
+ *  SBMTrees: Sequential imputation with Bayesian Trees Mixed-Effects models
+ *  Copyright (C) 2024 Jungang Zou
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/GPL-2
+ */
+
 #ifndef ARMADILLO_H_
 #define ARMADILLO_H_
 #include <RcppArmadillo.h>
@@ -472,36 +491,6 @@ double quadratic_form(NumericMatrix X, NumericVector mu, NumericMatrix Sigma) {
   arma::mat Inv_Sigma = inv_sympd(as<arma::mat>(Sigma));
   arma::mat mul = X_ * Inv_Sigma * X_.t();
   return arma::trace(mul);
-}
-
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::export]]
-Rcpp::IntegerVector threadSafeSample(const Rcpp::IntegerVector &values, const arma::vec &prob, int n_samples) {
-  int n = values.size();
-  Rcpp::IntegerVector result(n_samples);
-  
-  // Create cumulative probability vector
-  arma::vec cum_prob = arma::cumsum(prob);
-  
-  // Normalize cumulative probability to ensure the last value is exactly 1.0
-  cum_prob /= cum_prob(n - 1);
-  
-  // Random number generation (thread-local)
-#pragma omp parallel
-{
-  std::random_device rd;
-  std::mt19937 gen(rd() + omp_get_thread_num());
-  std::uniform_real_distribution<> dis(0.0, 1.0);
-  
-#pragma omp for
-  for (int i = 0; i < n_samples; i++) {
-    double u = dis(gen);
-    int idx = std::lower_bound(cum_prob.begin(), cum_prob.end(), u) - cum_prob.begin();
-    result[i] = values[idx];
-  }
-}
-
-return result;
 }
 
 

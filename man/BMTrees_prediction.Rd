@@ -89,7 +89,14 @@ Provides predictions for outcomes in longitudinal data using Bayesian Trees
 Mixed-Effects Models (BMTrees) and its semiparametric variants. The function predicts values for test
 data while accounting for random effects, complex relationships, and potential model misspecification.
 }
+\note{
+This function utilizes modified C++ code originally derived from the
+BART3 package (Bayesian Additive Regression Trees). The original package
+was developed by Rodney Sparapani and is licensed
+under GPL-2. Modifications were made by Jungang Zou, 2024.
+}
 \examples{
+\dontrun{
 data = simulation_prediction(n_subject = 800, seed = 123, nonlinear = TRUE, 
 nonrandeff = TRUE, nonresidual = TRUE) 
 model = BMTrees_prediction(data$X_train, data$Y_train, data$Z_train, 
@@ -97,5 +104,10 @@ data$subject_id_train, data$X_test, data$Z_test, data$subject_id_test, model = "
 binary = FALSE, nburn = 3000L, npost = 4000L, skip = 1L, verbose = TRUE, seed = 123)
 model$post_predictive_y_test
 model$post_sigma
+}
 
+}
+\references{
+For more information about the original BART3 package, see:
+https://github.com/rsparapa/bnptools/tree/master/BART3
 }

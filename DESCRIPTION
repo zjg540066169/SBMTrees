@@ -12,9 +12,6 @@ Depends:
     R (>= 4.2.0)
 Imports: 
     Rcpp,
-    RcppArmadillo,
-    RcppDist,
-    RcppProgress,
     lme4,
     Matrix,
     arm,

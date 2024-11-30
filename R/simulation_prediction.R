@@ -186,7 +186,7 @@ simulation_prediction = function(n_subject = 800, seed = 123, nonlinear = FALSE,
   )
   
   data = data_O %>% 
-    tidyr::pivot_wider(id_cols = subject_id, names_from = time, values_from = c(X1, X2, X3, X4, X5, X6, X7, Y))
+    tidyr::pivot_wider(id_cols = "subject_id", names_from = "time", values_from = c("X1", "X2", "X3", "X4", "X5", "X6", "X7", "Y"))
   
   
   
@@ -232,10 +232,10 @@ simulation_prediction = function(n_subject = 800, seed = 123, nonlinear = FALSE,
   b = dplyr::as_tibble(a$amp) %>%
     dplyr::mutate(subject_id = data$subject_id) %>% 
     tidyr::pivot_longer(cols = c(tidyr::starts_with("X"), tidyr::starts_with("Y")), names_prefix = "_", values_to = "value", names_to = "Variable") %>%
-    tidyr::separate(col = Variable, into = c("Variable", "Time"), sep = "_") %>% 
-    tidyr::pivot_wider(id_cols = c(subject_id, Time), names_from = "Variable", values_from = "value") %>% 
+    tidyr::separate(col = "Variable", into = c("Variable", "Time"), sep = "_") %>% 
+    tidyr::pivot_wider(id_cols = c("subject_id", "Time"), names_from = "Variable", values_from = "value") %>% 
     dplyr::mutate(followup = ifelse(
-      is.na(X1) & is.na(X2) & is.na(X3) & is.na(X4) & is.na(X5) & is.na(X6) & is.na(X7) & is.na(Y),
+      is.na("X1") & is.na("X2") & is.na("X3") & is.na("X4") & is.na("X5") & is.na("X6") & is.na("X7") & is.na("Y"),
       0,
       1
     ))

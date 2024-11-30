@@ -614,19 +614,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// threadSafeSample
-Rcpp::IntegerVector threadSafeSample(const Rcpp::IntegerVector& values, const arma::vec& prob, int n_samples);
-RcppExport SEXP _SBMTrees_threadSafeSample(SEXP valuesSEXP, SEXP probSEXP, SEXP n_samplesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type values(valuesSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type prob(probSEXP);
-    Rcpp::traits::input_parameter< int >::type n_samples(n_samplesSEXP);
-    rcpp_result_gen = Rcpp::wrap(threadSafeSample(values, prob, n_samples));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rowSums_I
 IntegerVector rowSums_I(NumericMatrix mat);
 RcppExport SEXP _SBMTrees_rowSums_I(SEXP matSEXP) {
@@ -687,7 +674,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SBMTrees_rinvgamma", (DL_FUNC) &_SBMTrees_rinvgamma, 2},
     {"_SBMTrees_qinvgamma", (DL_FUNC) &_SBMTrees_qinvgamma, 3},
     {"_SBMTrees_quadratic_form", (DL_FUNC) &_SBMTrees_quadratic_form, 3},
-    {"_SBMTrees_threadSafeSample", (DL_FUNC) &_SBMTrees_threadSafeSample, 3},
     {"_SBMTrees_rowSums_I", (DL_FUNC) &_SBMTrees_rowSums_I, 1},
     {NULL, NULL, 0}
 };

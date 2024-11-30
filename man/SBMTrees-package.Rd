@@ -16,15 +16,28 @@
   - \code{sequential_imputation}: Imputes missing covariates and outcomes sequentially in longitudinal datasets.
 
   The package supports flexibility in specifying priors for random effects and errors, making it suitable for diverse longitudinal data settings. Core computations leverage efficient Gibbs samplers implemented in C++.
+  
+  This package modifies and extends C++ code originally derived from the 
+  BART3 package, developed by Rodney Sparapani, 
+  which is licensed under the GNU General Public License version 2 (GPL-2).
+
+  The modified code is redistributed in accordance with the GPL-2 license. 
+  For more details on the modifications, see the package's documentation.
 }
 \author{
   Jungang Zou
 
-  Maintainer: Jungang Zou <your@email.com>
+  Maintainer: Jungang Zou <jungang.zou@gmail.com>
 }
-\keyword{ package }
+\keyword{SBMTrees, longitudinal missing data, Bayesian non-parametric methods, sequential imputation, mixed-effects models, multiple imputation}
 \seealso{
   \code{\link[=BMTrees_prediction]{BMTrees_prediction}}, \code{\link[=sequential_imputation]{sequential_imputation}}
+}
+\note{
+  This package and all associated documentation are licensed under the GNU General Public License version 2 (GPL-2). See the \code{LICENSE} file for the full text of the license.
+}
+\references{
+  BART3 package: https://github.com/rsparapa/bnptools/tree/master, originally developed by Rodney Sparapani. 
 }
 \examples{
   \dontrun{
@@ -57,6 +70,7 @@
              model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, 
              verbose = TRUE, seed = 123)
      model2$imputed_data
-     model2$imputed_data[,,10] # get imputed outcomes.
+     model2$imputed_data[,,10]
   }
 }
+

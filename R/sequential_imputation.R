@@ -114,13 +114,23 @@ apply_locf_nocb <- function(X, subject_id) {
 #' employs a Metropolis-Hastings MCMC method to sequentially impute missing values.
 #'
 #' @examples
+#' \dontrun{
 #' data <- simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, 
 #'         nonresidual = TRUE, alligned = FALSE) 
 #' model <- sequential_imputation(data$X_mis, data$Y_mis, data$Z, data$subject_id, 
 #'         rep(0, 9), binary_outcome = FALSE, model = "BMTrees", nburn = 3000L, 
 #'         npost = 4000L, skip = 200L, verbose = TRUE, seed = 123)
 #' model$imputed_data
+#' }
 #' @rdname sequential_imputation
+#' @note
+#' This function utilizes modified C++ code originally derived from the 
+#' BART3 package (Bayesian Additive Regression Trees). The original package 
+#' was developed by Rodney Sparapani and is licensed 
+#' under GPL-2. Modifications were made by Jungang Zou, 2024.
+#' @references
+#' For more information about the original BART3 package, see:
+#' https://github.com/rsparapa/bnptools/tree/master/BART3
 #' @export
 #' @useDynLib SBMTrees, .registration = TRUE
 #' @importFrom Rcpp sourceCpp

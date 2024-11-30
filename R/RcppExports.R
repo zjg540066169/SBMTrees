@@ -189,10 +189,6 @@ quadratic_form <- function(X, mu, Sigma) {
     .Call(`_SBMTrees_quadratic_form`, X, mu, Sigma)
 }
 
-threadSafeSample <- function(values, prob, n_samples) {
-    .Call(`_SBMTrees_threadSafeSample`, values, prob, n_samples)
-}
-
 rowSums_I <- function(mat) {
     .Call(`_SBMTrees_rowSums_I`, mat)
 }

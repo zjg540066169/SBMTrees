@@ -17,6 +17,15 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+/*
+ *  Modifications by Jungang Zou, 2024.
+ *  - To make it easier to compile, I move most of the function definitions in this 
+ *  .cpp file to the separate .h file, and merge them with declaration.
+ *
+ *  These modifications comply with the terms of the GNU General Public License 
+ *  version 2 (GPL-2).
+ */
+
 
 #include "treefuns.h"
 #include "bart.h"

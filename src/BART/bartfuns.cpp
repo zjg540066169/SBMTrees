@@ -18,6 +18,15 @@
  */
 
 
+/*
+ *  Modifications by Jungang Zou, 2024.
+ *  - To make it easier to compile, I move the function definitions in the separate 
+ *  .cpp file to this file, and merge them with declaration.
+ *
+ *  These modifications comply with the terms of the GNU General Public License 
+ *  version 2 (GPL-2).
+ */
+
 
 #include "bartfuns.h"
 

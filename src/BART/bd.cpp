@@ -16,6 +16,7 @@
  *  along with this program; if not, a copy is available at
  *  https://www.R-project.org/Licenses/GPL-2
  */
+
 #include "bd.h"
 
 bool cansplit_bd(tree::tree_p n, xinfo& xi)

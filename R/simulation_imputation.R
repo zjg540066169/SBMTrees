@@ -276,7 +276,7 @@ simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE
   
   
   data = data_O %>% 
-    tidyr::pivot_wider(id_cols = subject_id, names_from = time, values_from = c("X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "Y"))
+    tidyr::pivot_wider(id_cols = "subject_id", names_from = "time", values_from = c("X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "Y"))
   
   
   
@@ -357,9 +357,9 @@ simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE
   b = dplyr::as_tibble(data) %>%
     tidyr::pivot_longer(cols = c(tidyr::starts_with("X"), tidyr::starts_with("Y")), names_prefix = "_", values_to = "value", names_to = "Variable") %>%
     tidyr::separate(col = "Variable", into = c("Variable", "Time"), sep = "_") %>% 
-    tidyr::pivot_wider(id_cols = c(subject_id, Time), names_from = "Variable", values_from = "value") %>% 
+    tidyr::pivot_wider(id_cols = c("subject_id", "Time"), names_from = "Variable", values_from = "value") %>% 
     dplyr::mutate(followup = ifelse(
-      is.na(X1) & is.na(X2) & is.na(X3) & is.na(X4) & is.na(X5) & is.na(X6) & is.na(X7) & is.na(Y),
+      is.na("X1") & is.na("X2") & is.na("X3") & is.na("X4") & is.na("X5") & is.na("X6") & is.na("X7") & is.na("Y"),
       0,
       1
     ))
@@ -422,5 +422,5 @@ simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE
   }
   
   
-  return(list(Y_mis = Y, Y_O = Y_O, X_O = as.matrix(X_O), X_mis = as.matrix(X_mis), Z = Z_O, subject_id = subject_id, time = time))
+  return(list(Y_mis = Y, Y_O = Y_O, X_O = as.matrix(X_O), X_mis = as.matrix(X_mis), Z = Z_O, subject_id = subject_id, time = trajectory))
 }
