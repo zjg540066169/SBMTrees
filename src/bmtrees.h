@@ -64,7 +64,6 @@ public:
     this->tol = tol;
     this->CDP_residual = CDP_residual;
     this->CDP_re = CDP_re;
-    this->burn_tree = burn_tree;
     this->resample = resample;
 
     if(Z.isNull()){
@@ -672,7 +671,6 @@ private:
   
   int d;
   bool binary;
-  int burn_tree;
   NumericVector Y_original;
   NumericVector Y;
   NumericMatrix X;
