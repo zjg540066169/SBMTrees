@@ -107,7 +107,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
       NumericMatrix Z_obs = row_matrix(Z, no_loss_ind);
       CharacterVector subject_id_obs = subject_id[no_loss_ind];
       IntegerVector row_id_obs = seqC(1, Y.length())[no_loss_ind];
-      chain_collection.push_back(bmtrees(clone(Y_obs), clone(X_obs), clone(Z_obs), clone(subject_id_obs), clone(row_id_obs), binary_outcome, CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP));
+      chain_collection.push_back(bmtrees(clone(Y_obs), clone(X_obs), clone(Z_obs), clone(subject_id_obs), clone(row_id_obs), binary_outcome, CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP, true));
       break;
     }
     
@@ -118,7 +118,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     NumericMatrix Z_train = row_matrix(Z, no_loss_ind);
     CharacterVector subject_id_train = subject_id[no_loss_ind];
     IntegerVector row_id_obs = seqC(1, y_t.length())[no_loss_ind];
-    chain_collection.push_back(bmtrees(clone(y_train), clone(X_train), clone(Z_train), clone(subject_id_train), clone(row_id_obs), type[i+1], CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP));
+    chain_collection.push_back(bmtrees(clone(y_train), clone(X_train), clone(Z_train), clone(subject_id_train), clone(row_id_obs), type[i+1], CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP, (sum(R(_, i + 1)) != 0)));
   }
   if (verbose){
     Rcout << std::endl;
