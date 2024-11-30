@@ -17,6 +17,15 @@
  *  https://www.R-project.org/Licenses/GPL-2
  */
 
+/*
+ *  Modifications by Jungang Zou, 2024.
+ *  - To make it easier to compile, I commented the output function with %zu.
+ *
+ *  These modifications comply with the terms of the GNU General Public License 
+ *  version 2 (GPL-2).
+ */
+
+
 #include "Rcpp.h"
 
 #include "bart.h"
@@ -156,13 +165,10 @@ RcppExport SEXP cwbart(
    //print args
    if(verbose){
      printf("*****Data:\n");
-     printf("data:n,p,np: %zu, %zu, %zu\n",n,p,np);
      printf("y1,yn: %lf, %lf\n",iy[0],iy[n-1]);
      printf("x1,x[n*p]: %lf, %lf\n",ix[0],ix[n*p-1]);
      if(np) printf("xp1,xp[np*p]: %lf, %lf\n",ixp[0],ixp[np*p-1]);
-     printf("*****Number of Trees: %zu\n",m);
-     printf("*****Number of Cut Points: %d ... %d\n", numcut[0], numcut[p-1]);
-     printf("*****burn and ndpost: %zu, %zu\n",burn,nd);
+     //printf("*****Number of Trees: %zu\n",m);
      printf("*****Prior:beta,alpha,tau,nu,lambda: %lf,%lf,%lf,%lf,%lf\n",
             mybeta,alpha,tau,nu,lambda);
      printf("*****sigma: %lf\n",sigma);
@@ -170,10 +176,9 @@ RcppExport SEXP cwbart(
      cout << "*****Dirichlet:sparse,theta,omega,a,b,rho,augment: " 
           << dart << ',' << theta << ',' << omega << ',' << a << ',' 
           << b << ',' << rho << ',' << aug << endl;
-     printf("*****nkeeptrain,nkeeptest,nkeeptestme,nkeeptreedraws: %zu,%zu,%zu,%zu\n",
-            nkeeptrain,nkeeptest,nkeeptestme,nkeeptreedraws);
-     printf("*****printevery: %zu\n",printevery);
-     printf("*****skiptr,skipte,skipteme,skiptreedraws: %zu,%zu,%zu,%zu\n",skiptr,skipte,skipteme,skiptreedraws);
+     //printf("*****nkeeptrain,nkeeptest,nkeeptestme,nkeeptreedraws: %zu,%zu,%zu,%zu\n",
+    //        nkeeptrain,nkeeptest,nkeeptestme,nkeeptreedraws);
+     //printf("*****printevery: %zu\n",printevery);
      
    }
    
@@ -223,8 +228,8 @@ RcppExport SEXP cwbart(
    
    for(size_t i=0;i<total;i++) {
      if(verbose){
-       printf("iteration %zu\n",i);
-       if(i%printevery==0) printf("done %zu (out of %zu)\n",i,total);
+       //printf("iteration %zu\n",i);
+       //if(i%printevery==0) printf("done %zu (out of %zu)\n",i,total);
       }
       
       if(i==(burn/2)&&dart) bm.startdart();
@@ -292,7 +297,7 @@ RcppExport SEXP cwbart(
    for(size_t k=0;k<n;k++) trmean[k]/=nd;
    for(size_t k=0;k<np;k++) temean[k]/=temecnt;
    printf("check counts\n");
-   printf("trcnt,tecnt,temecnt,treedrawscnt: %zu,%zu,%zu,%zu\n",trcnt,tecnt,temecnt,treedrawscnt);
+   //printf("trcnt,tecnt,temecnt,treedrawscnt: %zu,%zu,%zu,%zu\n",trcnt,tecnt,temecnt,treedrawscnt);
    //--------------------------------------------------
    //PutRNGstate();
 

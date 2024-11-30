@@ -231,7 +231,7 @@ public:
       }
     }
     if(verbose){
-      printf("iteration %zu complete\n", nburn + npost);
+      //printf("iteration %zu complete\n", nburn + npost);
     }
     for(size_t k=0;k<n;k++) trmean[k]/=npost;
     
@@ -294,7 +294,7 @@ public:
     for(size_t i=0;i< nburn + npost;i++) {
       if(verbose){
         if(i % print_every == 0){
-          printf("iteration %zu",i);
+          //printf("iteration %zu",i);
           Rcout << "/"<<nburn + npost <<std::endl;
         }
         
@@ -335,7 +335,7 @@ public:
       }
     }
     if(verbose){
-      printf("iteration %zu complete\n", nburn + npost);
+      //printf("iteration %zu complete\n", nburn + npost);
     }
     for(size_t k=0;k<n;k++) trmean[k]/=npost;
     
