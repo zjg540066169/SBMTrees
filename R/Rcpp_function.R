@@ -7,7 +7,7 @@ makePositiveDefinite <- function(A, epsilon = 1e-8) {
 
 
 
-get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary = F){
+get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary = FALSE){
   
   constant_cols <- apply(X, 2, function(x) stats::var(x) == 0)
   non_constant_cols <- !constant_cols
@@ -15,7 +15,7 @@ get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary
   X[, non_constant_cols] <- scale(X[, non_constant_cols])
   
   if(!binary){
-    suppressMessages(lmm <- lme4::lmer(Y ~ 0 + X + (0 + Z|subject_id), REML = T))
+    suppressMessages(lmm <- lme4::lmer(Y ~ 0 + X + (0 + Z|subject_id), REML = TRUE))
     coe = as.matrix(lme4::ranef(lmm)[[1]])
     coe = (coe[names(subject_to_B),])
   }else{

@@ -47,10 +47,10 @@
 #' @importFrom dplyr tibble as_tibble mutate select %>%
 #' @importFrom tidyr pivot_wider pivot_longer starts_with separate
 #' @importFrom arm invlogit
-simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE, nonresidual = FALSE, alligned = F){
+simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE, nonresidual = FALSE, alligned = FALSE){
   set.seed(seed)
   n_obs_per_sub = 6
-  nonlinear = T
+  nonlinear = TRUE
   n_obs_per_sub = sapply(1:n_subject, function(x) n_obs_per_sub)
   subject_id = c(unlist(sapply(1:n_subject, function(x) rep(x, n_obs_per_sub[x]))))
   n_obs = length(subject_id)
@@ -191,7 +191,7 @@ simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE
   
   
   
-  if(F){
+  if(FALSE){
     X_9 = - 0.5 * X_4 * X_6 - 0.01 * X_5^3 + 0.2 * (X_7 - 0.5 * X_8)*X_4
     if(nonresidual){
       X_9 = X_9 +  (-1)^stats::rbinom(n_obs, 1, prob = 0.5) * stats::rchisq(n_subject, 10)#stats::rnormmix(n_obs, mu = c(-10, -5, 0, 5, 10), sigma = c(1, 1, 1, 1, 1), lambda = c(1/5, 1/5, 1/5, 1/5, 1/5))
@@ -387,7 +387,7 @@ simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE
   Y = unlist(X_mis[,10])
   
   
-  if(alligned == F){
+  if(alligned == FALSE){
     X_O = X_O %>% dplyr::select("X1", "X2", "X3", "X4", "X5", "X6", "X9", "X8", "X7", "Y")
     X_mis = X_mis %>% dplyr::select("X1", "X2", "X3", "X4", "X5", "X6", "X9", "X8", "X7", "Y")
   }
