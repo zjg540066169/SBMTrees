@@ -113,8 +113,8 @@ The `sequential_imputation` function is used to impute missing covariates and ou
 ```{r imputation_sim}
 # Simulate data with missing values
 data <- simulation_imputation(
-  n_subject = 800, 
-  seed = 123, 
+  n_subject = 200, 
+  seed = 1243, 
   nonrandeff = TRUE, 
   nonresidual = TRUE, 
   alligned = FALSE
@@ -136,8 +136,8 @@ imputed_model <- sequential_imputation(
   type = rep(0, ncol(X_mis)), 
   binary_outcome = FALSE, 
   model = "BMTrees", 
-  nburn = 3L, 
-  npost = 4L, 
+  nburn = 2L, 
+  npost = 2L, 
   skip = 2L, 
   verbose = FALSE, 
   seed = 123
