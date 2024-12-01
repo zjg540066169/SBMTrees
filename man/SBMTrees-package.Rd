@@ -40,9 +40,8 @@
   BART3 package: https://github.com/rsparapa/bnptools/tree/master, originally developed by Rodney Sparapani. 
 }
 \examples{
-  \dontrun{
      ## Example of predicting longitudinal outcomes
-     data <- simulation_prediction(n_subject = 800, seed = 123, nonlinear = TRUE,
+     data <- simulation_prediction(n_subject = 800, seed = 1234, nonlinear = TRUE,
              nonrandeff = TRUE, nonresidual = TRUE)
      X_train <- data$X_train
      Y_train <- data$Y_train
@@ -54,12 +53,12 @@
      subject_id_test <- data$subject_id_test
 
      model <- BMTrees_prediction(X_train, Y_train, Z_train, subject_id_train, 
-              X_test, Z_test, subject_id_test, model = "BMTrees")
+              X_test, Z_test, subject_id_test, model = "BMTrees", seed = 1234)
      model$post_predictive_y_test
      
      
      
-     data2 = simulation_imputation(n_subject = 800, seed = 123, nonrandeff = TRUE, 
+     data2 = simulation_imputation(n_subject = 800, seed = 1234, nonrandeff = TRUE, 
              nonresidual = TRUE, alligned = F) 
      X_mis = data2$X_mis # get missing covariates
      Y_mis = data2$Y_mis # get missing outcomes
@@ -68,9 +67,8 @@
 
      model2 = sequential_imputation(X_mis, Y_mis, Z, subject_id, rep(0, 9), F, 
              model = "BMTrees", nburn = 3000L, npost = 4000L, skip = 200L, 
-             verbose = TRUE, seed = 123)
+             verbose = TRUE, seed = 1234)
      model2$imputed_data
      model2$imputed_data[,,10]
-  }
 }
 
