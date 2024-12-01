@@ -1,0 +1,7 @@
+name	user	system	elapsed
+BMTrees_prediction	0	0	0	
+SBMTrees-package	0	0	0	
+apply_locf_nocb	0	0	0	
+sequential_imputation	0	0	0	
+simulation_imputation	0.446	0.032	0.587	
+simulation_prediction	0.284	0.018	0.304	

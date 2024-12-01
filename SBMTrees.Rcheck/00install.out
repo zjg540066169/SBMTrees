@@ -1,0 +1,70 @@
+* installing *source* package ‘SBMTrees’ ...
+** using staged installation
+** libs
+using C++ compiler: ‘g++-12 (Homebrew GCC 12.3.0) 12.3.0’
+using SDK: ‘MacOSX14.4.sdk’
+/opt/homebrew/opt/gcc@12/bin/g++-12 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I'/Users/jz3138/Library/R/arm64/4.4/library/Rcpp/include' -I'/Users/jz3138/Library/R/arm64/4.4/library/RcppArmadillo/include' -I'/Users/jz3138/Library/R/arm64/4.4/library/RcppDist/include' -I'/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppProgress/include' -I/opt/R/arm64/include    -fPIC  -g -O3 -Wall -pedantic -fopenmp -I/opt/homebrew/opt/libomp/include -march=armv8-a  -c RcppExports.cpp -o RcppExports.o
+/opt/homebrew/opt/gcc@12/bin/g++-12 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I'/Users/jz3138/Library/R/arm64/4.4/library/Rcpp/include' -I'/Users/jz3138/Library/R/arm64/4.4/library/RcppArmadillo/include' -I'/Users/jz3138/Library/R/arm64/4.4/library/RcppDist/include' -I'/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppProgress/include' -I/opt/R/arm64/include    -fPIC  -g -O3 -Wall -pedantic -fopenmp -I/opt/homebrew/opt/libomp/include -march=armv8-a  -c sequential_imputation.cpp -o sequential_imputation.o
+In file included from bart_model.h:44,
+                 from bmtrees.h:44,
+                 from sequential_imputation.cpp:22:
+BART/bart.h: In member function 'void bart::makexinfo_bart(size_t, size_t, double*, xinfo&, int*)':
+BART/bart.h:101:24: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'int' [-Wsign-compare]
+  101 |        for(size_t j=0;j<nc[i];j++) xi[i][j] = minx[i] + (j+1)*xinc;
+      |                       ~^~~~~~
+bart_model.h: In constructor 'bart_model::bart_model(Rcpp::NumericMatrix, Rcpp::NumericVector, long int, bool, bool, bool, int, Rcpp::Nullable<double>, double, double, double, double)':
+bart_model.h:143:23: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  143 |       for(size_t i=0;i<p;i++) {
+      |                      ~^~
+bart_model.h: In member function 'Rcpp::List bart_model::update(long int, long int, int, bool, long int)':
+bart_model.h:199:23: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  199 |       for(size_t k=0;k<n;k++) {restemp=(iy[k]-bm.f(k)); rss += restemp*restemp;}
+      |                      ~^~
+bart_model.h:204:25: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  204 |         for(size_t k=0;k<n;k++) trmean[k]+=bm.f(k);
+      |                        ~^~
+bart_model.h:211:27: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  211 |           for(size_t j=0;j<ntrees;j++) {
+      |                          ~^~~~~~~
+bart_model.h:218:27: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  218 |           for(size_t j=0;j<p;j++){
+      |                          ~^~
+bart_model.h:236:21: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  236 |     for(size_t k=0;k<n;k++) trmean[k]/=npost;
+      |                    ~^~
+bart_model.h: In member function 'Rcpp::List bart_model::update(double, long int, long int, int, bool, long int)':
+bart_model.h:294:21: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  294 |     for(size_t i=0;i< nburn + npost;i++) {
+      |                    ~^~~~~~~~~~~~~~~
+bart_model.h:308:11: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  308 |       if(i>=nburn) {
+      |          ~^~~~~~~
+bart_model.h:309:25: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  309 |         for(size_t k=0;k<n;k++) trmean[k]+=bm.f(k);
+      |                        ~^~
+bart_model.h:313:27: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  313 |           for(size_t k=0;k<n;k++) TRDRAW(trcnt,k)=bm.f(k);
+      |                          ~^~
+bart_model.h:315:27: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  315 |           for(size_t j=0;j<ntrees;j++) {
+      |                          ~^~~~~~~
+bart_model.h:322:27: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  322 |           for(size_t j=0;j<p;j++){
+      |                          ~^~
+bart_model.h:340:21: warning: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'long int' [-Wsign-compare]
+  340 |     for(size_t k=0;k<n;k++) trmean[k]/=npost;
+      |                    ~^~
+/opt/homebrew/opt/gcc@12/bin/g++-12 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -L/Library/Frameworks/R.framework/Resources/lib -L/opt/homebrew/opt/libomp/lib -fopenmp -o SBMTrees.so RcppExports.o sequential_imputation.o -L/opt/homebrew/opt/tbb/lib -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/jz3138/Documents/SBMtrees/SBMTrees.Rcheck/00LOCK-SBMTrees/00new/SBMTrees/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (SBMTrees)

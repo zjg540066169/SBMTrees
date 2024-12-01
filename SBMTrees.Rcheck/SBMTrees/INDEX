@@ -1,0 +1,8 @@
+BMTrees_prediction      Bayesian Trees Mixed-Effects Models for
+                        Predicting Longitudinal Outcomes
+SBMTrees-package        Sequential Imputation with Bayesian Trees
+                        Mixed-Effects Models
+apply_locf_nocb         Impute Missing Values Using LOCF and NOCB
+sequential_imputation   Sequential Imputation for Missing Data
+simulation_imputation   Simulate Longitudinal Data with Missingness
+simulation_prediction   Simulate Longitudinal Data for Prediction

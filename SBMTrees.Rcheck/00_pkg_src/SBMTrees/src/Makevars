@@ -1,0 +1,11 @@
+## Uncomment to set the C++ standard explicitly
+# CXX_STD = CXX11
+
+## Include headers
+PKG_CPPFLAGS = -I../inst/include/
+
+## Base flags for C++ compilation
+PKG_CXXFLAGS =
+
+## Link libraries
+PKG_LIBS =
