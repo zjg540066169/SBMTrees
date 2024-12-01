@@ -86,4 +86,75 @@ Compilation used the following non-portable flag(s):
 * checking examples ... OK
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes ... OK
-* checking re-building of vignette outputs ...
+* checking re-building of vignette outputs ... [268s/269s] ERROR
+Error(s) in re-building vignettes:
+  ...
+--- re-building ‘SBMTrees_Introduction.Rmd’ using rmarkdown
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+*
+
+Quitting from lines 133-149 [imputation] (SBMTrees_Introduction.Rmd)
+Execution halted
+
+* checking PDF version of manual ... OK
+* checking HTML version of manual ... NOTE
+Found the following HTML validation problems:
+BMTrees_prediction.html:15:44 (BMTrees_prediction.Rd:5): Error: <main> is not recognized!
+BMTrees_prediction.html:15:44 (BMTrees_prediction.Rd:5): Warning: discarding unexpected <main>
+BMTrees_prediction.html:203:1 (BMTrees_prediction.Rd:108): Warning: discarding unexpected </main>
+BMTrees_prediction.html:4:1 (BMTrees_prediction.Rd:5): Warning: <link> inserting "type" attribute
+BMTrees_prediction.html:12:1 (BMTrees_prediction.Rd:5): Warning: <script> proprietary attribute "onload"
+BMTrees_prediction.html:12:1 (BMTrees_prediction.Rd:5): Warning: <script> inserting "type" attribute
+BMTrees_prediction.html:17:1 (BMTrees_prediction.Rd:5): Warning: <table> lacks "summary" attribute
+BMTrees_prediction.html:56:1 (BMTrees_prediction.Rd:29): Warning: <table> lacks "summary" attribute
+SBMTrees-package.html:15:44 (SBMTrees-package.Rd:5): Error: <main> is not recognized!
+SBMTrees-package.html:15:44 (SBMTrees-package.Rd:5): Warning: discarding unexpected <main>
+SBMTrees-package.html:111:1 (SBMTrees-package.Rd:74): Warning: discarding unexpected </main>
+SBMTrees-package.html:4:1 (SBMTrees-package.Rd:5): Warning: <link> inserting "type" attribute
+SBMTrees-package.html:12:1 (SBMTrees-package.Rd:5): Warning: <script> proprietary attribute "onload"
+SBMTrees-package.html:12:1 (SBMTrees-package.Rd:5): Warning: <script> inserting "type" attribute
+SBMTrees-package.html:17:1 (SBMTrees-package.Rd:5): Warning: <table> lacks "summary" attribute
+apply_locf_nocb.html:15:44 (apply_locf_nocb.Rd:5): Error: <main> is not recognized!
+apply_locf_nocb.html:15:44 (apply_locf_nocb.Rd:5): Warning: discarding unexpected <main>
+apply_locf_nocb.html:62:1 (apply_locf_nocb.Rd:25): Warning: discarding unexpected </main>
+apply_locf_nocb.html:4:1 (apply_locf_nocb.Rd:5): Warning: <link> inserting "type" attribute
+apply_locf_nocb.html:12:1 (apply_locf_nocb.Rd:5): Warning: <script> proprietary attribute "onload"
+apply_locf_nocb.html:12:1 (apply_locf_nocb.Rd:5): Warning: <script> inserting "type" attribute
+apply_locf_nocb.html:17:1 (apply_locf_nocb.Rd:5): Warning: <table> lacks "summary" attribute
+apply_locf_nocb.html:36:1 (apply_locf_nocb.Rd:10): Warning: <table> lacks "summary" attribute
+sequential_imputation.html:15:44 (sequential_imputation.Rd:5): Error: <main> is not recognized!
+sequential_imputation.html:15:44 (sequential_imputation.Rd:5): Warning: discarding unexpected <main>
+sequential_imputation.html:183:1 (sequential_imputation.Rd:97): Warning: discarding unexpected </main>
+sequential_imputation.html:4:1 (sequential_imputation.Rd:5): Warning: <link> inserting "type" attribute
+sequential_imputation.html:12:1 (sequential_imputation.Rd:5): Warning: <script> proprietary attribute "onload"
+sequential_imputation.html:12:1 (sequential_imputation.Rd:5): Warning: <script> inserting "type" attribute
+sequential_imputation.html:17:1 (sequential_imputation.Rd:5): Warning: <table> lacks "summary" attribute
+sequential_imputation.html:56:1 (sequential_imputation.Rd:28): Warning: <table> lacks "summary" attribute
+simulation_imputation.html:15:44 (simulation_imputation.Rd:5): Error: <main> is not recognized!
+simulation_imputation.html:15:44 (simulation_imputation.Rd:5): Warning: discarding unexpected <main>
+simulation_imputation.html:122:1 (simulation_imputation.Rd:56): Warning: discarding unexpected </main>
+simulation_imputation.html:4:1 (simulation_imputation.Rd:5): Warning: <link> inserting "type" attribute
+simulation_imputation.html:12:1 (simulation_imputation.Rd:5): Warning: <script> proprietary attribute "onload"
+simulation_imputation.html:12:1 (simulation_imputation.Rd:5): Warning: <script> inserting "type" attribute
+simulation_imputation.html:17:1 (simulation_imputation.Rd:5): Warning: <table> lacks "summary" attribute
+simulation_imputation.html:43:1 (simulation_imputation.Rd:16): Warning: <table> lacks "summary" attribute
+simulation_prediction.html:15:44 (simulation_prediction.Rd:5): Error: <main> is not recognized!
+simulation_prediction.html:15:44 (simulation_prediction.Rd:5): Warning: discarding unexpected <main>
+simulation_prediction.html:142:1 (simulation_prediction.Rd:75): Warning: discarding unexpected </main>
+simulation_prediction.html:4:1 (simulation_prediction.Rd:5): Warning: <link> inserting "type" attribute
+simulation_prediction.html:12:1 (simulation_prediction.Rd:5): Warning: <script> proprietary attribute "onload"
+simulation_prediction.html:12:1 (simulation_prediction.Rd:5): Warning: <script> inserting "type" attribute
+simulation_prediction.html:17:1 (simulation_prediction.Rd:5): Warning: <table> lacks "summary" attribute
+simulation_prediction.html:44:1 (simulation_prediction.Rd:16): Warning: <table> lacks "summary" attribute
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
+* DONE
+Status: 1 ERROR, 4 NOTEs

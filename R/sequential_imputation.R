@@ -114,7 +114,7 @@ apply_locf_nocb <- function(X, subject_id) {
 #' employs a Metropolis-Hastings MCMC method to sequentially impute missing values.
 #'
 #' @examples
-#' data <- simulation_imputation(n_subject = 200, seed = 1234, nonrandeff = TRUE, 
+#' data <- simulation_imputation(n_subject = 800, seed = 1234, nonrandeff = TRUE, 
 #'         nonresidual = TRUE, alligned = FALSE) 
 #' model <- sequential_imputation(data$X_mis, data$Y_mis, data$Z, data$subject_id, 
 #'         rep(0, 9), binary_outcome = FALSE, model = "BMTrees", nburn = 3000L, 
