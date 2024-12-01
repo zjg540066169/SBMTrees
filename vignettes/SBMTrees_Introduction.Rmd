@@ -35,7 +35,7 @@ The `BMTrees_prediction` function is used to predict longitudinal outcomes based
 ```{r prediction_sim}
 # Simulate data
 data <- simulation_prediction(
-  n_subject = 800, 
+  n_subject = 300, 
   seed = 123, 
   nonlinear = TRUE, 
   nonrandeff = TRUE, 
@@ -64,8 +64,8 @@ model <- BMTrees_prediction(
   X_test, Z_test, subject_id_test, 
   model = "BMTrees", 
   binary = FALSE, 
-  nburn = 3L, 
-  npost = 4L, 
+  nburn = 3000L, 
+  npost = 4000L, 
   skip = 1L, 
   verbose = FALSE, 
   seed = 123
@@ -114,7 +114,7 @@ The `sequential_imputation` function is used to impute missing covariates and ou
 # Simulate data with missing values
 data <- simulation_imputation(
   n_subject = 200, 
-  seed = 1243, 
+  seed = 1234, 
   nonrandeff = TRUE, 
   nonresidual = TRUE, 
   alligned = FALSE
@@ -136,11 +136,11 @@ imputed_model <- sequential_imputation(
   type = rep(0, ncol(X_mis)), 
   binary_outcome = FALSE, 
   model = "BMTrees", 
-  nburn = 2L, 
-  npost = 2L, 
-  skip = 2L, 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 200L, 
   verbose = FALSE, 
-  seed = 123
+  seed = 1234
 )
 
 # Extract imputed data
