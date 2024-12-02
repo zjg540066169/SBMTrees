@@ -9,7 +9,7 @@ simulation_imputation(
   seed = 123,
   nonrandeff = FALSE,
   nonresidual = FALSE,
-  alligned = F
+  alligned = FALSE
 )
 }
 \arguments{

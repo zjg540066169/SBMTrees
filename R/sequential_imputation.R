@@ -216,7 +216,7 @@ sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outc
     imputation_X_DP = sequential_imputation_cpp(as.matrix(X), as.numeric(Y), as.logical(type), as.matrix(Z), as.character(subject_id), as.matrix(R), binary_outcome = binary_outcome, nburn = nburn, npost = npost, skip = skip, verbose = verbose, CDP_residual = TRUE, CDP_re = TRUE, seed = seed, ncores = 0, ntrees = ntrees, fit_loss = FALSE, resample = resample, pi_CDP = pi_CDP)
   }
   
-  imputation_Y = TRUE(do.call(cbind, imputation_X_DP$imputation_Y_DP))
+  imputation_Y = t(do.call(cbind, imputation_X_DP$imputation_Y_DP))
   if(reordering == TRUE){
     imputation_X_DP = lapply(imputation_X_DP$imputation_X_DP, function(x){
       if(sum(mis_num == -Inf) == 0){

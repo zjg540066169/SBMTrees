@@ -20,7 +20,7 @@ sequential_imputation(
   tol = 1e-20,
   resample = 5,
   ntrees = 200,
-  reordering = T,
+  reordering = TRUE,
   pi_CDP = 0.99
 )
 }
