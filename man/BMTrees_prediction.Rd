@@ -96,6 +96,7 @@ was developed by Rodney Sparapani and is licensed
 under GPL-2. Modifications were made by Jungang Zou, 2024.
 }
 \examples{
+\dontrun{
 data = simulation_prediction(n_subject = 800, seed = 1234, nonlinear = TRUE, 
 nonrandeff = TRUE, nonresidual = TRUE) 
 model = BMTrees_prediction(data$X_train, data$Y_train, data$Z_train, 
@@ -103,7 +104,7 @@ data$subject_id_train, data$X_test, data$Z_test, data$subject_id_test, model = "
 binary = FALSE, nburn = 3000L, npost = 4000L, skip = 1L, verbose = TRUE, seed = 1234)
 model$post_predictive_y_test
 model$post_sigma
-
+}
 }
 \references{
 For more information about the original BART3 package, see:

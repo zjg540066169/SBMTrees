@@ -46,6 +46,7 @@
 #'
 #'
 #' @examples
+#' \dontrun{
 #' data = simulation_prediction(n_subject = 800, seed = 1234, nonlinear = TRUE, 
 #' nonrandeff = TRUE, nonresidual = TRUE) 
 #' model = BMTrees_prediction(data$X_train, data$Y_train, data$Z_train, 
@@ -53,7 +54,7 @@
 #' binary = FALSE, nburn = 3000L, npost = 4000L, skip = 1L, verbose = TRUE, seed = 1234)
 #' model$post_predictive_y_test
 #' model$post_sigma
-#'
+#' }
 #' @rdname BMTrees_prediction
 #' @note
 #' This function utilizes modified C++ code originally derived from the 
