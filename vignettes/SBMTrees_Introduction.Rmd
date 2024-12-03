@@ -1,6 +1,6 @@
 ---
 title: "SBMTrees: Introduction and Usage"
-output: rmarkdown::html_vignette
+output: html_vignette
 vignette: >
   %\VignetteIndexEntry{SBMTrees: Introduction and Usage}
   %\VignetteEngine{knitr::rmarkdown}
