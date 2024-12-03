@@ -35,7 +35,7 @@ The `BMTrees_prediction` function is used to predict longitudinal outcomes based
 ```{r prediction_sim}
 # Simulate data
 data <- simulation_prediction(
-  n_subject = 800, 
+  n_subject = 100, 
   seed = 1234, 
   nonlinear = TRUE, 
   nonrandeff = TRUE, 
@@ -113,7 +113,7 @@ The `sequential_imputation` function is used to impute missing covariates and ou
 ```{r imputation_sim}
 # Simulate data with missing values
 data <- simulation_imputation(
-  n_subject = 800, 
+  n_subject = 100, 
   seed = 1234, 
   nonrandeff = TRUE, 
   nonresidual = TRUE, 

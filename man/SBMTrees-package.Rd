@@ -41,6 +41,7 @@
 }
 \examples{
      ## Example of predicting longitudinal outcomes
+     \dontrun{
      data <- simulation_prediction(n_subject = 800, seed = 1234, nonlinear = TRUE,
              nonrandeff = TRUE, nonresidual = TRUE)
      X_train <- data$X_train
@@ -70,5 +71,6 @@
              verbose = TRUE, seed = 1234)
      model2$imputed_data
      model2$imputed_data[,,10]
+     }
 }
 
