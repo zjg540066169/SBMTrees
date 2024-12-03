@@ -56,7 +56,7 @@ Y_test_true <- data$Y_test_true
 
 ```
 
-We then run the prediction model `BMTrees`, with 3000 burn-in iterations and 4000 posterior samples:
+We then run the prediction model `BMTrees`, with 300 burn-in iterations and 400 posterior samples. The number of burn-in and posterior iterations should be increase to 3000 and 4000, respectively. Here we only use the small numbers to simply debug.
 ```{r prediction}
 # Fit the predictive model
 model <- BMTrees_prediction(
@@ -64,8 +64,8 @@ model <- BMTrees_prediction(
   X_test, Z_test, subject_id_test, 
   model = "BMTrees", 
   binary = FALSE, 
-  nburn = 3000L, 
-  npost = 4000L, 
+  nburn = 300L, 
+  npost = 400L, 
   skip = 1L, 
   verbose = FALSE, 
   seed = 1234
@@ -128,7 +128,7 @@ subject_id <- data$subject_id
 
 ```
 
-We then run the sequential imputation with `BMTrees`, with 3000 burn-in iterations, 4000 posterior iterations, and sample one posterior sample for every 200 posterior iterations, ensuring 20 multiply-imputed sets are generated.
+We then run the sequential imputation with `BMTrees`, with 300 burn-in iterations, 400 posterior iterations, and sample one posterior sample for every 200 posterior iterations, ensuring 20 multiply-imputed sets are generated. The number of burn-in and posterior iterations should be increase to 3000 and 4000, respectively. Here we only use the small numbers to simply debug.
 ```{r imputation}
 # Run the sequential imputation
 imputed_model <- sequential_imputation(
@@ -136,8 +136,8 @@ imputed_model <- sequential_imputation(
   type = rep(0, ncol(X_mis)), 
   binary_outcome = FALSE, 
   model = "BMTrees", 
-  nburn = 3000L, 
-  npost = 4000L, 
+  nburn = 300L, 
+  npost = 400L, 
   skip = 200L, 
   verbose = FALSE, 
   seed = 1234
