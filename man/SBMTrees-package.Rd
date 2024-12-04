@@ -27,7 +27,10 @@
 \author{
   Jungang Zou <jungang.zou@gmail.com>
 }
-\keyword{SBMTrees, longitudinal missing data, Bayesian non-parametric methods, sequential imputation}
+\concept{SBMTrees} 
+\concept{longitudinal missing data}
+\concept{Bayesian non-parametric methods}
+\concept{sequential imputation}
 \seealso{
   \code{\link[=BMTrees_prediction]{BMTrees_prediction}}, \code{\link[=sequential_imputation]{sequential_imputation}}
 }
