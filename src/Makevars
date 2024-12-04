@@ -1,11 +1,18 @@
 ## Uncomment to set the C++ standard explicitly
-# CXX_STD = CXX11
+## Set the C++ standard to C++11
+CXX_STD = C++11  # Use C++11 or later (e.g., C++14, C++17 if required)
 
-## Include headers
-PKG_CPPFLAGS = -I../inst/include/
+## Include headers for Rcpp, RcppArmadillo, RcppDist, and RcppProgress
+PKG_CPPFLAGS = -I$(R_HOME)/include -I../inst/include/ -I$(R_HOME)/include/Rcpp -I$(R_HOME)/include/RcppArmadillo -I$(R_HOME)/include/RcppDist -I$(R_HOME)/include/RcppProgress
 
 ## Base flags for C++ compilation
-PKG_CXXFLAGS = -I$(R_HOME)/include -I$(R_HOME)/include/Rcpp -I$(R_HOME)/include/RcppArmadillo
+PKG_CXXFLAGS = -O3 -Wall  # Optional: Optimization and warnings
 
-## Link libraries
-PKG_LIBS = -lblas -llapack
+## Link libraries for BLAS and LAPACK
+## Check if we are on macOS or Linux and adjust accordingly
+ifeq ($(shell uname), Darwin)
+  ## macOS: Use OpenBLAS and Accelerate framework
+else
+  ## Linux: Use system's BLAS and LAPACK
+  PKG_LIBS = -L/usr/lib -lblas -llapack -L$(R_HOME)/lib -lR -larmadillo
+endif
