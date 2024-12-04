@@ -1,0 +1,46 @@
+name: R Package Build and Deploy to GitHub Packages
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu image for CI
+
+    steps:
+    # Step 1: Checkout code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up R
+    - name: Set up R
+      uses: r-lib/actions/setup-r@v1
+      with:
+        r-version: '4.1'  # Specify R version you need
+
+    # Step 3: Install necessary dependencies
+    - name: Install dependencies
+      run: |
+        install.packages("devtools")
+        devtools::install_deps()
+
+    # Step 4: Build the R package
+    - name: Build package
+      run: |
+        devtools::build()
+
+    # Step 5: Publish the package to GitHub Packages
+    - name: Publish package to GitHub Packages
+      run: |
+        devtools::release(pkg)
+      env:
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
+
+    # Optional: Upload built package as artifact for review
+    - name: Upload built package as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: SBMTrees_package
+        path: "*.tar.gz"  # Adjust to match the build artifact
