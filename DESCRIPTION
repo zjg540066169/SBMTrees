@@ -10,7 +10,7 @@ Description: Implements a sequential imputation framework using Bayesian Mixed-E
 License: GPL-2 | file LICENSE
 Encoding: UTF-8
 Depends: 
-    R (>= 4.2.0)
+    R (>= 4.1.0)
 Imports: 
     Rcpp,
     lme4,
