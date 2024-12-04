@@ -2,10 +2,10 @@
 #CXX_STD = CXX11
 
 ## Include headers
-PKG_CPPFLAGS = -I../inst/include/
+PKG_CPPFLAGS = -I$(R_HOME)/include -I../inst/include/ -I$(R_HOME)/include/Rcpp
 
 ## Base flags for C++ compilation
-PKG_CXXFLAGS =
+PKG_CXXFLAGS = -O3 -Wall  # Optional: Adjust optimization and warning levels
 
 ## Link libraries (add LAPACK, BLAS, and Fortran libraries)
 PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)

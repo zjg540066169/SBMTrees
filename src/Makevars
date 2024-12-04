@@ -5,7 +5,7 @@
 PKG_CPPFLAGS = -I../inst/include/
 
 ## Base flags for C++ compilation
-PKG_CXXFLAGS =
+PKG_CXXFLAGS = -I$(R_HOME)/include -I$(R_HOME)/include/Rcpp -I$(R_HOME)/include/RcppArmadillo
 
 ## Link libraries
-PKG_LIBS =
+PKG_LIBS = -lblas -llapack
