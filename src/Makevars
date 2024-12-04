@@ -15,5 +15,5 @@ ifeq ($(shell uname), Darwin)
 else
   PKG_CXXFLAGS = -O3 -Wall
   ## Linux: Use system's BLAS and LAPACK
-  PKG_LIBS = -L/usr/lib -lblas -llapack -L$(R_HOME)/lib -lR -larmadillo
+  PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -L$(R_HOME)/lib -lR
 endif
