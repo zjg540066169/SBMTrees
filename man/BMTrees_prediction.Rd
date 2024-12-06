@@ -96,7 +96,7 @@ was developed by Rodney Sparapani and is licensed
 under GPL-2. Modifications were made by Jungang Zou, 2024.
 }
 \examples{
-\dontrun{
+\donttest{
 data = simulation_prediction(n_subject = 800, seed = 1234, nonlinear = TRUE, 
 nonrandeff = TRUE, nonresidual = TRUE) 
 model = BMTrees_prediction(data$X_train, data$Y_train, data$Z_train, 

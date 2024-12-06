@@ -87,7 +87,7 @@ was developed by Rodney Sparapani and is licensed
 under GPL-2. Modifications were made by Jungang Zou, 2024.
 }
 \examples{
-\dontrun{
+\donttest{
 data <- simulation_imputation(n_subject = 800, seed = 1234, nonrandeff = TRUE, 
         nonresidual = TRUE, alligned = FALSE) 
 model <- sequential_imputation(data$X_mis, data$Y_mis, data$Z, data$subject_id, 

@@ -42,7 +42,7 @@
 }
 \examples{
      ## Example of predicting longitudinal outcomes
-     \dontrun{
+     \donttest{
      data <- simulation_prediction(n_subject = 800, seed = 1234, nonlinear = TRUE,
              nonrandeff = TRUE, nonresidual = TRUE)
      X_train <- data$X_train
