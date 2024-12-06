@@ -47,8 +47,9 @@
 #' @importFrom dplyr tibble as_tibble mutate select %>%
 #' @importFrom tidyr pivot_wider pivot_longer starts_with separate
 #' @importFrom arm invlogit
-simulation_imputation = function(n_subject = 800, seed = 123, nonrandeff = FALSE, nonresidual = FALSE, alligned = FALSE){
-  set.seed(seed)
+simulation_imputation = function(n_subject = 800, seed = NULL, nonrandeff = FALSE, nonresidual = FALSE, alligned = FALSE){
+  if (!is.null(seed))
+    set.seed(seed)
   n_obs_per_sub = 6
   nonlinear = TRUE
   n_obs_per_sub = sapply(1:n_subject, function(x) n_obs_per_sub)

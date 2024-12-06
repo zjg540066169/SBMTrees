@@ -60,7 +60,7 @@
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom stats rchisq
 #' @importFrom mice ampute
-simulation_prediction = function(n_subject = 800, seed = 123, nonlinear = FALSE, nonrandeff = FALSE, nonresidual = FALSE){
+simulation_prediction = function(n_subject = 800, seed = NULL, nonlinear = FALSE, nonrandeff = FALSE, nonresidual = FALSE){
   set.seed(123)
   n_obs_per_sub = 6
   n_obs_per_sub = sapply(1:n_subject, function(x) n_obs_per_sub)
@@ -221,7 +221,8 @@ simulation_prediction = function(n_subject = 800, seed = 123, nonlinear = FALSE,
   }
   
   freq = rep(0.1, dim(patterns)[1])
-  set.seed(seed)
+  if (!is.null(seed))
+    set.seed(seed)
   a = mice::ampute(data[,-1], mech = "MCAR", patterns = patterns, prop = 0.9999, freq = freq)
  
   
