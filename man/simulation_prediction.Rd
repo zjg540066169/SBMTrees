@@ -6,7 +6,7 @@
 \usage{
 simulation_prediction(
   n_subject = 800,
-  seed = 123,
+  seed = NULL,
   nonlinear = FALSE,
   nonrandeff = FALSE,
   nonresidual = FALSE

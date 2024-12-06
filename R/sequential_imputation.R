@@ -174,13 +174,13 @@ sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outc
     type = type[mis_order]
     X[,re_order] = X[,mis_order]
     colnames(X) = colnames(X)[mis_order]
-    cat("reordering: new covariates order is", colnames(X), "\n")
+    message("reordering: new covariates order is", colnames(X), "\n")
   }
   
 
   R = is.na(X)
   R = cbind(R, "Y" = is.na(Y))
-  cat("Start to initialize imputed missing data by LOCF and NOCB. ")
+  message("Start to initialize imputed missing data by LOCF and NOCB. ")
   X_locf_nocb <- apply_locf_nocb(cbind(X, Y), subject_id)
   Y = X_locf_nocb[,dim(X_locf_nocb)[2]]
   X = X_locf_nocb[,1:(dim(X_locf_nocb)[2] - 1)]
@@ -192,29 +192,29 @@ sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outc
     R = cbind(0, R)
   }
   
-  cat("Completed.\n")
+  message("Completed.\n")
  
   
-  cat("Start to impute using Longitudinal Sequential Imputation with: ")
+  message("Start to impute using Longitudinal Sequential Imputation with: ")
  
   if(model == "BMTrees_R"){
-    cat("BMTrees_R\n")
+    message("BMTrees_R\n")
     imputation_X_DP = sequential_imputation_cpp(as.matrix(X), as.numeric(Y), as.logical(type), as.matrix(Z), as.character(subject_id), as.matrix(R), binary_outcome = binary_outcome, nburn = nburn, npost = npost, skip = skip, verbose = verbose, CDP_residual = TRUE, CDP_re = FALSE, seed = seed, ncores = 0, ntrees = ntrees, fit_loss = FALSE, resample = resample, pi_CDP = pi_CDP)
   }
   else if(model == "BMTrees_RE"){
-    cat("BMTrees_RE\n")
+    message("BMTrees_RE\n")
     imputation_X_DP = sequential_imputation_cpp(as.matrix(X), as.numeric(Y), as.logical(type), as.matrix(Z), as.character(subject_id), as.matrix(R), binary_outcome = binary_outcome, nburn = nburn, npost = npost, skip = skip, verbose = verbose, CDP_residual = FALSE, CDP_re = TRUE, seed = seed, ncores = 0, ntrees = ntrees, fit_loss = FALSE, resample = resample, pi_CDP = pi_CDP)
   }
   else if(model == "BMTrees"){
-    cat("BMTrees\n")
+    message("BMTrees\n")
     imputation_X_DP = sequential_imputation_cpp(as.matrix(X), as.numeric(Y), as.logical(type), as.matrix(Z), as.character(subject_id), as.matrix(R), binary_outcome = binary_outcome, nburn = nburn, npost = npost, skip = skip, verbose = verbose, CDP_residual = TRUE, CDP_re = TRUE, seed = seed, ncores = 0, ntrees = ntrees, fit_loss = FALSE, resample = resample, pi_CDP = pi_CDP)
   }
   else if(model == "mixedBART"){
-    cat("mixedBART\n")
+    message("mixedBART\n")
     imputation_X_DP = sequential_imputation_cpp(as.matrix(X), as.numeric(Y), as.logical(type), as.matrix(Z), as.character(subject_id), as.matrix(R), binary_outcome = binary_outcome, nburn = nburn, npost = npost, skip = skip, verbose = verbose, CDP_residual = FALSE, CDP_re = FALSE, seed = seed, ncores = 0,  ntrees = ntrees, fit_loss = FALSE, resample = resample, pi_CDP = pi_CDP)
   }
   else{
-    cat("mixedBART\n")
+    message("mixedBART\n")
     imputation_X_DP = sequential_imputation_cpp(as.matrix(X), as.numeric(Y), as.logical(type), as.matrix(Z), as.character(subject_id), as.matrix(R), binary_outcome = binary_outcome, nburn = nburn, npost = npost, skip = skip, verbose = verbose, CDP_residual = TRUE, CDP_re = TRUE, seed = seed, ncores = 0, ntrees = ntrees, fit_loss = FALSE, resample = resample, pi_CDP = pi_CDP)
   }
   
@@ -241,7 +241,7 @@ sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outc
   for (i in 1:length(imputation_X_DP)) {
     imputation_X[i,,] = cbind(imputation_X_DP[[i]], imputation_Y[i,])
   }
-  cat("\n")
-  cat("Finish imputation with", length(imputation_X_DP), "imputed sets\n")
+  message("\n")
+  message("Finish imputation with", length(imputation_X_DP), "imputed sets\n")
   return(list(imputed_data = imputation_X))
 }

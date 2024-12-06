@@ -6,7 +6,7 @@
 \usage{
 simulation_imputation(
   n_subject = 800,
-  seed = 123,
+  seed = NULL,
   nonrandeff = FALSE,
   nonresidual = FALSE,
   alligned = FALSE

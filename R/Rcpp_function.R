@@ -62,7 +62,6 @@ get_inverse_wishart_matrix2 = function(X, Y, Z, subject_id, subject_to_B, binary
 
 bartModelMatrix=function(X, numcut=0L, usequants=FALSE, type=7,
                          rm.const=FALSE, cont=FALSE, xinfo=NULL) {
-  #print(xinfo)
   X.class = class(X)[1]
   
   if(X.class=='factor') {
@@ -71,14 +70,11 @@ bartModelMatrix=function(X, numcut=0L, usequants=FALSE, type=7,
   }
   grp=NULL
   if(X.class=='data.frame') {
-    print(X)
     p=dim(X)[2]
     
     xnm = names(X)
     for(i in 1:p) {
-      print(i)
       if(is.factor(X[[i]])) {
-        #print(i)
         Xtemp = nnet::class.ind(X[[i]])
         colnames(Xtemp) = paste(xnm[i],1:ncol(Xtemp),sep='')
         X[[i]]=Xtemp
@@ -103,14 +99,12 @@ bartModelMatrix=function(X, numcut=0L, usequants=FALSE, type=7,
   else if(X.class!='matrix')
     stop('Expecting either a factor, a vector, a matrix or a data.frame')
   
-  #print(789)
   N <- nrow(X)
   p <- ncol(X)
   
   xinfo. <- matrix(nrow=p, ncol=numcut)
   nc <- numcut
   rm.vars <- c()
-  #print(789)
   if(length(xinfo)==0 & N>0 & p>0 & (rm.const | numcut[1]>0)) {
     for(j in 1:p) {
       X.class <- class(X[1, j])[1]
@@ -147,8 +141,6 @@ bartModelMatrix=function(X, numcut=0L, usequants=FALSE, type=7,
   }
   
   X <- data.matrix(X)
-  #print(xinfo)
-  #print(dim(xinfo.))
   if(length(xinfo)>0) {
     if(is.list(xinfo)) for(j in 1:p){
       
