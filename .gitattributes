@@ -1,4 +1,2 @@
 *.R linguist-language=R
 *.r linguist-language=R
-DESCRIPTION linguist-language=R
-NAMESPACE linguist-language=R
