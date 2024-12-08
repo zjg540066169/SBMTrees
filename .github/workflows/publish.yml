@@ -65,3 +65,8 @@ jobs:
       with:
         name: SBMTrees_package
         path: "dist/*.tar.gz"  # Adjust path to the expected location
+
+    # Step 7: Run R CMD check
+    - name: Run R CMD check
+      run: |
+        R CMD check --no-manual --as-cran dist/*.tar.gz
