@@ -1,6 +1,6 @@
 # Override language statistics to favor R
 *.R linguist-language=R
-*.cpp linguist-language=C++
-*.h linguist-language=C++
+src/BART/*.h linguist-detectable=false
+src/BART/*.cpp linguist-detectable=false
 
 src/* linguist-vendored
