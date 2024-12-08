@@ -22,13 +22,26 @@ jobs:
         
 
         
-    # Step 3: Install necessary dependencies
-    - name: Install dependencies
+    - name: Install system dependencies
       run: |
-        Rscript -e "install.packages(c('usethis', 'pkgdown', 'rcmdcheck', 'rversions', 'urlchecker'), repos = 'https://cloud.r-project.org')"
-        Rscript -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
-        Rscript -e "devtools::install_deps(upgrade = 'always')"
+        sudo apt-get update
+        sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
 
+    - name: Install missing dependencies individually
+      run: |
+        Rscript -e "install.packages('usethis', repos = 'https://cloud.r-project.org')"
+        Rscript -e "install.packages('pkgdown', repos = 'https://cloud.r-project.org')"
+        Rscript -e "install.packages('rcmdcheck', repos = 'https://cloud.r-project.org')"
+        Rscript -e "install.packages('rversions', repos = 'https://cloud.r-project.org')"
+        Rscript -e "install.packages('urlchecker', repos = 'https://cloud.r-project.org')"
+
+    - name: Install devtools
+      run: |
+        Rscript -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
+
+    - name: Install package dependencies
+      run: |
+        Rscript -e "devtools::install_deps(upgrade = 'always')"
 
     # Step 4: Build the R package
     - name: Build package
