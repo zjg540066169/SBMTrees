@@ -1,5 +1,7 @@
 # SBMTrees 
 
+![R-CMD-check](https://github.com/zjg540066169/SBMTree/actions/workflows/R-CMD-check.yml/badge.svg)
+
 The R package **SBMTrees** (Sequential imputation with Bayesian Trees Mixed-Effects models) implements a Bayesian non-parametric framework for imputing missing covariates and outcomes in longitudinal data under the Missing at Random (MAR) assumption. Its core model, the Bayesian Trees Mixed-Effects Model (BMTrees), extends Mixed-Effects BART by employing centralized Dirichlet Process (CDP) Normal Mixture priors, allowing it to handle non-normal random effects and errors, address model misspecification, and capture complex relationships. The package also includes two semiparametric variants, BMTrees_R and BMTrees_RE. Built on BMTrees, the longitudinal sequential imputation framework employs a Metropolis-Hastings (M-H) MCMC method to sequentially impute missing values by constructing univariate models in a fixed order, ensuring both simplicity and consistency with a valid joint distribution.
 
 For more details on these models and their applications, please consult the following paper: "Nonparametric Bayesian Additive Regression Trees for Prediction and Missing Data Imputation in Longitudinal Studies".
@@ -123,3 +125,6 @@ The original source code, licensed under the [GNU General Public License version
 
 - The original BART3 package is licensed under the GNU General Public License version 2 (GPL-2).
 - This package, as a derived work, is also licensed under the GNU General Public License version 2 (GPL-2) to comply with the licensing terms.
+
+
+
