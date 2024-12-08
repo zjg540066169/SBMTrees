@@ -9,3 +9,4 @@ acc_form.html
 acc_form.Rmd
 workflow.Rmd
 LICENSE
+^\.github$
