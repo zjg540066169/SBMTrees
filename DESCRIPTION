@@ -7,7 +7,7 @@ Author: Jungang Zou [aut, cre], Liangyuan Hu [aut]
 Authors@R: c(person(given = "Jungang", family = "Zou", role = c("aut", "cre"), email = "jungang.zou@gmail.com"), person(given = "Liangyuan", family = "Hu", role = "aut"))
 Maintainer: Jungang Zou <jungang.zou@gmail.com>
 Description: Implements a sequential imputation framework using Bayesian Mixed-Effects Trees ('SBMTrees') for handling missing data in longitudinal studies. The package supports a variety of models, including non-linear relationships and non-normal random effects and residuals, leveraging Dirichlet Process priors for increased flexibility. Key features include handling Missing at Random (MAR) longitudinal data, imputation of both covariates and outcomes, and generating posterior predictive samples for further analysis. The methodology is designed for applications in epidemiology, biostatistics, and other fields requiring robust handling of missing data in longitudinal settings.
-License: GPL-2 | file LICENSE
+License: GPL-2
 Encoding: UTF-8
 Depends: 
     R (>= 4.1.0)

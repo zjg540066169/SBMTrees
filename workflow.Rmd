@@ -1,0 +1,522 @@
+---
+title: "workflow"
+author: "Jungang Zou"
+date: "2024-12-07"
+output: pdf_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+This R Markdown file demonstrates the workflow of the simulation studies described in the paper "Nonparametric Bayesian Additive Regression Trees for Prediction and Missing Data Imputation in Longitudinal Studies". Importantly, the simulation studies included prediction tasks across eight scenarios with 500 replicates each, and multiple imputation tasks across four scenarios with 200 replicates each. Completing all replicates required significant computational time. In this example, we illustrate the process using a single replicate. Specifically, the example includes one replicate of a prediction task and one replicate of a multiple imputation task.
+
+## Install and load the related package
+```{r setup}
+require("devtools")
+install_github("https://github.com/zjg540066169/SBMTrees")
+library(SBMTrees)
+library(mitml)
+library(lme4)
+library(jomo)
+library(MixRF)
+library(tidyverse)
+```
+
+
+# Prediction Task
+
+### Simulate data
+In this section, we demonstrate one example of prediction task. The data is simulated by the function `simulation_prediction`. The simulated population dataset is fixed, consisting of 800 individuals (specified by the parameter "n_subject"), each observed at 6 time points. The covariate matrix includes seven independent continuous variables drawn from normal distributions, with random effects sampled from a standard multivariate distribution. The outcomes are generated based on these covariates, with associations that can be linear or nonlinear, as specified by the parameter "nonlinear." Both the random effects and random errors can follow normal or non-normal distributions, controlled by the parameters "nonrandeff" and "nonresidual," respectively. The random predictor matrix includes a linear time term and its quadratic component, \((1, j, j^2)\), where \(j\) represents time. To address large random effects from the quadratic term, time variables were normalized during data generation.
+
+As noted, we generate a fixed population dataset in this simulation function, and different random seeds produce varying training-testing data splits (set by parameter "seed"). The split is achieved by randomly selecting 1–3 observations per individual to form the testing dataset, while the remaining observations are assigned to the training set. This results in a training-to-testing split ratio of approximately 60:40. We run models on training set and predict the results of testing set.
+
+
+We assume nonlinear association, non-normal random effects and random errors:
+```{r prediction_data}
+prediction_data <- simulation_prediction(
+  n_subject = 800, 
+  seed = 1234, 
+  nonlinear = TRUE, 
+  nonrandeff = TRUE, 
+  nonresidual = TRUE
+)
+
+head(prediction_data$X_train)
+```
+
+The summary statistics for outcomes in training set and testing set:
+```{r prediction_outcome}
+summary(prediction_data$Y_train)
+
+summary(prediction_data$Y_test_true)
+```
+
+
+### Compared methods
+The compared methods include BMTrees, BMTrees_R, BMTrees_RE, mixedBART and mixedRF. The executions of BMTrees, BMTrees_R, BMTrees_RE, mixedBART can be completed by the function `BMTrees_prediction`. We specify 3000 iterations for burn-in and sample 4000 iterations for these Bayesian methods. For BMTrees and BMTrees_R, we specify the resampling number as 5. More details can be found in paper.
+
+```{r prediction_BMTrees}
+prediction_BMTrees <- BMTrees_prediction(
+  X_train = prediction_data$X_train, 
+  Y_train = prediction_data$Y_train, 
+  Z_train = prediction_data$Z_train, 
+  subject_id_train = prediction_data$subject_id_train, 
+  X_test = prediction_data$X_test, 
+  Z_test = prediction_data$Z_test, 
+  subject_id_test = prediction_data$subject_id_test, 
+  model = "BMTrees", 
+  binary = FALSE, 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 1L, 
+  verbose = FALSE, 
+  seed = 1234,
+  resample = 5
+)
+
+prediction_BMTrees_R <- BMTrees_prediction(
+  X_train = prediction_data$X_train, 
+  Y_train = prediction_data$Y_train, 
+  Z_train = prediction_data$Z_train, 
+  subject_id_train = prediction_data$subject_id_train, 
+  X_test = prediction_data$X_test, 
+  Z_test = prediction_data$Z_test, 
+  subject_id_test = prediction_data$subject_id_test, 
+  model = "BMTrees_R", 
+  binary = FALSE, 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 1L, 
+  verbose = FALSE, 
+  seed = 1234,
+  resample = 5
+)
+
+prediction_BMTrees_RE <- BMTrees_prediction(
+  X_train = prediction_data$X_train, 
+  Y_train = prediction_data$Y_train, 
+  Z_train = prediction_data$Z_train, 
+  subject_id_train = prediction_data$subject_id_train, 
+  X_test = prediction_data$X_test, 
+  Z_test = prediction_data$Z_test, 
+  subject_id_test = prediction_data$subject_id_test, 
+  model = "BMTrees_RE", 
+  binary = FALSE, 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 1L, 
+  verbose = FALSE, 
+  seed = 1234
+)
+
+prediction_mixedBART <- BMTrees_prediction(
+  X_train = prediction_data$X_train, 
+  Y_train = prediction_data$Y_train, 
+  Z_train = prediction_data$Z_train, 
+  subject_id_train = prediction_data$subject_id_train, 
+  X_test = prediction_data$X_test, 
+  Z_test = prediction_data$Z_test, 
+  subject_id_test = prediction_data$subject_id_test, 
+  model = "mixedBART", 
+  binary = FALSE, 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 1L, 
+  verbose = FALSE, 
+  seed = 1234
+)
+```
+
+We then run mixedRF from the package `MixRF`, with setting ErrorTolerance as 0.001 and MaxIterations as 1000.
+
+```{r prediction_mixRF}
+predict.MixRF = function(object, newdata){
+   forestPrediction <- predict(object$forest, newdata=newdata, OOB=T)
+   RandomEffects <- predict(object$MixedModel, newdata=newdata, allow.new.levels=T)
+   completePrediction = forestPrediction + RandomEffects
+   return(completePrediction)
+}
+
+
+train = tibble(
+   X1 = prediction_data$X_train[,1],
+   X2 = prediction_data$X_train[,2],
+   X3 = prediction_data$X_train[,3],
+   X4 = prediction_data$X_train[,4],
+   X5 = prediction_data$X_train[,5],
+   X6 = prediction_data$X_train[,6],
+   X7 = prediction_data$X_train[,7],
+   Y = prediction_data$Y_train,
+   Z1 = prediction_data$Z_train[,1],
+   Z2 = prediction_data$Z_train[,2],
+   Z3 = prediction_data$Z_train[,3],
+   subject_id = prediction_data$subject_id_train
+ )
+
+test = tibble(
+   X1 = prediction_data$X_test[,1],
+   X2 = prediction_data$X_test[,2],
+   X3 = prediction_data$X_test[,3],
+   X4 = prediction_data$X_test[,4],
+   X5 = prediction_data$X_test[,5],
+   X6 = prediction_data$X_test[,6],
+   X7 = prediction_data$X_test[,7],
+   Z1 = prediction_data$Z_test[,1],
+   Z2 = prediction_data$Z_test[,2],
+   Z3 = prediction_data$Z_test[,3],
+   subject_id = prediction_data$subject_id_test,
+   Y = rep(0, length(prediction_data$subject_id_test))
+ )
+
+
+
+mixrf = MixRF(Y = train$Y, X = train[,1:7], random='(0+Z1+Z2+Z3|subject_id)', data = train, ErrorTolerance = 0.001, MaxIterations = 1000)
+mixrf_predict_test = predict.MixRF(mixrf, test)
+
+```
+
+### Model evaluation
+
+In the paper, we evaluate the mean absolute bias and mean squared error between the predicted and true values, averaged across time points for each replicate. The predicted values for Bayesian methods are the posterior median.
+
+Average absolute bias:
+```{r prediction_evaluation_AB}
+c(
+  "BMTrees" = mean(sapply(1:6, function(t) mean(abs(apply(prediction_BMTrees$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)[as.integer(prediction_data$time_test) == t]))),
+  "BMTrees_R" = mean(sapply(1:6, function(t) mean(abs(apply(prediction_BMTrees_R$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)[as.integer(prediction_data$time_test) == t]))),
+  "BMTrees_RE" = mean(sapply(1:6, function(t) mean(abs(apply(prediction_BMTrees_RE$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)[as.integer(prediction_data$time_test) == t]))),
+  "mixedBART" = mean(sapply(1:6, function(t) mean(abs(apply(prediction_mixedBART$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)[as.integer(prediction_data$time_test) == t]))),
+  "mixedRF" = mean(sapply(1:6, function(t) mean(abs(mixrf_predict_test - prediction_data$Y_test_true)[as.integer(prediction_data$time_test) == t])))
+)
+```
+
+Average square error:
+```{r prediction_evaluation_SE}
+c(
+  "BMTrees" = mean((apply(prediction_BMTrees$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)^2),
+  "BMTrees_R" = mean((apply(prediction_BMTrees_R$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)^2),
+  "BMTrees_RE" = mean((apply(prediction_BMTrees_RE$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)^2),
+  "mixedBART" = mean((apply(prediction_mixedBART$post_predictive_y_test, 2, median) - prediction_data$Y_test_true)^2),
+  "mixedRF" = mean((mixrf_predict_test - prediction_data$Y_test_true)^2)
+)
+```
+
+Coverage:
+```{r prediction_evaluation_C}
+c(
+  "BMTrees" = mean(sapply(1:length(prediction_data$Y_test_true), function(i) quantile(prediction_BMTrees$post_predictive_y_test[,i], 0.025) <= prediction_data$Y_test_true[i] & quantile(prediction_BMTrees$post_predictive_y_test[,i], 0.975) >= prediction_data$Y_test_true[i])),
+  "BMTrees_R" = mean(sapply(1:length(prediction_data$Y_test_true), function(i) quantile(prediction_BMTrees_R$post_predictive_y_test[,i], 0.025) <= prediction_data$Y_test_true[i] & quantile(prediction_BMTrees_R$post_predictive_y_test[,i], 0.975) >= prediction_data$Y_test_true[i])),
+  "BMTrees_RE" =mean(sapply(1:length(prediction_data$Y_test_true), function(i) quantile(prediction_BMTrees_RE$post_predictive_y_test[,i], 0.025) <= prediction_data$Y_test_true[i] & quantile(prediction_BMTrees_RE$post_predictive_y_test[,i], 0.975) >= prediction_data$Y_test_true[i])),
+  "mixedBART" = mean(sapply(1:length(prediction_data$Y_test_true), function(i) quantile(prediction_mixedBART$post_predictive_y_test[,i], 0.025) <= prediction_data$Y_test_true[i] & quantile(prediction_mixedBART$post_predictive_y_test[,i], 0.975) >= prediction_data$Y_test_true[i]))
+)
+```
+
+# Imputation Task
+
+### Simulate data
+In this section, we demonstrate one example of multiple imputation task. The data is simulated by the function `simulation_imputation`. The simulated population dataset is random, controlled by the random seeds. The data consisting of 800 individuals (specified by the parameter "n_subject"), each observed at 6 time points. The covariate matrix includes nine continuous variables, sequentially generated by previous variables. The variables $X_7, X_8, X_9, Y$ have missing values under the missing at random (MAR) assumption. The generation and missingness models can be found in paper. For each variable, random effects and errors can follow normal or non-normal distributions, controlled by the parameters "nonrandeff" and "nonresidual," respectively. The random predictor matrix includes a linear time term and its quadratic component, \((1, j, j^2)\), where \(j\) represents time. To address large random effects from the quadratic term, time variables were normalized during data generation.
+
+
+We assume non-normal random effects and random errors, and shuffle the missing covariates order as $X_9, X_8, X_7, Y$:
+```{r imputation_data}
+imputation_data <- simulation_imputation(
+  n_subject = 800, 
+  seed = 1234, 
+  nonrandeff = TRUE, 
+  nonresidual = TRUE
+)
+
+head(cbind("id" = imputation_data$subject_id, imputation_data$X_mis, "Y" = imputation_data$Y_mis), 20)
+```
+
+The parameters of interest are the means of the missing portions of $\bX_{7:9}$ and $\bY$, averaged across time points. The summary statistics for missing covariates are:
+```{r imputation_summary}
+### summary of complete part
+colMeans(cbind(imputation_data$X_mis[,7:9], "Y" = imputation_data$Y_mis), na.rm = T)
+
+
+
+### the mean of missing part, the true values
+R = is.na(cbind(imputation_data$X_mis[,7:9], "Y" = imputation_data$Y_mis))
+
+mean_mis = sapply(1:4, function(j){
+  mean(sapply(1:6, function(t){
+    mean(cbind(imputation_data$X_O[,7:9], "Y" = imputation_data$Y_O)[imputation_data$time == t,j][R[imputation_data$time == t,x]])
+  }))
+})
+
+names(mean_mis) = c("X9", "X8", "X7", "Y")
+mean_mis
+```
+
+
+### Compared methods
+The compared methods include sequential imputation with BMTrees, BMTrees_R, BMTrees_RE, mixedBART, JM_MLMM (by `jomo` package) and mixedRF (in sequential regression multivariate imputation, with the first round). The imputation by BMTrees, BMTrees_R, BMTrees_RE, mixedBART can be completed by the function `sequential_imputation`. We specify 3000 iterations for burn-in and sample 4000 iterations for these Bayesian methods. For BMTrees and BMTrees_R, we specify the resampling number as 5. More details can be found in paper.
+```{r imputation_BMTrees}
+imputation_BMTrees <- sequential_imputation(
+  imputation_data$X_mis, 
+  imputation_data$Y_mis, 
+  imputation_data$Z, 
+  imputation_data$subject_id, 
+  type = rep(0, ncol(imputation_data$X_mis)), 
+  binary_outcome = FALSE, 
+  model = "BMTrees", 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 20L, 
+  verbose = FALSE, 
+  seed = 1234,
+  resample = 5
+)
+
+imputation_BMTrees_R <- sequential_imputation(
+  imputation_data$X_mis, 
+  imputation_data$Y_mis, 
+  imputation_data$Z, 
+  imputation_data$subject_id, 
+  type = rep(0, ncol(imputation_data$X_mis)), 
+  binary_outcome = FALSE, 
+  model = "BMTrees_R", 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 20L, 
+  verbose = FALSE, 
+  seed = 1234,
+  resample = 5
+)
+
+imputation_BMTrees_RE <- sequential_imputation(
+  imputation_data$X_mis, 
+  imputation_data$Y_mis, 
+  imputation_data$Z, 
+  imputation_data$subject_id, 
+  type = rep(0, ncol(imputation_data$X_mis)), 
+  binary_outcome = FALSE, 
+  model = "BMTrees_RE", 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 200L, 
+  verbose = FALSE, 
+  seed = 1234,
+  resample = 5
+)
+
+imputation_mixedBART <- sequential_imputation(
+  imputation_data$X_mis, 
+  imputation_data$Y_mis, 
+  imputation_data$Z, 
+  imputation_data$subject_id, 
+  type = rep(0, ncol(imputation_data$X_mis)), 
+  binary_outcome = FALSE, 
+  model = "mixedBART", 
+  nburn = 3000L, 
+  npost = 4000L, 
+  skip = 200L, 
+  verbose = FALSE, 
+  seed = 1234,
+  resample = 5
+)
+```
+
+We then run JM_MLMM from the package `jomo`. we run 21,000 MCMC iterations, excluding the initial 1,000 as burn-in, and generate 20 datasets by sampling every 1,000th iteration from the posterior samples.
+```{r imputation_JM_MLMM}
+JM_MLMM = function(X, Y = NULL, Z, subject_id, type, n_imp = 20, seed = NULL, colnames_ = NULL){
+  if (!is.null(seed))
+    set.seed(seed)
+  
+  if (is.null(Y))
+    X_imp = array(0, dim = c(n_imp, dim(X)[1], dim(X)[2]))
+  else
+    X_imp = array(0, dim = c(n_imp, dim(X)[1], dim(X)[2] + 1))
+  
+  X_copy = as.matrix(X)
+  X_copy = as.data.frame(X_copy)# %>% 
+  for(i in 1:dim(X)[2]){
+    if(type[i] == 1)
+      X_copy[,i] = factor(X_copy[,i], levels = c(0, 1))
+  }
+  
+  if(!is.null(Y))
+    Y_copy = as.matrix(Y)
+  
+  if(!is.null(Y))
+    jomo_1 = jomo(Y = cbind(X_copy, Y_copy), Z = data.frame(Z), clus = subject_id, meth = "common", nimp = n_imp)
+  else
+    jomo_1 = jomo(Y = cbind(X_copy), Z = data.frame(Z), clus = subject_id, meth = "common", nimp = n_imp)
+  
+  for (i in 1:n_imp) {
+    if(!is.null(Y))
+      new_imp = jomo_1[jomo_1$Imputation == i, c(colnames_, "Y_copy")]
+    else
+      new_imp = jomo_1[jomo_1$Imputation == i, colnames_]
+    for(j in 1:dim(X)[2]){
+      if(type[j] == 1)
+        new_imp[,j] = as.integer(new_imp[,j]) - 1
+    }
+    X_imp[i,,]= as.matrix(new_imp)
+  }
+  return(X_imp)
+}
+
+imputation_JM_MLMM = JM_MLMM(
+  imputation_data$X_mis, 
+  imputation_data$Y_mis, 
+  imputation_data$Z, 
+  imputation_data$subject_id, 
+  type = rep(0, ncol(imputation_data$X_mis)), 
+  n_imp = 20, 
+  seed = 1234, 
+  colnames = colnames(imputation_data$X_mis))
+```
+
+We finally run mixedRF in sequential regression multivariate imputation. We set ErrorTolerance as 0.001 and MaxIterations as 1000, for each imputation model. Due to computational complexity, we only run the first round, such that we use $X_{1:6}$ to impute $X_9$, $X_{1:6, 9}$ to impute $X_{8}$, $X_{1:6, 8, 9}$ to impute $X_{7}$, $X_{1:9}$ to impute $Y$. The initial missing value is done by LOCF and NOCF.
+
+```{r mixedRF_imputation}
+mixedRF_imp = function(X, Y = NULL, Z, subject_id, type){
+  R = is.na(X)
+  X_locf_nocb <- apply_locf_nocb(cbind(X, Y), subject_id)
+  Y = X_locf_nocb[,dim(X_locf_nocb)[2]]
+  X = X_locf_nocb[,1:(dim(X_locf_nocb)[2] - 1)]
+  
+  
+  df = tibble(
+    Z1 = Z[,1],
+    Z2 = Z[,2],
+    Z3 = Z[,3],
+    subject_id = subject_id)
+
+  for(i in 1:dim(R)[2]){
+    if(sum(R[,i]) != 0){
+      if(i == 1){
+        x_train = as.matrix(rep(1, length(Y)))
+        colnames(x_train) = "1"
+      }else{
+        x_train = as.matrix(X[,1:(i-1)])
+        colnames(x_train) = paste0("X", 1:(i-1))
+      }
+      y_train = X[,i]
+      print("start trainning")
+      if(type[i] == 0)
+        mixrf_1 <- MixRF(Y = as.numeric(y_train), X = x_train, random='(0+Z1+Z2+Z3|subject_id)',data = df,initialRandomEffects=0, ErrorTolerance=0.001, MaxIterations=1000)
+      if(type[i] == 1)
+        mixrf_1 <- MixRF(Y = (y_train), X = x_train, random='(0+Z1+Z2+Z3|subject_id)',data = df,initialRandomEffects=0, ErrorTolerance=0.001, MaxIterations=1000)
+      y_predict = predict.MixRF(mixrf_1, newdata = cbind(x_train, df))
+      if(type[i] == 1)
+        y_predict = 1 * (y_predict >= 0.5)
+      X[R[,i],i] = y_predict[R[,i]]
+      print("finish trainning")
+    }
+  }
+
+  if(!is.null(Y)){
+    R_y = is.na(Y)
+    if(sum(R_y) > 0){
+      x_train = X
+      colnames(x_train) = paste0("X", 1:dim(R)[2])
+      y_train = Y
+      mixrf_1 <- MixRF(Y = y_train, X = x_train, random='(0+Z1+Z2+Z3|subject_id)',data = df, initialRandomEffects=0, ErrorTolerance=0.001, MaxIterations=1000)
+      y_predict = predict.MixRF(mixrf_1, newdata = cbind(x_train, df))
+      Y[R_y] = y_predict[R_y]
+    }
+    imp = array(0, dim = c(1, dim(X)[1], dim(X)[2] + 1))
+    imp[1, , 1:dim(X)[2]] = X
+    imp[1, , 1+dim(X)[2]] = Y
+  }else{
+    imp = array(0, dim = c(1, dim(X)[1], dim(X)[2]))
+    imp[1, , 1:dim(X)[2]] = X
+  }
+  return(imp)
+}
+
+
+imputation_mixedRF = mixedRF_imp(
+  imputation_data$X_mis, 
+  imputation_data$Y_mis, 
+  imputation_data$Z, 
+  imputation_data$subject_id, 
+  type = rep(0, ncol(imputation_data$X_mis)))
+
+```
+
+### Model evaluation
+
+In the paper, we evaluate the mean absolute bias and mean squared error between the estimated and true values. The estimates for Bayesian methods are the pooled means of the missing values across 20 datasets.
+
+Estimates:
+```{r imputation_est}
+
+BMTrees_pooled_mean = rowMeans(apply(imputation_BMTrees$imputed_data, 1, function(imp_i){
+                sapply(1:4, function(p){
+                    mean(sapply(1:6, function(t){
+                      mean(imp_i[R[,p] & imputation_data$time == t, p + 6])
+                    }))
+                })
+              }, simplify = T))
+
+
+BMTrees_R_pooled_mean = rowMeans(apply(imputation_BMTrees_R$imputed_data, 1, function(imp_i){
+                sapply(1:4, function(p){
+                    mean(sapply(1:6, function(t){
+                      mean(imp_i[R[,p] & imputation_data$time == t, p + 6])
+                    }))
+                })
+              }, simplify = T))
+
+BMTrees_RE_pooled_mean = rowMeans(apply(imputation_BMTrees_RE$imputed_data, 1, function(imp_i){
+                sapply(1:4, function(p){
+                    mean(sapply(1:6, function(t){
+                      mean(imp_i[R[,p] & imputation_data$time == t, p + 6])
+                    }))
+                })
+              }, simplify = T))
+    
+
+BMTrees_mixedBART_pooled_mean = rowMeans(apply(imputation_mixedBART$imputed_data, 1, function(imp_i){
+                sapply(1:4, function(p){
+                    mean(sapply(1:6, function(t){
+                      mean(imp_i[R[,p] & imputation_data$time == t, p + 6])
+                    }))
+                })
+              }, simplify = T))
+
+JM_MLMM_pooled_mean = rowMeans(apply(imputation_JM_MLMM, 1, function(imp_i){
+                sapply(1:4, function(p){
+                    mean(sapply(1:6, function(t){
+                      mean(imp_i[R[,p] & imputation_data$time == t, p + 6])
+                    }))
+                })
+              }, simplify = T))
+
+
+mixedRF_mean = t(apply(imputation_mixedRF, 1, function(imp_i){
+                sapply(1:4, function(p){
+                    mean(sapply(1:6, function(t){
+                      mean(imp_i[R[,p] & imputation_data$time == t, p + 6])
+                    }))
+                })
+              }, simplify = T))
+
+est = rbind(
+  "BMTrees" = BMTrees_pooled_mean, "BMTrees_R" = BMTrees_R_pooled_mean, "BMTrees_RE" = BMTrees_RE_pooled_mean,  "mixedBART" = BMTrees_mixedBART_pooled_mean, "JM_MLMM" = JM_MLMM_pooled_mean, "mixedRF" = mixedRF_mean)
+
+rownames(est) = c("BMTrees", "BMTrees_R", "BMTrees_RE", "mixedBART", "JM_MLMM", "mixedRF")
+est
+```
+
+Absolute bias:
+```{r imputation_AB}
+true = mean_mis
+t(apply(est, 1, function(x) abs(x - true)))
+```
+
+Square error:
+```{r imputation_SE}
+true = mean_mis
+t(apply(est, 1, function(x) (x - true)^2))
+```
+

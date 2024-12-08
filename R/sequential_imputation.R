@@ -174,7 +174,7 @@ sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outc
     type = type[mis_order]
     X[,re_order] = X[,mis_order]
     colnames(X) = colnames(X)[mis_order]
-    message("reordering: new covariates order is", colnames(X), "\n")
+    message("reordering: new covariates order is ", paste(colnames(X), collape = " "), "\n")
   }
   
 
@@ -242,6 +242,6 @@ sequential_imputation <- function(X, Y,  Z = NULL, subject_id, type, binary_outc
     imputation_X[i,,] = cbind(imputation_X_DP[[i]], imputation_Y[i,])
   }
   message("\n")
-  message("Finish imputation with", length(imputation_X_DP), "imputed sets\n")
+  message("Finish imputation with ", length(imputation_X_DP), " imputed sets\n")
   return(list(imputed_data = imputation_X))
 }

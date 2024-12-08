@@ -5,3 +5,5 @@
 ^\\.git$
 .github/workflows/rhub.yaml
 .github/workflows/publish.yaml
+./acc_form.*
+workflow.Rmd
