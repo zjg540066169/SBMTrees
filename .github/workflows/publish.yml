@@ -40,7 +40,7 @@ jobs:
 
     # Optional: Upload built package as artifact for review
     - name: Upload built package as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: SBMTrees_package
         path: "*.tar.gz"  # Adjust to match the build artifact
