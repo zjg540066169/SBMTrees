@@ -1,2 +1,1 @@
-*.R linguist-language=R
-*.r linguist-language=R
+src/* linguist-vendored
