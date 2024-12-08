@@ -125,7 +125,3 @@ The original source code, licensed under the [GNU General Public License version
 - This package, as a derived work, is also licensed under the GNU General Public License version 2 (GPL-2) to comply with the licensing terms.
 
 For more details, please see the `LICENSE` file included in this repository.
-
-## Contact
-
-If you find there is any bug, please contact me: jungang.zou@gmail.com.
