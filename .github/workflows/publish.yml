@@ -28,45 +28,38 @@ jobs:
         sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
         sudo apt-get install -y libblas-dev liblapack-dev gfortran
 
+    # Step 4: Install Pandoc
     - name: Install Pandoc
       uses: r-lib/actions/setup-pandoc@v2
 
-        
+    # Step 5: Install Matrix package (if required)
     - name: Install Matrix package
       run: |
         Rscript -e "install.packages('Matrix', repos = 'https://cloud.r-project.org')"
 
-
-    # Step 4: Install R dependencies individually
+    # Step 6: Install R dependencies individually
     - name: Install R dependencies
       run: |
         Rscript -e "install.packages(c('usethis', 'pkgdown', 'rcmdcheck', 'rversions', 'urlchecker'), repos = 'https://cloud.r-project.org')"
 
-    # Step 5: Install devtools
+    # Step 7: Install devtools
     - name: Install devtools
       run: |
         Rscript -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
 
-    # Step 6: Install package dependencies from DESCRIPTION
+    # Step 8: Install package dependencies from DESCRIPTION
     - name: Install package dependencies
       run: |
-        Rscript -e "devtools::install_deps()"
+        Rscript -e "devtools::install_deps(upgrade = 'always')"
 
-    # Step 7: Build the R package
+    # Step 9: Build the R package
     - name: Build R package
       run: |
-        Rscript -e "devtools::build()"
+        Rscript -e "devtools::build(path = 'dist')"
 
-    # Step 8: Publish the package to GitHub Packages
-    - name: Publish package to GitHub Packages
-      run: |
-        Rscript -e "devtools::release()"
-      env:
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
-
-    # Optional: Upload built package as an artifact
+    # Step 10: Optional: Upload built package as an artifact
     - name: Upload built package as artifact
       uses: actions/upload-artifact@v3
       with:
         name: SBMTrees_package
-        path: "*.tar.gz"  # Adjust to match the built package artifact
+        path: "dist/*.tar.gz"  # Adjust to match the built package artifact
