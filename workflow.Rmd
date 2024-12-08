@@ -20,7 +20,6 @@ This R Markdown file demonstrates the workflow of the simulation studies describ
 require("devtools")
 install_github("https://github.com/zjg540066169/SBMTrees")
 library(SBMTrees)
-library(mitml)
 library(lme4)
 library(jomo)
 library(MixRF)
