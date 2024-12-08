@@ -2,3 +2,5 @@
 *.R linguist-language=R
 src/BART/*.h linguist-detectable=false
 src/BART/*.cpp linguist-detectable=false
+src/*.cpp linguist-detectable=false
+src/*.h linguist-detectable=false
