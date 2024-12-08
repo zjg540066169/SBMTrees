@@ -1,2 +1,1 @@
-src/* linguist-vendored
-src/BART/* linguist-vendored
+ *.* linguist-language=R
