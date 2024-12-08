@@ -3,7 +3,7 @@ name: R Package Build and Deploy to GitHub Packages
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch
+      - main  # Trigger on push to the main branch
 
 jobs:
   build:
@@ -12,57 +12,51 @@ jobs:
     steps:
     # Step 1: Checkout code from the repository
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3  # Use the latest version of checkout action
 
     # Step 2: Set up R
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
       with:
-        r-version: '4.3.1'  # Specify R version you need
+        r-version: '4.3.1'  # Specify the R version you need
 
-    - name: Install system libraries for textshaping
+    # Step 3: Install system libraries required for the package
+    - name: Install system libraries
       run: |
         sudo apt-get update
         sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
-
-        
-
-        
-    - name: Install system dependencies
-      run: |
         sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
 
-    - name: Install missing dependencies individually
+    # Step 4: Install R dependencies individually
+    - name: Install R dependencies
       run: |
-        Rscript -e "install.packages('usethis', repos = 'https://cloud.r-project.org')"
-        Rscript -e "install.packages('pkgdown', repos = 'https://cloud.r-project.org')"
-        Rscript -e "install.packages('rcmdcheck', repos = 'https://cloud.r-project.org')"
-        Rscript -e "install.packages('rversions', repos = 'https://cloud.r-project.org')"
-        Rscript -e "install.packages('urlchecker', repos = 'https://cloud.r-project.org')"
+        Rscript -e "install.packages(c('usethis', 'pkgdown', 'rcmdcheck', 'rversions', 'urlchecker'), repos = 'https://cloud.r-project.org')"
 
+    # Step 5: Install devtools
     - name: Install devtools
       run: |
         Rscript -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
 
+    # Step 6: Install package dependencies from DESCRIPTION
     - name: Install package dependencies
       run: |
         Rscript -e "devtools::install_deps(upgrade = 'always')"
 
-    # Step 4: Build the R package
-    - name: Build package
+    # Step 7: Build the R package
+    - name: Build R package
       run: |
-        devtools::build()
+        Rscript -e "devtools::build()"
 
-    # Step 5: Publish the package to GitHub Packages
+    # Step 8: Publish the package to GitHub Packages
     - name: Publish package to GitHub Packages
       run: |
-        devtools::release(pkg)
+        Rscript -e "devtools::release()"
       env:
         GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
 
-    # Optional: Upload built package as artifact for review
+    # Optional: Upload built package as an artifact
     - name: Upload built package as artifact
       uses: actions/upload-artifact@v3
       with:
         name: SBMTrees_package
-        path: "*.tar.gz"  # Adjust to match the build artifact
+        path: "*.tar.gz"  # Adjust to match the built package artifact
