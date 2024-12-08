@@ -20,12 +20,15 @@ jobs:
       with:
         r-version: '4.1'  # Specify R version you need
         
+
+        
     # Step 3: Install necessary dependencies
     - name: Install dependencies
       run: |
-        Rscript -e "install.packages(c('usethis', 'pkgdown', 'rcmdcheck', 'rversions', 'urlchecker'))"
-        Rscript -e "install.packages('devtools')"
-        devtools::install_deps()
+        Rscript -e "install.packages(c('usethis', 'pkgdown', 'rcmdcheck', 'rversions', 'urlchecker'), repos = 'https://cloud.r-project.org')"
+        Rscript -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
+        Rscript -e "devtools::install_deps(upgrade = 'always')"
+
 
     # Step 4: Build the R package
     - name: Build package
