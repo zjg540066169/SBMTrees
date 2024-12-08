@@ -23,7 +23,7 @@ jobs:
     # Step 3: Install necessary dependencies
     - name: Install dependencies
       run: |
-        install.packages("devtools")
+        Rscript -e "install.packages('devtools')"
         devtools::install_deps()
 
     # Step 4: Build the R package
