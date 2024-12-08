@@ -52,14 +52,16 @@ jobs:
       run: |
         Rscript -e "devtools::install_deps(upgrade = 'always')"
 
-    # Step 9: Build the R package
+    # Step 8: Build R package
     - name: Build R package
       run: |
+        mkdir -p dist  # Ensure the dist directory exists
         Rscript -e "devtools::build(path = 'dist')"
+        ls -l dist  # Debugging step to confirm the package was built
 
-    # Step 10: Optional: Upload built package as an artifact
+    # Step 9: Upload built package as artifact
     - name: Upload built package as artifact
       uses: actions/upload-artifact@v3
       with:
         name: SBMTrees_package
-        path: "dist/*.tar.gz"  # Adjust to match the built package artifact
+        path: "dist/*.tar.gz"  # Adjust path to the expected location
