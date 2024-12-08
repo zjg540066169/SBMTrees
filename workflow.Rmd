@@ -266,7 +266,7 @@ imputation_BMTrees <- sequential_imputation(
   model = "BMTrees", 
   nburn = 3000L, 
   npost = 4000L, 
-  skip = 20L, 
+  skip = 200L, 
   verbose = FALSE, 
   seed = 1234,
   resample = 5
@@ -282,7 +282,7 @@ imputation_BMTrees_R <- sequential_imputation(
   model = "BMTrees_R", 
   nburn = 3000L, 
   npost = 4000L, 
-  skip = 20L, 
+  skip = 200L, 
   verbose = FALSE, 
   seed = 1234,
   resample = 5
