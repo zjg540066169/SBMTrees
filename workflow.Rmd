@@ -1,6 +1,5 @@
 ---
 title: "workflow"
-author: "Jungang Zou"
 date: "2024-12-07"
 output: pdf_document
 ---
