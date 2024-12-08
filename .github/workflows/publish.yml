@@ -61,7 +61,7 @@ jobs:
 
     # Step 9: Upload built package as artifact
     - name: Upload built package as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SBMTrees_package
         path: "dist/*.tar.gz"  # Adjust path to the expected location
