@@ -26,6 +26,12 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
         sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+        sudo apt-get install -y libblas-dev liblapack-dev gfortran
+        
+    - name: Install Matrix package
+      run: |
+        Rscript -e "install.packages('Matrix', repos = 'https://cloud.r-project.org')"
+
 
     # Step 4: Install R dependencies individually
     - name: Install R dependencies
