@@ -27,6 +27,10 @@ jobs:
         sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
         sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
         sudo apt-get install -y libblas-dev liblapack-dev gfortran
+
+    - name: Install Pandoc
+      uses: r-lib/actions/setup-pandoc@v2
+
         
     - name: Install Matrix package
       run: |
