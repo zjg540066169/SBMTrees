@@ -20,6 +20,10 @@ jobs:
       with:
         r-version: '4.1'  # Specify R version you need
 
+    - name: Install devtools dependencies
+      run: |
+      Rscript -e "install.packages(c('usethis', 'pkgdown', 'rcmdcheck', 'rversions', 'urlchecker'))"
+
     # Step 3: Install necessary dependencies
     - name: Install dependencies
       run: |
