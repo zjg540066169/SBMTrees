@@ -123,5 +123,3 @@ The original source code, licensed under the [GNU General Public License version
 
 - The original BART3 package is licensed under the GNU General Public License version 2 (GPL-2).
 - This package, as a derived work, is also licensed under the GNU General Public License version 2 (GPL-2) to comply with the licensing terms.
-
-For more details, please see the `LICENSE` file included in this repository.

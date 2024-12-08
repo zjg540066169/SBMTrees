@@ -5,6 +5,7 @@
 ^\\.git$
 .github/workflows/rhub.yaml
 .github/workflows/publish.yaml
-./acc_form.*
+acc_form.html
+acc_form.Rmd
 workflow.Rmd
 LICENSE

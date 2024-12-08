@@ -176,4 +176,4 @@ For further details, please refer to the package documentation and the paper: No
 
 # License
 
-This vignette is part of the SBMTrees R package and is distributed under the terms of the GNU General Public License (GPL-2). For more details, see the package's `LICENSE` file.
+This vignette is part of the SBMTrees R package and is distributed under the terms of the GNU General Public License (GPL-2).
