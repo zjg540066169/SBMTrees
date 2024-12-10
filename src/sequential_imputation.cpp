@@ -90,7 +90,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     }
   }
   CharacterVector X_names = colnames(X);
-  if (verbose){
+  if (true){
     Rcout << "Start initializing models" << std::endl;
     Rcout << std::endl;
   }
@@ -120,7 +120,7 @@ List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector t
     IntegerVector row_id_obs = seqC(1, y_t.length())[no_loss_ind];
     chain_collection.push_back(bmtrees(clone(y_train), clone(X_train), clone(Z_train), clone(subject_id_train), clone(row_id_obs), type[i+1], CDP_residual, CDP_re, tol, ntrees, resample, pi_CDP, (sum(R(_, i + 1)) != 0)));
   }
-  if (verbose){
+  if (true){
     Rcout << std::endl;
     Rcout << "Complete initialization" << std::endl;
     Rcout << std::endl;
