@@ -15,7 +15,11 @@ For more details on these models and their applications, please consult the foll
 ## Installation
 This package is based on `Rcpp`, `RcppArmadillo`, and `RcppDist`, please make sure these three packages can be installed.
 
-Right now, the package has not been uploaded to Rcran yet, so please install this package from Github:
+This package can be installed from R CRAN:
+```
+install.packages("SBMTrees")
+```
+or Github:
 ```
 require("devtools")
 install_github("https://github.com/zjg540066169/SBMTrees")
