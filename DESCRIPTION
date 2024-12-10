@@ -1,7 +1,7 @@
 Package: SBMTrees
 Type: Package
 Title: Sequential Imputation with Bayesian Trees Mixed-Effects Models for Longitudinal Data
-Version: 1.1
+Version: 1.2
 Date: 2024-11-20
 Author: Jungang Zou [aut, cre], Liangyuan Hu [aut], Robert McCulloch [ctb], Rodney Sparapani [ctb], Charles Spanbauer [ctb]
 Authors@R: c(person("Jungang", "Zou", role = c("aut", "cre"), email = "jungang.zou@gmail.com"), person("Liangyuan", "Hu", role = "aut"), person("Robert", "McCulloch", role = "ctb"), person("Rodney", "Sparapani", role = "ctb"), person("Charles", "Spanbauer", role = "ctb"))

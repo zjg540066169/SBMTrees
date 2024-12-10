@@ -1,5 +1,14 @@
 # NEWS for SBMTrees
 
+## Version 1.2 (2024-12-10) - Bug Fix Release
+
+**Changes:**
+- **Clang-asan Fixes**: Addressed and fixed bugs identified by Clang AddressSanitizer (ASan) checks, improving memory safety and stability.
+
+No new features have been added in this release. The focus was on ensuring robustness and reliability by resolving memory-related issues flagged during the ASan testing process.
+
+---
+
 ## Version 1.1 (2024-12-04) - Initial Release
 
 This release introduces the **SBMTrees** package, which implements a **Bayesian non-parametric framework** for imputing missing covariates and outcomes in longitudinal data under the **Missing at Random (MAR)** assumption. The core model, **Bayesian Trees Mixed-Effects Model (BMTrees)**, extends **Mixed-Effects BART** by using **centralized Dirichlet Process (CDP) Normal Mixture priors**, allowing it to handle non-normal random effects and errors, address model misspecification, and capture complex relationships in longitudinal data.
