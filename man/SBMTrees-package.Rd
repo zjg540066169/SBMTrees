@@ -42,7 +42,8 @@
 }
 \examples{
      ## Example of predicting longitudinal outcomes
-     ## To make it faster to compile and check, we only run 30 iterations for burn-in and 40 for posterior sampling phases.
+     ## To make it faster to compile and check, we only run 30 iterations for 
+     ## burn-in and 40 for posterior sampling phases.
      ## Please increase to 3000 and 4000 iterations, respectively, when running the models.
      \donttest{
      data <- simulation_prediction(n_subject = 100, seed = 1234, nonlinear = TRUE,

@@ -91,7 +91,8 @@ under GPL-2. Modifications were made by Jungang Zou, 2024.
 data <- simulation_imputation(n_subject = 100, seed = 1234, nonrandeff = TRUE, 
         nonresidual = TRUE, alligned = FALSE) 
 
-# To make it faster to compile and check, we only run 30 iterations for burn-in and 40 for posterior sampling phases.
+# To make it faster to compile and check, we only run 30 iterations for burn-in 
+# and 40 for posterior sampling phases.
 # Please increase to 3000 and 4000 iterations, respectively, when running the model.
 model <- sequential_imputation(data$X_mis, data$Y_mis, data$Z, data$subject_id, 
         rep(0, 9), binary_outcome = FALSE, model = "BMTrees", nburn = 30L, 

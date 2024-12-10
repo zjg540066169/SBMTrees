@@ -11,3 +11,5 @@ workflow_real_data.Rmd
 workflow_simulation.Rmd
 LICENSE
 ^\.github$
+acc_form.pdf
+NICE_impute.R

@@ -50,7 +50,8 @@
 #' data = simulation_prediction(n_subject = 100, seed = 1234, nonlinear = TRUE, 
 #' nonrandeff = TRUE, nonresidual = TRUE) 
 #'
-#' # To make it faster to compile and check, we only run 30 iterations for burn-in and 40 for posterior sampling phases.
+#' # To make it faster to compile and check, we only run 30 iterations for burn-in 
+#' # and 40 for posterior sampling phases.
 #' # Please increase to 3000 and 4000 iterations, respectively, when running the model.
 #' model = BMTrees_prediction(data$X_train, data$Y_train, data$Z_train, 
 #' data$subject_id_train, data$X_test, data$Z_test, data$subject_id_test, model = "BMTrees", 
