@@ -2,7 +2,7 @@
   <!-- badges: start -->
   [![R-CMD-check](https://github.com/zjg540066169/SBMtrees/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zjg540066169/SBMtrees/actions/workflows/R-CMD-check.yaml)
   [![License: GPL-2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-  [![version](https://img.shields.io/badge/version-1.1-green.svg)](https://github.com/zjg540066169/SBMTrees)
+  [![version](https://img.shields.io/badge/version-1.2-green.svg)](https://github.com/zjg540066169/SBMTrees)
   ![R](https://img.shields.io/badge/language-R-blue)
   ![C++](https://img.shields.io/badge/language-C%2B%2B-green)
   <!-- badges: end -->
