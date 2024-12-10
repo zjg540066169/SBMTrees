@@ -675,6 +675,7 @@ public:
          allfit[k] = allfit[k]-ftemp[k];
          r[k] = y[k]-allfit[k];
        }
+       aug = (aug != 0);
        bd_bart(t[j],xi,di,pi,sigma,nv,pv,aug,gen);
        drmu_bart(t[j],xi,di,pi,sigma,gen);
        fit3(t[j],xi,p,n,x,ftemp);
