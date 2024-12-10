@@ -65,8 +65,9 @@ List DP(List parameters, double M, long N_truncated, long N_sample, bool CDP = t
   List samples_parameters = DP_sampler(N_truncated, parameters);
   NumericMatrix y = samples_parameters["y"];
   //Rcout << y << std::endl;
+  std::string dist = as<std::string>(parameters["distribution"]);
   
-  if(strcmp(parameters["distribution"], "normal") == 0){
+  if(dist == "normal"){
     int dp = as<int>(parameters["p"]);
     parameters["CDP"] = CDP;
     CharacterVector rowname(index.begin(), index.end());
@@ -151,7 +152,8 @@ List update_DP_normal(NumericMatrix X, List tau, double L = -1, double U = 2){
     //Rcout << "update table count" << std::endl;
     IntegerVector nk = table(cluster);
     for(int i = 0; i < y.nrow(); ++i){
-      const char * n = std::to_string(i).c_str();
+      std::string n_str = std::to_string(i);
+      const char *n = n_str.c_str();
       if(!nk.containsElementNamed(n)){
         nk[n] = 0;
       }
