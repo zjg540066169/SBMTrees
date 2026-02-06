@@ -45,7 +45,7 @@
 #'
 #' @examples
 #' # Simulate data with non-normal errors and random effects
-#' sim_data <- simulation_imputation(NNY = TRUE, NNX = TRUE, n_subject = 100, seed = 123)
+#' sim_data <- simulation_imputation(NNY = TRUE, NNX = TRUE, n_subject = 10, seed = 123)
 #'
 #' # View missing data pattern
 #' sim_data$pair
@@ -378,7 +378,7 @@ simulation_imputation = function(NNY = TRUE, NNX = TRUE, n_subject = 1000, seed 
 #' other covariates, and the previous value of the variable itself (autoregressive missingness).
 #'
 #' @examples
-#' lt_data <- simulation_imputation_LTFU(NNY = TRUE, NNX = TRUE, n_subject = 100, seed = 42)
+#' lt_data <- simulation_imputation_LTFU(NNY = TRUE, NNX = TRUE, n_subject = 10, seed = 42)
 #' @export
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom MASS mvrnorm

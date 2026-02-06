@@ -63,7 +63,7 @@
 #'   subject_id_test = data$subject_id_test,
 #'   model = "BMTrees",
 #'   binary = FALSE,
-#'   nburn = 2L, npost = 2L, skip = 1L, verbose = FALSE, seed = 1234
+#'   nburn = 0L, npost = 1L, skip = 1L, verbose = FALSE, seed = 1234
 #' )
 #' @rdname BMTrees_prediction
 #' @note
@@ -192,7 +192,7 @@ BMTrees_prediction = function(X_train, Y_train, Z_train, subject_id_train, X_tes
 #'    subject_id_test = data$subject_id_test,
 #'    model = "BMTrees",
 #'    binary = FALSE,
-#'    nburn = 2L, npost = 2L, skip = 1L, verbose = FALSE, seed = 1
+#'    nburn = 0L, npost = 1L, skip = 1L, verbose = FALSE, seed = 1
 #' )
 #' @rdname BMLMM_prediction
 #' @note

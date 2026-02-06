@@ -2,8 +2,8 @@ Package: SBMTrees
 Type: Package
 Title: Longitudinal Sequential Imputation and Prediction with Bayesian Trees Mixed-Effects Models
         for Longitudinal Data
-Version: 1.4
-Date: 2026-02-03
+Version: 1.5
+Date: 2026-02-06
 Author: Jungang Zou [aut, cre], 
   Liangyuan Hu [aut],   
   Robert McCulloch [ctb],

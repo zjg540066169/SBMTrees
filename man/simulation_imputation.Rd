@@ -59,7 +59,7 @@ Missingness is introduced in two stages:
 }
 \examples{
 # Simulate data with non-normal errors and random effects
-sim_data <- simulation_imputation(NNY = TRUE, NNX = TRUE, n_subject = 100, seed = 123)
+sim_data <- simulation_imputation(NNY = TRUE, NNX = TRUE, n_subject = 10, seed = 123)
 
 # View missing data pattern
 sim_data$pair

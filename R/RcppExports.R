@@ -41,6 +41,10 @@ DP_sampler <- function(N, parameters) {
     .Call(`_SBMTrees_DP_sampler`, N, parameters)
 }
 
+bart_train <- function(X, Y, nburn = 100L, npost = 1000L, verbose = TRUE) {
+    .Call(`_SBMTrees_bart_train`, X, Y, nburn, npost, verbose)
+}
+
 sequential_imputation_cpp <- function(X, Y, type, Z, subject_id, R, outcome_BMTrees = TRUE, binary_outcome = FALSE, nburn = 0L, npost = 3L, skip = 1L, verbose = TRUE, CDP_residual = FALSE, CDP_re = FALSE, seed = NULL, tol = 1e-20, ncores = 0L, ntrees = 200L, k = 2.0, pi_CDP = 0.99, correct_prob = 0) {
     .Call(`_SBMTrees_sequential_imputation_cpp`, X, Y, type, Z, subject_id, R, outcome_BMTrees, binary_outcome, nburn, npost, skip, verbose, CDP_residual, CDP_re, seed, tol, ncores, ntrees, k, pi_CDP, correct_prob)
 }

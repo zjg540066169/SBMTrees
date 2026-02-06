@@ -92,10 +92,10 @@ under GPL-2. Modifications were made by Jungang Zou, 2024.
 }
 \examples{
 data <- simulation_imputation(NNY = TRUE, NNX = TRUE, n_subject = 10, seed = 123)
-BMTrees <- sequential_imputation(X = data$data_M[,3:14], Y = data$data_M$Y, Z = data$Z,
-  subject_id = data$data_M$subject_id, type = c(0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1),
-  outcome_model = "BMLM", binary_outcome = FALSE, model = "BMTrees", nburn = 2,
-  npost = 2, skip = 1, verbose = FALSE, seed = 123)
+BMTrees <- sequential_imputation(X = data$data_M[,3:5], Y = data$data_M$Y, Z = data$Z,
+  subject_id = data$data_M$subject_id, type = c(0, 0, 0),
+  outcome_model = "BMLM", binary_outcome = FALSE, model = "BMTrees", nburn = 0,
+  npost = 1, skip = 1, verbose = FALSE, seed = 123)
 
 # Access imputed data
 dim(BMTrees$imputed_data)

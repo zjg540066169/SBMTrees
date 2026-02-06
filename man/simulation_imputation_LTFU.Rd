@@ -57,5 +57,5 @@ Variable-specific missingness is applied to \code{X_7} through \code{X_12} using
 other covariates, and the previous value of the variable itself (autoregressive missingness).
 }
 \examples{
-lt_data <- simulation_imputation_LTFU(NNY = TRUE, NNX = TRUE, n_subject = 100, seed = 42)
+lt_data <- simulation_imputation_LTFU(NNY = TRUE, NNX = TRUE, n_subject = 10, seed = 42)
 }

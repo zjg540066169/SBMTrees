@@ -138,6 +138,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// bart_train
+SEXP bart_train(NumericMatrix X, NumericVector Y, long nburn, long npost, bool verbose);
+RcppExport SEXP _SBMTrees_bart_train(SEXP XSEXP, SEXP YSEXP, SEXP nburnSEXP, SEXP npostSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< long >::type nburn(nburnSEXP);
+    Rcpp::traits::input_parameter< long >::type npost(npostSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(bart_train(X, Y, nburn, npost, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sequential_imputation_cpp
 List sequential_imputation_cpp(NumericMatrix X, NumericVector Y, LogicalVector type, NumericMatrix Z, CharacterVector subject_id, LogicalMatrix R, bool outcome_BMTrees, bool binary_outcome, int nburn, int npost, int skip, bool verbose, bool CDP_residual, bool CDP_re, Nullable<long> seed, double tol, int ncores, int ntrees, double k, double pi_CDP, double correct_prob);
 RcppExport SEXP _SBMTrees_sequential_imputation_cpp(SEXP XSEXP, SEXP YSEXP, SEXP typeSEXP, SEXP ZSEXP, SEXP subject_idSEXP, SEXP RSEXP, SEXP outcome_BMTreesSEXP, SEXP binary_outcomeSEXP, SEXP nburnSEXP, SEXP npostSEXP, SEXP skipSEXP, SEXP verboseSEXP, SEXP CDP_residualSEXP, SEXP CDP_reSEXP, SEXP seedSEXP, SEXP tolSEXP, SEXP ncoresSEXP, SEXP ntreesSEXP, SEXP kSEXP, SEXP pi_CDPSEXP, SEXP correct_probSEXP) {
@@ -758,6 +773,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SBMTrees_normal_loglik_tau", (DL_FUNC) &_SBMTrees_normal_loglik_tau, 3},
     {"_SBMTrees_normal_loglik_tau_scalar", (DL_FUNC) &_SBMTrees_normal_loglik_tau_scalar, 3},
     {"_SBMTrees_DP_sampler", (DL_FUNC) &_SBMTrees_DP_sampler, 2},
+    {"_SBMTrees_bart_train", (DL_FUNC) &_SBMTrees_bart_train, 5},
     {"_SBMTrees_sequential_imputation_cpp", (DL_FUNC) &_SBMTrees_sequential_imputation_cpp, 21},
     {"_SBMTrees_BMTrees_mcmc", (DL_FUNC) &_SBMTrees_BMTrees_mcmc, 16},
     {"_SBMTrees_BMLMM_mcmc", (DL_FUNC) &_SBMTrees_BMLMM_mcmc, 13},

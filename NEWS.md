@@ -1,5 +1,11 @@
 # NEWS for SBMTrees
 
+## Version 1.5 (2026-02-06) - Bug Fix Release
+
+**Changes:**
+- **Model Fixed**: Fix `set_data` and `set_Y` functions in BART model.
+---
+
 ## Version 1.3 (2026-02-03) - Bug Fix Release
 
 **Changes:**

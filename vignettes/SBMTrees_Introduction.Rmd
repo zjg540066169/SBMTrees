@@ -36,7 +36,7 @@ The `BMTrees_prediction` function is used to predict longitudinal outcomes based
 # Simulate data
 data <- simulation_prediction_conti(
    train_prop = 0.5,
-   n_subject = 100,
+   n_subject = 20,
    n_obs_per_sub = 5,
    nonlinear = TRUE,
    residual = "normal",
@@ -45,7 +45,7 @@ data <- simulation_prediction_conti(
 
 ```
 
-We then run the prediction model `BMTrees`, with 3 burn-in iterations and 4 posterior samples. The number of burn-in and posterior iterations should be increase to 4000 and 4000, respectively. Here we only use the small numbers to simply debug.
+We then run the prediction model `BMTrees`, with 1 burn-in iterations and 1 posterior samples. The number of burn-in and posterior iterations should be increase to 4000 and 4000, respectively. Here we only use the small numbers to simply debug.
 ```{r prediction}
 # Fit the predictive model
 model <- BMTrees_prediction(
@@ -58,7 +58,7 @@ model <- BMTrees_prediction(
    subject_id_test = data$subject_id_test,
    model = "BMTrees",
    binary = FALSE,
-   nburn = 3L, npost = 4L, skip = 1L, verbose = FALSE, seed = 1234
+   nburn = 1L, npost = 1L, skip = 1L, verbose = FALSE, seed = 1234
  )
 
 # Posterior expectation for the testing dataset
@@ -103,16 +103,16 @@ The `sequential_imputation` function is used to impute missing covariates and ou
 ```{r imputation_sim}
 # Simulate data with missing values
 data <- simulation_imputation(NNY = TRUE, NNX = TRUE, 
-                                  n_subject = 100, seed = 123)
+                                  n_subject = 20, seed = 123)
 
 ```
 
-We then run the sequential imputation with `BMTrees`, with 3 burn-in iterations, 4 posterior iterations, and sample one posterior sample for every 2 posterior iterations, ensuring 2 multiply-imputed sets are generated. The number of burn-in and posterior iterations should be increase to 4000 and 4000, respectively. Here we only use the small numbers to simply debug.
+We then run the sequential imputation with `BMTrees`, with 2 posterior iterations, and sample one posterior sample for every posterior iterations, ensuring 2 multiply-imputed sets are generated. The number of burn-in and posterior iterations should be increase to 4000 and 4000, respectively. Here we only use the small numbers to simply debug.
 ```{r imputation}
 imputed_model <- sequential_imputation(X = data$data_M[,3:14], Y = data$data_M$Y, Z = data$Z,
    subject_id = data$data_M$subject_id, type = c(0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1),
-   outcome_model = "BMLM", binary_outcome = FALSE, model = "BMTrees", nburn = 3,
-   npost = 4, skip = 2, verbose = FALSE, seed = 123)
+   outcome_model = "BMLM", binary_outcome = FALSE, model = "BMTrees", nburn = 0,
+   npost = 2, skip = 1, verbose = FALSE, seed = 123)
 
 # Extract imputed data
 imputed_data <- imputed_model$imputed_data

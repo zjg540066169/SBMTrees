@@ -117,7 +117,7 @@ model <- BMLMM_prediction(
    subject_id_test = data$subject_id_test,
    model = "BMTrees",
    binary = FALSE,
-   nburn = 2L, npost = 2L, skip = 1L, verbose = FALSE, seed = 1
+   nburn = 0L, npost = 1L, skip = 1L, verbose = FALSE, seed = 1
 )
 }
 \references{
